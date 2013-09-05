@@ -6,6 +6,6 @@ sw705e13
 ### Authors ###
 Simon Jensen <br />
 Barbara Albertine Flindt <br />
-Christian Klim Hansen <br />
+[Christian Klim Hansen] (https://github.com/ChristianKlimHansen) <br />
 Anders Vinther <br />
 [Jeppe Blicher Tarp](https://github.com/Ezphares)
