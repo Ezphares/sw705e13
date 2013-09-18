@@ -1,0 +1,135 @@
+% Define document class. Important.
+\documentclass[a4paper,twoside,openright]{report}
+
+\newcommand{\p}{\\ \vspace{2pt} \\}
+
+\usepackage{pdfpages}
+\usepackage{acronym}
+% Margener
+%\setlength{\evensidemargin}{1cm}
+%\setlength{\oddsidemargin}{1cm}
+
+% Set up encoding. Latin1 since UTF-8 is fuckably difficult to work with.
+\usepackage[utf8x]{inputenc}
+%\usepackage[T1]{fontenc}
+% Load up bibliography.
+\usepackage[authoryear]{natbib}
+\setcitestyle{numbers,square}
+% Bibliography style.
+\bibliographystyle{plainnat}
+
+% Algorithm support.
+\usepackage{algorithmic}
+\usepackage{algorithm2e}
+\usepackage{subfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+% Image frames.
+\setlength{\fboxsep}{0pt}
+\setlength{\fboxrule}{0.5pt}
+
+% Also, images.
+\usepackage{graphicx}
+
+% tabeller der strækker sig over flere sider
+\usepackage{longtable}
+
+% flere tabel-muligheder
+\usepackage{multirow}
+
+% bedre enumerate
+\usepackage{enumitem}
+
+% Todo notes here and there.
+% write instead for disable: \usepackage[disable]{todonotes}
+\usepackage{todonotes}
+
+% Forbedrede floats.
+\usepackage{float}
+\usepackage{rotating}
+
+% Special symbols availability.
+\usepackage{amssymb}
+
+\usepackage{textcomp}
+
+% CODE %
+\usepackage{listings}
+\usepackage[scaled]{beramono} % Better font for listings
+\usepackage{color}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+\lstset{
+  tabsize=4,
+  breaklines=true,
+  numbers=left,
+  captionpos=b,
+  stepnumber=1,
+  numbersep=10pt,
+  showstringspaces=false,
+  basicstyle=\footnotesize,
+}% Neat-o referencer...o.
+\usepackage{bookmark,hyperref}
+\usepackage{nameref}
+
+% hack fra nettet.
+% http://tex.stackexchange.com/questions/1230/reference-name-of-description-list-item-in-latex
+\makeatletter
+\let\orgdescriptionlabel\descriptionlabel
+\renewcommand*{\descriptionlabel}[1]{
+  \let\orglabel\label
+  \let\label\@gobble
+  \phantomsection
+  \edef\@currentlabel{#1}
+  %\edef\@currentlabelname{#1}
+%  \let\label\orglabel
+  \orgdescriptionlabel{#1}
+}
+\makeatother
+% Rettehak. Meget lettere end \checkmark
+\newcommand{\yes}{\checkmark}
+
+\pagenumbering{arabic} % Ensure page numbering in our desired form.
+
+% New command for two figures, side by side.
+\newcommand{\twofigs}[6]
+{
+	\begin{figure}[H]
+		\begin{minipage}[b]{0.5\columnwidth}
+		\centering\fbox{\includegraphics[width=0.8\columnwidth]{img/#1}}\caption{#2\label{#3}}
+		\end{minipage}
+		\hspace{0.5cm}
+		\begin{minipage}[b]{0.5\columnwidth}
+		\centering\fbox{\includegraphics[width=0.8\columnwidth]{img/#4}}\caption{#5\label{#6}}
+		\end{minipage}	\end{figure}
+}
+
+% Sørg for at paragrafplads ikke spildes.
+\raggedbottom
+\usepackage[titletoc]{appendix}
+
+% Package til at regne forskellen ud mellem 2 labels
+\usepackage{refcount}
+\newcommand{\pagedifference}[2]{\number\numexpr\getpagerefnumber{#2}-\getpagerefnumber{#1}\relax}
+
+% Opsætning af autoref%
+\def\figureautorefname{Figure}
+\def\tableautorefname{Table}
+\def\chapterautorefname{Chapter}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Subsection}
+\def\appendixautorefname{Appendix}
+
+%Ingen indentering
+\setlength{\parindent}{0mm}
+
+%checkmark
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\newcommand{\secref}[1]{Section \ref{#1}}

@@ -1,0 +1,13 @@
+*.log
+*.aux
+*.bbl
+*.blg
+master.synctex.gz
+master.pdf
+*.lol
+*.lot
+*.lof
+*.dvi
+*.out.ps
+*.toc
+*.tdo
