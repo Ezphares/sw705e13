@@ -11,3 +11,5 @@ master.pdf
 *.out.ps
 *.toc
 *.tdo
+*.fls
+*.fdb_latexmk
