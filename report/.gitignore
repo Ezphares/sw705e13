@@ -4,6 +4,8 @@
 *.blg
 master.synctex.gz
 master.pdf
+master.tpc
+master.toc
 *.lol
 *.lot
 *.lof
