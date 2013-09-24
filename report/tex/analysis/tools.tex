@@ -3,8 +3,11 @@
 \label{sec:tools}
 
 When development a browser based game, several options are available. Six of them are of some interest
-HTML5, Flash, Java, Shockwave, Silverlight and Unity. The development tools for Flash and Shockwave are not free, \cite{adobe13} however,
-and as such not an option for this project. The rest of them will be introduced in this section.
+HTML5, Flash, Java, Silverlight and Unity. The development tools for Flash are not free, \cite{adobe13} however,
+and as such not an option for this project. Besides, flash has been discontinued for mobile platforms \cite{adobe12}, and would limit the availability of the game,
+which, as mentioned in \autoref{sec:availability}, is an important consideration. The rest of them will be introduced in this section, mostly focusing on the portability
+of each technology, as measuring differences in performance and prevalence of required plugins and the like is virtually impossible.
+Another focus, given the scope of the project is that the game should exist solely as a web application, and not a standalone game, app or similar.
 
 \subsection{HTML5, Canvas and WebGL}
 HTML5 is the latest standard for implementing web-pages, and the current recommendation from \ac{w3c}, \cite{html513} and includes several
@@ -13,10 +16,10 @@ HTML5 games will be written in javascript, which is interpreted by the browser, 
 
 The canvas can be further improved using the WebGL extension,\cite{khronos13} which allows for hardware accelerated graphics in the canvas,
 and as such eliminates much of the low performance that can arise from software accelerated graphics.
-Additionally, WebGL is implemented by default in most modern browsers, so most users will be able to play the game
+Additionally, WebGL is implemented by default in all modern browsers, including some mobile browsers, so most users will be able to play the game
 without downloading any additional software.
 
-The main disadvantage of a WebGL solution is that it is a relatively new technology, and for that reason problems could occur, where an optimal solution has yet to be found, which could increase development time.
+The main disadvantage of an HTML5-based solution is that it is a relatively new technology, and for that reason problems could occur, where an optimal solution has yet to be found, which could increase development time.
 
 \subsection{Java}
 With Java it is possible to create applets that run in a browser.\cite{java13} These applets can be used for any type of applications,
@@ -26,10 +29,17 @@ and open source solutions are publicly available.
 The disadvantages of Java is that it is an external browser extension, and one which is not installed as a standard on most systems.
 This means that the user will have to install and keep the extension updated themselves to use the game. This could also
 be an annoyance for institutions having to keep several computers up to date, especially since Java is updated quite frequently, often close to ten times each year.\cite{javahistory13}
+Additionally to get it to work on Android systems it needs to be in the app store, and for iOS systems, Java support is limited in general.
 
 \subsection{Silverlight}
 Silverlight is very similar to Java applets, but developed by Microsoft and typically programmed in either C\# or Visual Basic.\cite{silverlight13}
-Though Silverlight has historically had a focus on media streaming, today it is a multi purpose framework and the same advantages and disadvantages as Java had apply; a choice between Silverlight and Java is mostly personal preference of the developers.
+Though Silverlight has historically had a focus on media streaming, today it is a multi purpose framework and most of the same advantages and disadvantages as Java had apply; a choice between Silverlight and Java is mostly personal preference of the developers.
 
 \subsection{Unity}
 Unity is a game development framework, capable of publishing games to browsers.\cite{unity13} While Unity is focused mainly on developing 3D games, there is support for any type of game.
+Using Unity would provide a useful framework for game development, but distribution could be problematic. While Unity games can be ported to virtually any OS, desktop or mobile, the browser
+plugin is only available for Windows and MacOS, for the rest of the platforms the game has to be released as a standalone application.
+
+\subsection{Conclusion}
+All of these technologies are capable of very similar functionality and portability. This means that the decision was mainly based on how easy it is to distribute, as well as personal
+preference of the developers. In the end, HTML5 and WebGL was the chosen platform.
