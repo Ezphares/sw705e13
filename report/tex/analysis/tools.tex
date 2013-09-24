@@ -3,21 +3,33 @@
 \label{sec:tools}
 
 When development a browser based game, several options are available. Six of them are of some interest
-HTML5, Flash, Java, Shockwave, Silverlight and Unity. The development tools for Flash and Shockwave are not free\cite{adobe13}, however,
+HTML5, Flash, Java, Shockwave, Silverlight and Unity. The development tools for Flash and Shockwave are not free, \cite{adobe13} however,
 and as such not an option for this project. The rest of them will be introduced in this section.
 
 \subsection{HTML5, Canvas and WebGL}
-HTML5 is the latest standard for implementing web-pages, and the current recommendation from \ac{w3c}\cite{html513} and includes several
+HTML5 is the latest standard for implementing web-pages, and the current recommendation from \ac{w3c}, \cite{html513} and includes several
 useful APIs for implementing multimedia, specifically the canvas element, which provides an area where graphics can be drawn.
 HTML5 games will be written in javascript, which is interpreted by the browser, and as such is available on most computer systems.
 
-The canvas can be further improved using the external WebGL extension\cite{khronos13}, which allows for hardware accelerated graphics in the canvas,
+The canvas can be further improved using the WebGL extension,\cite{khronos13} which allows for hardware accelerated graphics in the canvas,
 and as such eliminates much of the low performance that can arise from software accelerated graphics.
 Additionally, WebGL is implemented by default in most modern browsers, so most users will be able to play the game
 without downloading any additional software.
 
+The main disadvantage of a WebGL solution is that it is a relatively new technology, and for that reason problems could occur, where an optimal solution has yet to be found, which could increase development time.
+
 \subsection{Java}
+With Java it is possible to create applets that run in a browser.\cite{java13} These applets can be used for any type of applications,
+including games. The greatest advantages of using Java for applets is its large user base and library collection, which means that a lot of the technical difficulties in building a game has been solved by other people,
+and open source solutions are publicly available.
+
+The disadvantages of Java is that it is an external browser extension, and one which is not installed as a standard on most systems.
+This means that the user will have to install and keep the extension updated themselves to use the game. This could also
+be an annoyance for institutions having to keep several computers up to date, especially since Java is updated quite frequently, often close to ten times each year.\cite{javahistory13}
 
 \subsection{Silverlight}
+Silverlight is very similar to Java applets, but developed by Microsoft and typically programmed in either C\# or Visual Basic.\cite{silverlight13}
+Though Silverlight has historically had a focus on media streaming, today it is a multi purpose framework and the same advantages and disadvantages as Java had apply; a choice between Silverlight and Java is mostly personal preference of the developers.
 
 \subsection{Unity}
+Unity is a game development framework, capable of publishing games to browsers.\cite{unity13} While Unity is focused mainly on developing 3D games, there is support for any type of game.
