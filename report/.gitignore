@@ -16,3 +16,5 @@ master.toc
 *.tdo
 *.fls
 *.fdb_latexmk
+*.sublime-project
+*.sublime-workspace
