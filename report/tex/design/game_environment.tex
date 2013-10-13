@@ -1,0 +1,32 @@
+\section{Game Environment}
+\label{Sec: Game Environment}
+
+Given the nature of the game it is important that it seems immediately accessible to the user, in the sense that they get a good feeling of how the game 
+is supposed to work, and how they can achieve success within the game. The challenge will then be to create a game  which manages to educate, while is 
+in its own right rather exciting to the user. The following section will describe the initial ideas had about the game, and how a solution that 
+achieves this could look like in the early stages of design.
+
+\subsection{The Gameplay}
+
+The game is intended to be a competitive 'who-has-the-best-algorithm' to solve a problem on a playing field type of game. The player will be in charge 
+of a simple biological cell, which can consume food on the playing field, and evolve and grow larger. The game finishes when one player has grown 
+larger than the opponent's and is able to eat the other player. There will be multiple options available to each player, for example; they may chose to 
+split-up their cell - evenly partioning their cell and creating a copy, allowing the player to control more cells on the playing field, they could move 
+it in a given direction, they could try to attack the other player, or perhaps they go scavenging for food. The player programs their cell(s) before a 
+game begins in an easy-to-use drag and drop interface.
+
+\subsection{Programming the Cell}
+
+Programming the cell should be inviting for the user, and not cause frustration due to the occurance of peculiar programming-oriented errors, they will 
+be tasked to dealing with. For this reason it is important that the user interface gives the player a clear understanding of when they have combined a 
+string of illegal programming constructs but in turn also shows when they have combined a string of legal constructs. In general terms however it is 
+important that the user cannot make too many mistakes, and instead of becoming a game about debugging, it becomes a game about creating the most 
+optimized and best algorithm.
+
+\subsection{The Grid}
+
+The Grid is the map on which the cells compete, and is split up into tiles. Splitting the map into tiles will make it easier to solve, whether a cell 
+is wihin range of another cell, or whether a given cell is standing on food on the grid or some other item of interest from a developer standpoint. 
+Doing this will also take a toll on the freedom the player has in terms of moves and gameplay however, in the sense they cannot move a complete 360 
+degrees or make exactly the decision they may want to make. So as a compromise to this, the group decided to use hexagonal tiles as seen in the 
+blockbuster game title Civilization 5.\fixme{Find eventuelt den talk Sid Meier afholder omkring Hexagons i CIV 5 og hvorfor det er superr duperr}
