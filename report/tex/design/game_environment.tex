@@ -1,0 +1,35 @@
+\section{Game Environment}
+\label{sec:game_environment}
+
+Given our purpose for the game, it is important that the game seems immediately accessible to the user. This means, that the user intuitively knows have the game is supposed to work, and how success within the game can be achieved.
+The challenge will then be to create a game, which manages to educate, while maintaining excitement for the user.
+The following sub-sections will describe the initial design ideas, and how a solution that achieves this could look in the early stages of the design phase.
+
+\subsection{Gameplay}
+
+The game is intended to be a competitive \textit{'who-has-the-best-algorithm-to-solve-a-problem-on-a playing-field'} type of game.
+The player will initially be in charge of a single simple biological cell with the ability to consume food on the playing field, evolve, and grow larger. The game is finished, when one player's cell has grown larger than the opponent's cell, and opponent's cell has been consumed.
+There will be multiple actions available to each player's cells, for example;
+\begin{itemize}
+	\item Move in a given direction.
+	\item Consume food.
+	\item Try to consume an opponent cell
+	\item Split their cell - evenly partitioning their cell and creating a copy.
+\end{itemize}
+%they may chose to split-up their cell - evenly partitioning their cell and creating a copy, allowing the player to control more cells on the playing field, they could move it in a given direction, they could try to attack the other player, or perhaps they go scavenging for food.
+The player programs their single cell before a game begins in an easy-to-use drag-and-drop interface.
+
+\subsection{Programming the Cell}
+
+Programming the cell should be inviting to the user, and not be the cause of frustration due to the occurrence of peculiar programming-oriented errors, they will be tasked to dealing with.
+For this reason, it is important that the interface provides the user with feedback which gives a clear understanding of when the user has combined a string of legal or illegal programming constructs.
+In general terms, it is important that the user cannot make too many construction mistakes.
+Otherwise the game could become a game about debugging, when it should be a game about creating the most optimized and best algorithm/cell.
+
+\subsection{Playing Field}
+
+The playing field is the map on which the cells compete.
+It is a 2D environment, which is split up into tiles making the playing field a grid.
+Splitting the map into tiles will make it easier to solve problems such as, is a given cell within attacking range of an opponent cell, or is a given cell standing on food or some other item of interest.
+Doing this will limit the freedom each user has in terms of moves and gameplay, however, since cells cannot move freely in the 2D environment (a complete 360 degrees) or make exactly the decision they may want to make. 
+So as a compromise to this limitation, the group decided to use hexagonal tiles, which is also used in the blockbuster game title Civilization 5.\todo{Find eventuelt den talk Sid Meier afholder omkring Hexagons i CIV 5 og hvorfor det er superr duperr}
