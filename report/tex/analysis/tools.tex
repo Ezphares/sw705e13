@@ -4,7 +4,7 @@
 When developing a browser based game, several different tools are available.
 Six of these are of some interest; HTML5, Flash, Java, Silverlight and Unity, since they provide easy development of internet graphics, games and animations.
 They are also some of the most well known development tools in the development of internet applications.
-The development tools for Flash are however not free \cite{adobe13}, and as such not an option for this project.
+The development tools for Flash are, however, not free \cite{adobe13}, and as such not an option for this project.
 Besides, Flash has been discontinued for mobile platforms \cite{adobe12}, and would limit the availability of the game, which, as mentioned in \autoref{sec:availability}, is an important consideration.
 The rest of the tools will be introduced in this section, mostly focusing on the portability of each tool, as measuring differences in performance and prevalence of required plug-ins and the like is virtually impossible.
 Another focus, given the scope of the project, is that the game should exist solely as a web application, and not a standalone game, app or similar.
@@ -18,7 +18,25 @@ The canvas can be further improved using the WebGL extension,\cite{khronos13}, w
 This will eliminate much of the low performance, that can arise from software accelerated graphics.
 Additionally, WebGL is implemented by default in all modern browsers, including some mobile browsers, so most users will be able to play the game without downloading any additional software.
 
-The main disadvantage of a HTML5-based solution is, that it is a relatively new technology, and for that reason problems could occur, where an optimal solution has yet to be found, which could increase development time.\todo{Could you be a bit more specific which browses do not support HTML5? Maybe we could visit html5test.com on various devices and compare result?}
+The main disadvantage of a HTML5-based solution is, that it is a relatively new technology, and for that reason problems could occur, where an optimal solution has yet to be found, which could increase development time. Various browsers support HTML5 differently. The website \url{html5test.com} tests the used browser for html5 support and provide a score from 0 to 500, where a score of 500 means, that the browser support all aspects of html5. What we are most interested in is the support for canvas and WebGL. The following table shows the result of various popular browsers.\todo{Could you be a bit more specific which browsers do not support HTML5? Maybe we could visit html5test.com on various devices and compare result?}
+
+\todo{Complete tabular with results from various browsers}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{2}{|c|}{HTML5 Support}\\
+\hline
+Feature & Supported by \\ \hline
+
+\multicolumn{2}{|c|}{\textbf{Canvas}} \\ \hline
+Canvas element &  \\
+2D context     &  \\
+Text           &  \\ \hline
+\multicolumn{2}{|c|}{\textbf{WebGL}}  \\ \hline
+3D context & \\
+Native binary data & \\\hline
+\end{tabular}
+\end{center}
 
 \subsection{Java}
 With Java it is possible to create applets that run in a browser.\cite{java13} These applets can be used for any type of applications, including games.
