@@ -1,9 +1,9 @@
 \section{Development Tools}
 \label{sec:tools}
 
-When developing a browser based game, several different tools are available.
+When developing a browser based game, several different technologies are available.
 Six of these are of some interest; HTML5, Flash, Java, Silverlight and Unity, since they provide easy development of internet graphics, games and animations.
-They are also some of the most well known development tools in the development of internet applications.
+They are also some of the most well known development tools in the development of internet applications. The reason that these specific technologies are so widely used, is that that each have had a large focus on applications embedded in browsers, either natively, as is the case of HTML5, or through plugins.
 The development tools for Flash are, however, not free \cite{adobe13}, and as such not an option for this project.
 Besides, Flash has been discontinued for mobile platforms \cite{adobe12}, and would limit the availability of the game, which, as mentioned in \autoref{sec:availability}, is an important consideration.
 The rest of the tools will be introduced in this section, mostly focusing on the portability of each tool, as measuring differences in performance and prevalence of required plug-ins and the like is virtually impossible.
@@ -60,5 +60,27 @@ While Unity games can be ported to virtually any OS, desktop or mobile, the brow
 For the rest of the platforms, the game has to be released as a standalone application, which goes against creating an available web application.
 
 \subsection{Conclusion}
-All of these tools are capable of very similar functionality and portability. This means, that the decision was mainly based on how easy it is to distribute, as well as personal preference of the developers.
+
+An overview of the compatibility of each technology described, on various platforms can be seen in \autoref{fig:technologies}
+
+\begin{figure}[ht]
+
+\begin{tabular}{|r|l|l|l|l|l|}
+\hline
+ & Windows & Linux & MacOS & Android & iOS \\
+\hline
+HTML5 & Full & Full & Full & Partial & Partial \\
+\hline
+Java & Plugin & Plugin & Plugin & Standalone only & Limited \\
+\hline
+Silverlight & Plugin & Plugin & Plugin & Plugin & None \\
+\hline
+Unity & Plugin & Standalone only & Plugin & Standalone only & Standalone only \\
+\hline
+\end{tabular}
+\label{fig:technologies}
+\caption{Technology compatibility overview}
+\end{figure}
+
+All of these technologies are capable of very similar functionality and portability. This means, that the decision was mainly based on how easy it is to distribute, as well as personal preference of the developers.
 In the end, HTML5 and WebGL was the chosen platform.\todo{maybe quickly list of why it has chosen. Or just say that based on the sections above, we evaluate HTML5 and WebGL to be the best option.}
