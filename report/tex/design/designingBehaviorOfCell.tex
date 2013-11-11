@@ -1,0 +1,41 @@
+\section{Designing the Behavior of Cells}
+
+The behavior of each cell is defined by the player, since it is his/her job to program the behavior\todo{ref to desiging of programming interface selection}. However, this section will focus on the standard actions that all cells can perform and how they work. We will also discuss other possible implementations of attributes for cells, that might include strength, speed, and vision.
+
+\subsection{Standard Actions}
+
+The player will initially be in charge of a single organic cell with the ability to consume red blood cells or enemy infecting cells.
+The red blood cells contain oxygen, which works as a nutrient to the cell, and consuming enemy cells will also work as a nutrient, but only if the enemy cell is smaller than the players cell.
+These red blood cells are placed on the playing field, see \autoref{sec:designing_playing_field}, and consuming them will allow the initial cell to grow larger/gain health, and evolve.
+Evolution can be implemented by either allowing players to modify their cells while the game is played by editing their code or by splitting the cell up into two cells.
+The game is finished, when all enemy cells has been consumed.\newline
+
+Before the cells are released onto the playing field, the player will program either cells in a block structure similar to that of Carnage Heart and Kodu Game Lab.
+In this block structure, the player will have multiple actions to implement, that is available to the initial cell and all future evolutions of that cell.
+These standard actions include:\newline
+
+\verb|Move(x:steps, y:direction)| is an action that moves the cell $x$ steps in $y$ direction.
+Steps can only be positive integers, and might be limited by an ability or health of the cells that performs the move action.
+Since the playing field consist of multiple hexagonal tiles, each cell can move in six directions.
+Direction is an enum type that can have the values (TopRight, TopLeft, BottomRight, BottomLeft, Left or Right).\todo{check later}\newline
+
+\verb|Look(x:lookingFor, y:direction, z:trigger)| \newline 
+
+\verb|Consume()| is a function that, if the cell is standing on a tile containing a red blood cell or a smaller enemy cell, will make the cell consume the cell and either use the oxygen in the red blood cell or the energy in the opponent cell to grow.
+The amount of oxygen in each red blood may vary and increases over time.\newline
+
+%\verb|Attack(y:direction)| attacks the tile in the y direction. If this tile contain an enemy cell with less health than the attacking cell, then the attacking cell will consume the enemy cells health and move to that the tile, that the enemy was standing on. If the enemy has greater health than the attacking cell, the attacking cell will be consumed completely by the enemy.\newline
+
+\verb|Split(a:health, y:direction)| splits the cell into two cells in the $y$ direction, where the new cell get $'a$ amount of health from the splitting cell and is place on the tile in the $y$ direction from the splitting cell.
+$'a$ is restricted by the health of the splitting cell, since all cells must have a minimum health of $1$.
+If a cell is on the edge of the playing field, it is possible to split so the new cell is placed outside the playing field, which will result in the death of the newly created cell.
+
+\subsection{Additional Cell Attributes}
+
+It is possible to extend the game, by given the cells attributes. One implementation option would be to, that the player have $x$ amount of points in the beginning of the game. These fields can then be distributed unto different attributes. These could include:\\
+
+\verb|Speed|, which would affect the amount of movement actions each cell can perform each turn.\\
+\verb|Vision|, which would affect how far away the cell can look and maybe how accurate the cell observes cells in the distance.\\
+\verb|Strength|, which could an extra parameter when attacking. The attacking power would then be equal to the health of the cell plus some modifier of the strength of that cell.\\
+
+We did not think, that it would make sense to include a health attribute, since a health attribute for example would limit how much health each cell could contain, which we do not find to be a good approach. However, we have not user tested this theory, and we might be incorrect in our assumption, that all player would invest heavily in the health attribute not focus on the others.\todo{Check: Are attribute implemented?}
