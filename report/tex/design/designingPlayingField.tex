@@ -1,0 +1,32 @@
+\section{Designing the Playing Field}
+\label{sec:designing_playing_field}
+As stated in the requirements section, the game will be displayed as a 2D environment instead of 3D, since the focus of this project is not on the graphical presentation of the game, but on the combination of engagin gameplay and education. However, there are still different approaches when designing the playing field. This section will focus on these approaches and argue why some solutions have been chosen over others. We will use our own game, where the player programs a cell to move around the environment to eliminate enemy cells a an example.
+
+\subsection{Free Environment vs. Tile-styled}
+
+When approaching the design of a 2D environment, it might be possible to design the layout as being free or limited.
+In a free environment, the cell would be able to move in all 360$^{\circ}$.
+This approach is seen in the game \textit{Osmos}, that is similar to our game without the programming aspect.
+The player can move a cell freely in the 2D environment to eat smaller cell and each level has a specific objective.
+However, the free environment approach would possibly increase the difficulty of programming the cell in contrast to a tile-styled approach to design.
+Note, that by tiles we do not mean traditional tiles, such as those used in \textit{Mahjong} and \textit{Domino}, but rather games were the playing field is made by the players at the beginning of game by laying tiles with different properties.
+The tile-style is known from board games, such as \textit{The Settlers of Catan} and \textit{Hive}, where both board games use hexagonal tiles.
+However, tiles may not be restricted to being hexagonal, but we will discuss this later in this section.\\
+
+Using tiles would limit the available movements of each cell into $x$ number of directions, where $x$ denotes the amount of sides on a single tile. This limiting factor would make it easier for the player to program each cell, because for example 6 movement options are much less than 360. The question is then whether the tile-styled approach would limit the player too much, making the game less engaging and too easy. However, the same question can be applied to the free environment approach.\\
+
+We have chosen to design the playing field as a tile-styled board game, since we do not think that the limitation of tiles makes the programming of the cells too easy. It might even increase the user base, by allowing less experienced player to program cells that have a chance to defeat more experienced players. This also effects the more experienced players, since, if multiplayer is implemented, the experienced players will then face more difficult cells. We judge, that the sense of achievement when having defeated a difficult opponent is greater than when the opponent is weak and easy to defeat.\\
+
+However, as mentioned easier, tiles can have $x$ number of sides. The next subsection will focus on how to design the tiles in terms of number of sides on each tile and whether tiles should include different properties.
+
+\subsection{Designing the Tiles - Polygons}
+
+Polygons are closed 2 dimensional object that have more than 2 sides. The smallest polygon in term of sides is therefore the triangle. \textit{Bizingo} is a board game that use triangle tiles, but we have not been able to find other games. It is far more common to see games that use either square or hexagonal tiles. These approach therefore both have the appeal of being more recognizable to the user. We will mainly discuss the pros and cons with square and hexagonal tiles.
+
+\subsubsection{Square tiles}
+
+
+
+\subsubsection{Hex tiles}
+
+

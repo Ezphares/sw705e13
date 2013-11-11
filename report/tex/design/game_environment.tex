@@ -20,13 +20,20 @@ The game is finished, when all enemy cells has been consumed.\newline
 Before the cells are released onto the playing field, the player will program either cells in a block structure similar to that of Carnage Heart and Kodu Game Lab. In this block structure, the player will have multiple actions to implement, that is available to the initial cell and all future evolutions of that cell. These standard actions include:\newline
 
 
-\verb|Move(x:steps, y:direction)| is an action that moves the cell s steps in y direction. Steps can only be positive integers, and might be limited by an ability or health of the cells that performs the move action. Since the playing field consist of multiple hexagonal tiles, each cell can move in six directions. Direction is an enum type that can have the values (TopRight, TopLeft, BottomRight, BottomLeft, Left or Right).\todo{check later}\newline
+\verb|Move(x:steps, y:direction)| is an action that moves the cell $x$ steps in $y$ direction.
+Steps can only be positive integers, and might be limited by an ability or health of the cells that performs the move action.
+Since the playing field consist of multiple hexagonal tiles, each cell can move in six directions.
+Direction is an enum type that can have the values (TopRight, TopLeft, BottomRight, BottomLeft, Left or Right).\todo{check later}\newline
 
-\verb|Consume()| is a function that, if the cell is standing next to one or more tiles containing a red blood cell, will make the cell consume all the red blood cells and use the oxygen in these cells to grow. The amount of oxygen in each red blood may vary and increases over time.\newline
+\verb|Consume()| is a function that, if the cell is standing on a tile containing a red blood cell, will make the cell consume the red blood cell and use the oxygen in that cells to grow.
+The amount of oxygen in each red blood may vary and increases over time.
+Consume() also consumes an opponent cell, if the opponent is smaller than the players cell.\newline
 
-\verb|Attack(y:direction)| attacks the tile in the y direction. If this tile contain an enemy cell with less health than the attacking cell, then the attacking cell will consume the enemy cells health and move to that the tile, that the enemy was standing on. If the enemy has greater health than the attacking cell, the attacking cell will be consumed completely by the enemy.\newline
+%\verb|Attack(y:direction)| attacks the tile in the y direction. If this tile contain an enemy cell with less health than the attacking cell, then the attacking cell will consume the enemy cells health and move to that the tile, that the enemy was standing on. If the enemy has greater health than the attacking cell, the attacking cell will be consumed completely by the enemy.\newline
 
-\verb|Split(a:health, y:direction)| splits the cell into two cells in the y direction, where the new cell get $'a$ amount of health from the splitting cell and is place on the tile in the y direction from the splitting cell. $'a$ is restricted by the health of the splitting cell, since all cells must have a minimum health of $1$. If a cell is on the edge of the playing field, it is possible to split so the new cell is placed outside the playing field, which will result in the death of the newly created cell.
+\verb|Split(a:health, y:direction)| splits the cell into two cells in the $y$ direction, where the new cell get $'a$ amount of health from the splitting cell and is place on the tile in the $y$ direction from the splitting cell.
+$'a$ is restricted by the health of the splitting cell, since all cells must have a minimum health of $1$.
+If a cell is on the edge of the playing field, it is possible to split so the new cell is placed outside the playing field, which will result in the death of the newly created cell.
 
 \subsection{Programming the Cell}
 
@@ -39,11 +46,11 @@ For this to work, the colors will have to be dynamic and evaluation of construct
 In general terms, it is important that the user cannot make too many construct mistakes.
 Otherwise the game is in danger of becoming a debugging game, when it should be a game about creating the most optimized and best algorithm/cell.
 
-\subsection{Playing Field}
-\label{subsec:playingfield}
-The playing field is the map on which the players cell play against either AI cells or other player cells.
-It is a 2D environment, which is split up into hexagonal tiles making the playing field a grid.
-Splitting the map into tiles will make it easier for the player to solve common problems such as is a given cell within attacking range of an enemy cell, or is a given cell standing next-to a red blood cell or some other item of interest.
-Using tiles instead of the free 2D environment limits the freedom each player has in terms of places to move, since cells cannot move freely in the 2D environment (a complete 360 degrees) or make exactly the decision they may want to make. 
-Hexagonal tiles was a compromise between a free 2D environment and square tiles, that would allow players to move in four direction.
-Hexagonal tiles is used in the blockbuster game title Civilization 5, which is a strategy game, that is similar to many board games.\todo{Find eventuelt den talk Sid Meier afholder omkring Hexagons i CIV 5 og hvorfor det er superr duperr}
+%\subsection{Playing Field}
+%\label{subsec:playingfield}
+%The playing field is the map on which the players cell play against either AI cells or other player cells.
+%It is a 2D environment, which is split up into hexagonal tiles making the playing field a grid.
+%Splitting the map into tiles will make it easier for the player to solve common problems such as is a given cell within attacking range of an enemy cell, or is a given cell standing next-to a red blood cell or some other item of interest.
+%Using tiles instead of the free 2D environment limits the freedom each player has in terms of places to move, since cells cannot move freely in the 2D environment (a complete 360 degrees) or make exactly the decision they may want to make. 
+%Hexagonal tiles was a compromise between a free 2D environment and square tiles, that would allow players to move in four direction.
+%Hexagonal tiles is used in the blockbuster game title Civilization 5, which is a strategy game, that is similar to many board games.\todo{Find eventuelt den talk Sid Meier afholder omkring Hexagons i CIV 5 og hvorfor det er superr duperr}
