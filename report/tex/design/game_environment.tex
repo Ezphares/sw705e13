@@ -1,3 +1,19 @@
+\section{Programming the Cell}\todo{Expand}
+
+Programming the cell is an essential part of the game. This is where the user will learn basic construct in the imperative paradigm by using them to program the initial cell and all future copies of that cell.\\
+
+The game begins with the player programming the initial cell in a drag-and-drop block interface similar to that of Carnage Heart.
+The player can add declare variables, for-loops, conditional statements, and standard action functions with parameters, see \autoref{sec:designingBehaviorCells}.
+Programming the cell should not be the cause of frustration due to the occurrence of peculiar programming-oriented errors, which the player will have to deal with.
+For this reason, it is important that the interface provides the user with feedback which gives a clear understanding of when the user has combined a string of legal or illegal programming constructs.
+This can be done by implementing a basic green is okay, red is bad, color schema, that allow the user to immediately identify good code and code that includes one or more errors.
+For this to work, the colors will have to be dynamic and evaluation of constructs in the program must be done on a regular basis to keep given the player useful information. 
+In general terms, it is important that the user cannot make too many construct mistakes.
+Otherwise the game is in danger of becoming a debugging game, when it should be a game about creating the most optimized and best algorithm/cell.
+
+%%%%%%%%%%%%%%%%% BEFORE %%%%%%%%%%%%%%%%%
+
+
 %\section{Game Environment}
 %\label{sec:game_environment}
 
@@ -37,16 +53,16 @@
 %$'a$ is restricted by the health of the splitting cell, since all cells must have a minimum health of $1$.
 %If a cell is on the edge of the playing field, it is possible to split so the new cell is placed outside the playing field, which will result in the death of the newly created cell.
 
-\section{Programming the Cell}\todo{Expand}
+%\section{Programming the Cell}\todo{Expand}
 
-The game begins with the player programming the initial cell in a drag-and-drop block interface similar to that of Carnage Heart.
-The player can add declare variables, for-loops, conditional statements, and standard action functions with parameters.
-Programming the cell should not be the cause of frustration due to the occurrence of peculiar programming-oriented errors, which the player will have to deal with.
-For this reason, it is important that the interface provides the user with feedback which gives a clear understanding of when the user has combined a string of legal or illegal programming constructs.
-This can be done by implementing a basic green is okay, red is bad, color schema, that allow the user to immediately identify good code and code that includes one or more errors.
-For this to work, the colors will have to be dynamic and evaluation of constructs in the program must be done on a regular basis to keep given the player useful information. 
-In general terms, it is important that the user cannot make too many construct mistakes.
-Otherwise the game is in danger of becoming a debugging game, when it should be a game about creating the most optimized and best algorithm/cell.
+%The game begins with the player programming the initial cell in a drag-and-drop block interface similar to that of Carnage Heart.
+%The player can add declare variables, for-loops, conditional statements, and standard action functions with parameters.
+%Programming the cell should not be the cause of frustration due to the occurrence of peculiar programming-oriented errors, which the player will have to deal with.
+%For this reason, it is important that the interface provides the user with feedback which gives a clear understanding of when the user has combined a string of legal or illegal programming constructs.
+%This can be done by implementing a basic green is okay, red is bad, color schema, that allow the user to immediately identify good code and code that includes one or more errors.
+%For this to work, the colors will have to be dynamic and evaluation of constructs in the program must be done on a regular basis to keep given the player useful information. 
+%In general terms, it is important that the user cannot make too many construct mistakes.
+%Otherwise the game is in danger of becoming a debugging game, when it should be a game about creating the most optimized and best algorithm/cell.
 
 %\subsection{Playing Field}
 %\label{subsec:playingfield}
