@@ -1,41 +1,43 @@
-\section{Game Environment}
-\label{sec:game_environment}
+%\section{Game Environment}
+%\label{sec:game_environment}
 
-Given our purpose for the game, it is important that the game is accessible to the user.
-This means, that the user intuitively knows have the game is supposed to work, and how success within the game can be achieved.
-The challenge will then be to create a game, which manages to educate, while maintaining engaging gameplay for the user.
-Many ideas to do this is described in the analysis part of this report.
-The following sub-sections will describe the initial design ideas, and how a solution that achieves this could look in the early stages of the design phase.
+%Given our purpose for the game, it is important that the game is accessible to the user.
+%This means, that the user intuitively knows have the game is supposed to work, and how success within the game can be achieved.
+%The challenge will then be to create a game, which manages to educate, while maintaining engaging gameplay for the user.
+%Many ideas to do this is described in the analysis part of this report.
+%The following sections will describe the initial design ideas, and how a solution that achieves this could look in the early stages of the design phase.
 
-\subsection{Gameplay}
+%\subsection{Gameplay}
 
-The game is intended to be a competitive \textit{'who-has-the-best-algorithm-to-solve-a-problem-on-a playing-field'} type of game.
-This competitive aspects is one of the essential human desires described in \autoref{sec:gamification}.
-The player will initially be in charge of a single organic cell with the ability to consume red blood cells or enemy infecting cells.
-The red blood cells contain oxygen, which works as a nutrient to the cell, and consuming enemy cells will also work as a nutrient, but only if the enemy cell is smaller than the players cell.
-These red blood cells are placed on the playing field, see \autoref{subsec:playingfield}, and consuming them will allow the initial cell to grow larger/gain health, and evolve.
-Evolution can be implemented by either allowing player to modify their cells while the game is played by editing their code or by splitting the cell up into two cells.
-The game is finished, when all enemy cells has been consumed.\newline
+%The game is intended to be a competitive \textit{'who-has-the-best-algorithm-to-solve-a-problem-on-a playing-field'} type of game.
+%This competitive aspects is one of the essential human desires described in \autoref{sec:gamification}.
+%The player will initially be in charge of a single organic cell with the ability to consume red blood cells or enemy infecting cells.
+%The red blood cells contain oxygen, which works as a nutrient to the cell, and consuming enemy cells will also work as a nutrient, but only if the enemy cell is smaller than the players cell.
+%These red blood cells are placed on the playing field, see \autoref{subsec:playingfield}, and consuming them will allow the initial cell to grow larger/gain health, and evolve.
+%Evolution can be implemented by either allowing player to modify their cells while the game is played by editing their code or by splitting the cell up into two cells.
+%The game is finished, when all enemy cells has been consumed.\newline
 
-Before the cells are released onto the playing field, the player will program either cells in a block structure similar to that of Carnage Heart and Kodu Game Lab. In this block structure, the player will have multiple actions to implement, that is available to the initial cell and all future evolutions of that cell. These standard actions include:\newline
+%Before the cells are released onto the playing field, the player will program either cells in a block structure similar to that of Carnage Heart and Kodu Game Lab.
+%In this block structure, the player will have multiple actions to implement, that is available to the initial cell and all future evolutions of that cell.
+%These standard actions include:\newline
 
 
-\verb|Move(x:steps, y:direction)| is an action that moves the cell $x$ steps in $y$ direction.
-Steps can only be positive integers, and might be limited by an ability or health of the cells that performs the move action.
-Since the playing field consist of multiple hexagonal tiles, each cell can move in six directions.
-Direction is an enum type that can have the values (TopRight, TopLeft, BottomRight, BottomLeft, Left or Right).\todo{check later}\newline
+%\verb|Move(x:steps, y:direction)| is an action that moves the cell $x$ steps in $y$ direction.
+%Steps can only be positive integers, and might be limited by an ability or health of the cells that performs the move action.
+%Since the playing field consist of multiple hexagonal tiles, each cell can move in six directions.
+%Direction is an enum type that can have the values (TopRight, TopLeft, BottomRight, BottomLeft, Left or Right).\todo{check later}\newline
 
-\verb|Consume()| is a function that, if the cell is standing on a tile containing a red blood cell, will make the cell consume the red blood cell and use the oxygen in that cells to grow.
-The amount of oxygen in each red blood may vary and increases over time.
-Consume() also consumes an opponent cell, if the opponent is smaller than the players cell.\newline
+%\verb|Consume()| is a function that, if the cell is standing on a tile containing a red blood cell, will make the cell consume the red blood cell and use the oxygen in that cells to grow.
+%The amount of oxygen in each red blood may vary and increases over time.
+%Consume() also consumes an opponent cell, if the opponent is smaller than the players cell.\newline
 
 %\verb|Attack(y:direction)| attacks the tile in the y direction. If this tile contain an enemy cell with less health than the attacking cell, then the attacking cell will consume the enemy cells health and move to that the tile, that the enemy was standing on. If the enemy has greater health than the attacking cell, the attacking cell will be consumed completely by the enemy.\newline
 
-\verb|Split(a:health, y:direction)| splits the cell into two cells in the $y$ direction, where the new cell get $'a$ amount of health from the splitting cell and is place on the tile in the $y$ direction from the splitting cell.
-$'a$ is restricted by the health of the splitting cell, since all cells must have a minimum health of $1$.
-If a cell is on the edge of the playing field, it is possible to split so the new cell is placed outside the playing field, which will result in the death of the newly created cell.
+%\verb|Split(a:health, y:direction)| splits the cell into two cells in the $y$ direction, where the new cell get $'a$ amount of health from the splitting cell and is place on the tile in the $y$ direction from the splitting cell.
+%$'a$ is restricted by the health of the splitting cell, since all cells must have a minimum health of $1$.
+%If a cell is on the edge of the playing field, it is possible to split so the new cell is placed outside the playing field, which will result in the death of the newly created cell.
 
-\subsection{Programming the Cell}
+\section{Programming the Cell}\todo{Expand}
 
 The game begins with the player programming the initial cell in a drag-and-drop block interface similar to that of Carnage Heart.
 The player can add declare variables, for-loops, conditional statements, and standard action functions with parameters.
