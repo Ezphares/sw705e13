@@ -16,14 +16,11 @@ Food.prototype.update = function(board)
 	}
 };
 
-Food.protype.draw = function(board, gl)
+Food.prototype.draw = function(board, gl)
 {
-	var draw_pos = board.get_pixel_position(this.position);
+	var draw_pos = board.get_pixel_coordinate(this.position);
 
-	// TODO: Draw! :D
+	gl.draw_sprite(this.sprite, this.frame++, draw_pos[0], draw_pos[1]);
 };
 
-(function()
-{
-	Food.sprite = null; //TODO
-});
+Food.sprite = null;

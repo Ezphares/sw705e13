@@ -1,0 +1,66 @@
+<!doctype html>
+
+<html>
+	<head>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ifygl.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/sprite.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/board.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/cell.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/food.class.js"></script>
+		<style>
+		*
+		{
+			padding: 0;
+			margin: 0;
+		}
+		
+		canvas
+		{
+			border-width: 1px;
+			border-style: solid;
+		}
+		</style>
+	</head>
+	<body>
+		<canvas id="game"></canvas>
+		<canvas id="text-render"></canvas>
+		
+		<script type="text/javascript">
+		gl = new IfyGL({
+			canvas: 'game',
+			texturepath: 'static/img/',
+			shaderpath: 'static/shaders/',
+			width: 640,
+			height: 480
+		});
+		
+		gl.init();
+		
+		var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
+							 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]}];
+		
+		gl.load_sprites(sprite_loader, function(sprites)
+		{
+			var tile = sprites[0];
+			var food = sprites[1];
+			
+			Food.sprite = food;
+			
+			b = new Board(20, tile);
+			f =  new Food(100, [2, 0]);
+			console.log(f);
+			b.add_entity(f);
+			c = new Cell([0, 0], 100, sprites[2], null);
+			b.add_entity(c);
+			setInterval(function()
+			{
+				b.update();
+				b.draw(gl);
+			}, 500);
+		});
+		
+		</script>
+	</body>
+</html>

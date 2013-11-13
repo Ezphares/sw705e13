@@ -1,10 +1,11 @@
-Board = function(size)
+Board = function(size, spr_tile)
 {
 	this.size = size;
+	this.spr_tile = spr_tile;
 	this.entities = [];
 };
 
-Board.prototype.get_pixel_coodinate = function(point)
+Board.prototype.get_pixel_coordinate = function(point)
 {
 	var xdelta = [16, 0];
 	var ydelta = [-8, 12];
@@ -17,19 +18,19 @@ Board.prototype.draw = function(gl)
 {
 	for (var i = 0; i < this.size * 2 / 1; i++)
 	{
-		for (var i = j; i < this.size * 2 / 1; i++)
+		for (var j = 0; j < this.size * 2 / 1; j++)
 		{
 			if (this.is_inside([i,j]))
 			{
 				var draw_pos = this.get_pixel_coordinate([i, j]);
-				// TODO Draw a tile
+				gl.draw_sprite(this.spr_tile, 0, draw_pos[0], draw_pos[1]);
 			}
 		}
 	}
 	
 	for (var i = 0; i < this.entities.length; i++)
 	{
-		this.entities.draw(this, gl);
+		this.entities[i].draw(this, gl);
 	}
 };
 
@@ -39,7 +40,7 @@ Board.prototype.update = function()
 
 	for (var i = 0; i < this.entities.length; i++)
 	{
-		this.entities.update(this);
+		this.entities[i].update(this);
 	}
 };
 
