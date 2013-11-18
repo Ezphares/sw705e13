@@ -1,3 +1,10 @@
+/**
+ * Creates food to be added to a board
+ * @constructor
+ *
+ * @param {array} position A 2-length array containing the x and y tile coordinate for the food to occupy.
+ * @param {int} energy The amount of starting energy for the food
+ */
 Food = function(energy, position)
 {
 	this.energy = energy;
@@ -6,6 +13,13 @@ Food = function(energy, position)
 	this.frame = 0;
 };
 
+/**
+ * Updates the food. Should be called once per frame
+ *
+ * @param {Board} board The Board instance on which the food should execute.
+ *
+ * @see {Board}
+ */
 Food.prototype.update = function(board)
 {
 	this.energy--;
@@ -16,6 +30,15 @@ Food.prototype.update = function(board)
 	}
 };
 
+/**
+ * Draw the food. Should be called by the board.
+ *
+ * @param {Board} board The Board instance on which the food should be drawn.
+ * @param {IfyGL} gl The IfyGL instance used to draw the food
+ *
+ * @see {Board}
+ * @see {IfyGL}
+ */
 Food.prototype.draw = function(board, gl)
 {
 	var draw_pos = board.get_pixel_coordinate(this.position);
