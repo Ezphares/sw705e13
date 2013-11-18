@@ -2,11 +2,13 @@
 
 <html>
 	<head>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/helpers.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/ifygl.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/sprite.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/board.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/cell.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/food.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/program.class.js"></script>
 		<style>
 		*
 		{
@@ -18,6 +20,11 @@
 		{
 			border-width: 1px;
 			border-style: solid;
+		}
+		
+		#text-render
+		{
+			display: none;
 		}
 		</style>
 	</head>
@@ -48,7 +55,7 @@
 			
 			Food.sprite = food;
 			
-			b = new Board(20, tile);
+			b = new Board(10, tile);
 			f =  new Food(100, [2, 0]);
 			console.log(f);
 			b.add_entity(f);
