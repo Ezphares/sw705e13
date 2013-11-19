@@ -18,6 +18,7 @@ Cell = function(position, energy, sprite, program)
 	this.frame = 0;
 	
 	this.program = program;
+	this.ip = [0,0]; // Instruction pointer
 };
 
 /**
@@ -32,35 +33,16 @@ Cell.prototype.update = function(board)
 	// Execute the program to find out what to do.
 	var action = this.execute(board);
 
-	if (action === 'NOP')
+	if (action.act === 'NOP')
 	{}
-	else if (action === 'M-LEFT')
+	else if (action.act === 'M')
 	{
-		this.position[0]--;
+		this.position = Hex.move(this.position, action.dir);
 	}
-	else if (action === 'M-RIGHT')
+	else if (action.act === 'S')
 	{
-		this.position[0]++;
+		// TODO: Split actions
 	}
-	else if (action === 'M-UPLEFT')
-	{
-		this.position[0]--;
-		this.position[1]--;
-	}
-	else if (action === 'M-UPRIGHT')
-	{
-		this.position[1]--;
-	}
-	else if (action === 'M-DOWNLEFT')
-	{
-		this.position[1]++;
-	}
-	else if (action === 'M-DOWNRIGHT')
-	{
-		this.position[0]++;
-		this.position[1]++;
-	}
-	// TODO: Split actions
 	
 	// Check for collisions
 	for (var i = 0; i < board.entities.length; i++)
@@ -122,5 +104,21 @@ Cell.prototype.draw = function(board, gl)
  */
 Cell.prototype.execute = function(board)
 {
-	return 'M-RIGHT'; // TODO
+	var imax = 50;
+	
+	// Ifetch loop
+	while (imax > 0)
+	{
+		var i = this.program.get_instruction(this.ip);
+		var inext = 'continue'; // Set to 'divert' in IF/FOR when branching
+		
+		if (i === null || i.type === 'empty') // This will only happen in an invalid program
+			break;
+	
+		this.ip = Hex.move(this.ip, i[inext]);
+		imax--;
+	}
+
+	// TODO: Debug
+	return {act: 'M', dir: 'R'};
 };

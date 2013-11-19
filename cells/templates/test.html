@@ -3,6 +3,7 @@
 <html>
 	<head>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/helpers.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/hexhelper.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/ifygl.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/sprite.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/board.class.js"></script>
@@ -59,7 +60,7 @@
 			f =  new Food(100, [2, 0]);
 			
 			b.add_entity(f);
-			c = new Cell([0, 0], 100, sprites[2], null);
+			c = new Cell([0, 0], 100, sprites[2], new Program(3));
 			b.add_entity(c);
 			setInterval(function()
 			{
