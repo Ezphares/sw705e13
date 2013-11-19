@@ -11,6 +11,8 @@ Board = function(size, spr_tile)
 	this.size = size;
 	this.spr_tile = spr_tile;
 	this.entities = [];
+	
+	this.index = 0; // For avoiding race conditions on entity removal
 };
 
 /**
@@ -62,9 +64,9 @@ Board.prototype.update = function()
 {
 	// TODO: Spawn food?
 
-	for (var i = 0; i < this.entities.length; i++)
+	for (this.index = 0; this.index < this.entities.length; this.index++)
 	{
-		this.entities[i].update(this);
+		this.entities[this.index].update(this);
 	}
 };
 
@@ -116,5 +118,7 @@ Board.prototype.remove_entity = function(entity)
 	if (index !== -1)
 	{
 		this.entities.splice(index, 1);
+		if (this.index >= index)
+			this.index--;
 	}
 };
