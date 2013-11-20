@@ -1,6 +1,6 @@
 \section{Designing the Playing Field}
 \label{sec:designing_playing_field}
-As stated in the requirements section, the game will be displayed as a 2D environment instead of 3D, since the focus of this project is not on the graphical presentation of the game, but on the combination of engagin gameplay and education. However, there are still different approaches when designing the playing field. This section will focus on these approaches and argue why some solutions have been chosen over others. We will use our own game, where the player programs a cell to move around the environment to eliminate enemy cells a an example.
+As stated in the requirements section, the game will be displayed as a 2D environment instead of 3D, since the focus of this project is not on the graphical presentation of the game, but on the combination of engaging gameplay and education. However, there are still different approaches when designing the playing field. This section will focus on these approaches and argue why some solutions have been chosen over others. We will use our own game, where the player programs a cell to move around the environment to eliminate enemy cells as an example.
 
 \subsection{Free Environment vs. Tile-styled}
 
@@ -9,6 +9,7 @@ In a free environment, the cell would be able to move in all 360$^{\circ}$.
 This approach is seen in the game \textit{Osmos}, that is similar to our game without the programming aspect.
 The player can move a cell freely in the 2D environment to eat smaller cell and each level has a specific objective.
 However, the free environment approach would possibly increase the difficulty of programming the cell in contrast to a tile-styled approach to design.
+The reader might imagine, that it is more difficult to program a cell to move in 360 different directions than in for example 4 or 6.
 Note, that by tiles we do not mean traditional tiles, such as those used in \textit{Mahjong} and \textit{Domino}, but rather games were the playing field is made by the players at the beginning of game by laying tiles with different properties.
 The tile-style is known from board games, such as \textit{The Settlers of Catan} and \textit{Hive}, where both board games use hexagonal tiles.
 However, tiles may not be restricted to being hexagonal, but we will discuss this later in this section.\\
@@ -25,7 +26,7 @@ Polygons are closed $2$ dimensional object that have more than $2$ sides.
 The smallest polygon in term of sides is therefore the triangle.
 \textit{Bizingo} is a board game that use triangle tiles, but we have not been able to find other games.
 It is far more common to see games that use either square or hexagonal tiles.
-These approach therefore both have the appeal of being more recognizable to the user.
+Therefore, they both have the appeal of being more recognizable to the user, thereby making the game easier to learn.
 We will mainly discuss the pros and cons with square and hexagonal tiles.\\
 
 \subsubsection{4 vs 6}
