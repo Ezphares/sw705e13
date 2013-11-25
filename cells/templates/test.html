@@ -50,6 +50,7 @@
 							 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 							 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 							 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+<<<<<<< HEAD
 							 {filename: 'testButton.png', frame_width: 128, frame_height: 32, origin: [64,16]},
 							 {filename: 'testButton2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
 							 {filename: 'editor_button_active.png', frame_width: 256, frame_height: 64, origin: [128,32]},
@@ -63,11 +64,18 @@
 							 {filename: 'inport_button_inactive.png', frame_width: 256, frame_height: 64, origin: [128,32]},
 							 {filename: 'home_button.png', frame_width: 32, frame_height: 32, origin: [0,0]}
 							 ];
+=======
+							 {filename: 'health_bar_green_start.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'health_bar_green_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'health_bar_red_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'health_bar_red_end.png', fame_width: 16, frame_height: 16, origin: [0,0]}];
+>>>>>>> 0c8e53ec2c104cff6a4bb3d1083bbda112e24c66
 		
 		gl.load_sprites(sprite_loader, function(sprites)
 		{
 			var tile = sprites[0];
 			var food = sprites[1];
+<<<<<<< HEAD
 			testButton = sprites[4];
 			testButton2 = sprites[5];
 			var editorb = sprites[6];
@@ -81,6 +89,13 @@
 			var inportb = sprites[14];
 			var home    = sprites[15];
 			var state = true;
+=======
+			healthbar_green_start = sprites[4];
+			healthbar_green_mid = sprites[5];
+			healthbar_red_mid = sprites[6];
+			healthbar_red_end = sprites[7];
+			
+>>>>>>> 0c8e53ec2c104cff6a4bb3d1083bbda112e24c66
 			
 			Food.sprite = food;
 			
@@ -89,8 +104,10 @@
 			m = new Menu(singleb, multib, manualb, editorb, tile, chalb, skirmb, back, newb, inportb, home);
 			
 			b.add_entity(f);
-			c = new Cell([0, 0], 100, sprites[2], new Program(3));
+			c = new Cell([0, 0], 175, sprites[2], new Program(3), 1);
+			r = new Cell([16,16], 100, sprites[3], new Program(3), 2);
 			b.add_entity(c);
+			b.add_entity(r);
 			setInterval(function()
 			{
 				//b.update();
