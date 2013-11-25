@@ -10,11 +10,12 @@
 		<script type="text/javascript" src="{{ STATIC_URL }}js/cell.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/food.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/program.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/menu.class.js"></script>
 		<style>
 		*
 		{
-			padding: 0;
-			margin: 0;
+			padding: 0px;
+			margin: 2.5% 10%;
 		}
 		
 		canvas
@@ -22,6 +23,7 @@
 			border-width: 1px;
 			border-style: solid;
 		}
+		body {background-color:pink;}
 		
 		#text-render
 		{
@@ -47,26 +49,60 @@
 		var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 							 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 							 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-							 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]}];
+							 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'testButton.png', frame_width: 128, frame_height: 32, origin: [64,16]},
+							 {filename: 'testButton2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'editor_button_active.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'manual_button_active.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'multiplayer_button_inactive.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'singleplayer_button_active.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'challenges_button_active.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'skirmish_button_active.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'back_arrow.png', frame_width: 32, frame_height: 32, origin: [0,0]},
+							 {filename: 'new_button_active.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'inport_button_inactive.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'home_button.png', frame_width: 32, frame_height: 32, origin: [0,0]}
+							 ];
 		
 		gl.load_sprites(sprite_loader, function(sprites)
 		{
 			var tile = sprites[0];
 			var food = sprites[1];
+			testButton = sprites[4];
+			testButton2 = sprites[5];
+			var editorb = sprites[6];
+			var manualb = sprites[7];
+			var multib  = sprites[8];
+			var singleb = sprites[9];
+			var chalb   = sprites[10];
+			var skirmb  = sprites[11];
+			var back    = sprites[12];
+			var newb    = sprites[13];
+			var inportb = sprites[14];
+			var home    = sprites[15];
+			var state = true;
 			
 			Food.sprite = food;
 			
 			b = new Board(10, tile);
 			f =  new Food(100, [2, 0]);
+			m = new Menu(singleb, multib, manualb, editorb, tile, chalb, skirmb, back, newb, inportb, home);
 			
 			b.add_entity(f);
 			c = new Cell([0, 0], 100, sprites[2], new Program(3));
 			b.add_entity(c);
 			setInterval(function()
 			{
-				b.update();
-				b.draw(gl);
-			}, 500);
+				//b.update();
+				//b.draw(gl);
+				if(state){
+					m.draw(gl);
+				}
+				else{
+					m.update(2, gl);
+				}
+				state=!state;
+			}, 1000);
 		});
 		
 		</script>
