@@ -27,3 +27,22 @@ sort of green and red distinction between the players will be used all throughou
 To give the players, when they compete, a way of getting an idea of how well they are doing in the game, we have decided to design a healthbar at the 
 very top of the screen. The idea is that the healthbar will fill with green and red colors, depending on how well the game is going for one of the 
 players.
+
+\begin{figure}[h]
+	\centering
+		\includegraphics{img/healthbar_example.png}
+	\caption{Green has an advantage over the red player}
+	\label{fig:healthbar}
+\end{figure}
+
+The figure here illustrates how it would look like if the green player has an advantage over the red player during the game. One of the trickier parts 
+was to work out, how is an advantage given in the game? Is it based on the number of cells a given player controls? Is it their map position on the 
+board - for example; how many food tiles are placed on 'their territorry'? Is it based on how well their algorithm functions compared to the 
+opponent's? 
+
+
+Ultimately we decided that it was enough to simply compare the two players' health points, and determine who had the most life-points. The idea is then 
+that the bar will update all throughout the game, and sweep back and forth, depending on which player is doing best throughout a game.
+
+\subsection{Menu Design}
+
