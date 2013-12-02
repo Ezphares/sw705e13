@@ -65,11 +65,10 @@ Game.prototype.init = function()
 		game.board.add_entity(c);
 		game.board.add_entity(r);
 		
-		game.menu.draw(gl);
+		game.menu.draw_startmenu(gl);
 		
 		setInterval(function()
 		{
-			console.log(game.state);
 			//game.update();
 		}, 1000);
 	});
@@ -87,7 +86,6 @@ Game.prototype.doMouseDown = function(event)
 	canvas_y = event.pageY-offset_y;
 	
 	this.checkButton(this.state, canvas_x, canvas_y);
-	this.update();
 };
 
 Game.prototype.checkButton = function(screen, x, y)
@@ -152,6 +150,22 @@ Game.prototype.checkButton = function(screen, x, y)
 			}
 		}
 	}
+	else if(x >= 0 && x <= 32 && y <= document.getElementById(this.gl.canvas).height && y >= document.getElementById(this.gl.canvas).height-32){
+		if(this.state == 'Singleplayer' || this.state == 'Multiplayer'){
+			isChanged = true;
+			this.state = 'Start';
+		}
+		else if(this.state === 'Challenges' || this.state === 'Skirmish'){
+			isChanged = true;
+			this.state = 'Singleplayer';
+		}
+	}
+	else if(x > 40 && x <= 70 && y <= document.getElementById(this.gl.canvas).height && y >= document.getElementById(this.gl.canvas).height-32){
+		if(this.state != 'Start' && this.state != 'InEditor' && this.state != 'InGame'){
+			isChanged = true;
+			this.state = 'Start';
+		}
+	}
 	
 	if(isChanged){
 		this.update();
@@ -160,6 +174,7 @@ Game.prototype.checkButton = function(screen, x, y)
 
 Game.prototype.update = function()
 {
+	console.log("I have updated");
 	this.menu.draw_background(this.gl);
 	
 	if(this.state === 'Start'){
