@@ -11,6 +11,9 @@ Board = function(size, spr_tile)
 	this.size = size;
 	this.spr_tile = spr_tile;
 	this.entities = [];
+	this.offset = [0, 120];
+	
+	this.index = 0; // For avoiding race conditions on entity removal
 };
 
 /**
@@ -23,7 +26,7 @@ Board.prototype.get_pixel_coordinate = function(point)
 {
 	var xdelta = [16, 0]; // [x,y] pixel shift for each tile x shift.
 	var ydelta = [-8, 12]; // [x,y] pixel shift for each tile y shift.
-	var origin = [ -ydelta[0] * this.size, ydelta[1] / 2 ];
+	var origin = [this.offset[0] - ydelta[0] * this.size, this.offset[1] + ydelta[1] / 2 ];
 	return [ origin[0] + point[0] * xdelta[0] + point[1] * ydelta[0],
 			 origin[1] + point[0] * xdelta[1] + point[1] * ydelta[1] ];
 };
@@ -53,18 +56,75 @@ Board.prototype.draw = function(gl)
 	{
 		this.entities[i].draw(this, gl);
 	}
-};
+	
+
+
+	
+	// ~~~~~~~~~~~~~~Healthbar Below~~~~~~~~~~~~~~~
+	// TODO: Test igen når spillet slutter når cellerne rammer 0 hp	
+	
+	var cell_green_hp = 0;
+	var cell_red_hp = 0;
+	var count = 0; // Contains number of times green has to be drawn relative to red.
+	
+	for(var i = 0; i < this.entities.length; i++) {
+		if(this.entities[i].type == 'cell' && this.entities[i].playertype == 1) {
+			cell_green_hp += this.entities[i].energy;
+		}
+		
+		else if(this.entities[i].type == 'cell' && this.entities[i].playertype == 2) {
+			cell_red_hp += this.entities[i].energy;
+		}
+	}
+	
+	//Checks if one of the cells are dead.
+	
+	if(cell_red_hp != 0 || cell_green_hp) {
+		count = this.health_count(cell_green_hp, cell_red_hp) * 16; // Multiplied with the pixel offset of 16 for the healthbar (tells me how many times to draw a .png
+	
+		gl.draw_sprite(healthbar_green_start, 0, 0, 0);
+		for(var i = 16; i < count; i+=16)
+		{
+			gl.draw_sprite(healthbar_green_mid, 0, i, 0);
+		}
+	
+		for(var i = count; i < 640; i+=16) {
+			gl.draw_sprite(healthbar_red_mid, 0, i, 0);
+		}
+	
+		gl.draw_sprite(healthbar_red_end, 0, 624, 0);
+		}
+		
+		console.log("Cell green:"+ cell_green_hp);
+		console.log("Cell red:"+ cell_red_hp);
+	};
+
+Board.prototype.health_count = function(green_hp, red_hp) 
+{
+	var count = 0; // How many times should I draw the health_bar sprite for green??
+	var max_draw = 39; // Maximum number of times I can draw a health_bar sprite of 16 pixels on the canvas, boom.
+
+	
+	var temp = green_hp/(red_hp+green_hp); //Green's percentile cut of the HP combined
+	console.log(temp);
+	
+	count = Math.floor((max_draw * temp));
+
+	
+	return count;
+}
 
 /**
  * Updates the board. Should be called once per frame.
  */
 Board.prototype.update = function()
 {
+	console.log("board updated");
 	// TODO: Spawn food?
-
-	for (var i = 0; i < this.entities.length; i++)
+	
+	for (this.index = 0; this.index < this.entities.length; this.index++)
 	{
-		this.entities[i].update(this);
+		this.entities[this.index].update(this);
 	}
 };
 
@@ -116,5 +176,41 @@ Board.prototype.remove_entity = function(entity)
 	if (index !== -1)
 	{
 		this.entities.splice(index, 1);
+		if (this.index >= index)
+			this.index--;
 	}
 };
+
+Board.prototype.get_friendly_cells = function()
+{
+	var j = 0;
+	for(var i = 0; i < this.entities.length; i++) {
+		if(this.entities[i].type == 'cell' && this.entities[i].playertype == 1) {
+			j++;
+		}
+	}
+	return j;
+};
+
+Board.prototype.isDone = function()
+{
+	var friends = 0;
+	var enemies = 0;
+	
+	for(var i = 0; i < this.entities.length; i++) {
+		if(this.entities[i].type == 'cell' && this.entities[i].playertype == 1) {
+			friends++;
+		}
+		else if(this.entities[i].type == 'cell' && this.entities[i].playertype == 2) {
+			enemies++;
+		}
+	}
+	
+	//Anders' kode
+	if(enemies == 0 || friends == 0){
+		return true;
+	}
+	else{
+		return false;
+	}
+}

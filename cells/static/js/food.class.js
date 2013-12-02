@@ -11,6 +11,8 @@ Food = function(energy, position)
 	this.position = position;
 	this.sprite = Food.sprite;
 	this.frame = 0;
+	
+	this.type = 'food';
 };
 
 /**

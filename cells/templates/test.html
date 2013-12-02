@@ -3,6 +3,7 @@
 <html>
 	<head>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/helpers.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/hexhelper.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/ifygl.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/sprite.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/board.class.js"></script>
@@ -10,11 +11,19 @@
 		<script type="text/javascript" src="{{ STATIC_URL }}js/food.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/program.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/hexgrid.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/menu.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/game.class.js"></script>
 		<style>
 		*
 		{
-			padding: 0;
-			margin: 0;
+			padding: 0px;
+			margin: 0px;
+		}
+		
+		#wrapper
+		{
+			margin: 50px auto;
+			width: 640px;
 		}
 		
 		canvas
@@ -22,6 +31,7 @@
 			border-width: 1px;
 			border-style: solid;
 		}
+		body {background-color:#fff0f5;}
 		
 		#text-render
 		{
@@ -30,11 +40,15 @@
 		</style>
 	</head>
 	<body>
-		<canvas id="game"></canvas>
+		<div id="wrapper" >
+			<canvas id="game"></canvas>
+		</div>
 		<canvas id="text-render"></canvas>
 		
 		<script type="text/javascript">
-		gl = new IfyGL({
+		g = new Game();
+		g.init();
+		/*gl = new IfyGL({
 			canvas: 'game',
 			texturepath: 'static/img/',
 			shaderpath: 'static/shaders/',
@@ -47,27 +61,53 @@
 		var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 							 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 							 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-							 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]}];
-		
+							 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'active_button.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'inactive_button.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'back_arrow.png', frame_width: 32, frame_height: 32, origin: [0,0]},
+							 {filename: 'home_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
+							 {filename: 'health_bar_green_start.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'health_bar_green_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'health_bar_red_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'health_bar_red_end.png', fame_width: 16, frame_height: 16, origin: [0,0]},
+							 {filename: 'active_button2.png', fame_width: 256, frame_height: 64, origin: [128,32]},
+							 {filename: 'inactive_button2.png', fame_width: 256, frame_height: 64, origin: [128,32]}];
+							 
+	
 		gl.load_sprites(sprite_loader, function(sprites)
 		{
+			var state = true;
+			
 			var tile = sprites[0];
 			var food = sprites[1];
+			var back = sprites[6];
+			var home = sprites[7];
+			var activeb = sprites[4];
+			var inactiveb = sprites[5];
+
+			healthbar_green_start = sprites[8];
+			healthbar_green_mid   = sprites[9];
+			healthbar_red_mid     = sprites[10];
+			healthbar_red_end     = sprites[11];
 			
 			Food.sprite = food;
 			
 			b = new Board(10, tile);
 			f =  new Food(100, [2, 0]);
+			m = new Menu(activeb, inactiveb, tile, back, home);
 			
 			b.add_entity(f);
-			c = new Cell([0, 0], 100, sprites[2], null);
+			c = new Cell([0, 0], 175, sprites[2], new Program(3), 1);
+			r = new Cell([16,16], 100, sprites[3], new Program(3), 2);
 			b.add_entity(c);
+			b.add_entity(r);
 			setInterval(function()
 			{
-				b.update();
-				b.draw(gl);
-			}, 500);
-		});
+				//b.update();
+				//b.draw(gl);
+				m.draw(gl);
+			}, 1000);
+		});*/
 		
 		</script>
 	</body>

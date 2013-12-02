@@ -51,7 +51,7 @@ IfyGL.prototype.init = function()
 	
 	element.width = this.width;
 	element.height = this.height;
-
+	
 	this.gl = element.getContext('experimental-webgl', { premultipliedAlpha: false });
 	if (this.gl === null)
 		throw 'Could not initialize WebGL. Does your browser support it?';
@@ -239,6 +239,48 @@ IfyGL.prototype.load_shader = function(name, type)
 	// Set up the position vertex buffer, and pass it to the vertex shader
 	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_vertex);
 	this.gl.bufferData(this.gl.ARRAY_BUFFER, this.make_rect(x - sprite.origin[0], y - sprite.origin[1], x + sprite.frame_width - sprite.origin[0], y + sprite.frame_height - sprite.origin[1]), this.gl.STATIC_DRAW);
+	this.gl.vertexAttribPointer(this.p_position, 2, this.gl.FLOAT, false, 0, 0);
+	
+	// Ditto for the texture coordinate buffer
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_texture);
+	var texcoord = sprite.get_frame(frame);
+	this.gl.bufferData(this.gl.ARRAY_BUFFER, this.make_rect(texcoord[0], texcoord[1], texcoord[2], texcoord[3]), this.gl.STATIC_DRAW);
+	this.gl.vertexAttribPointer(this.p_texture, 2, this.gl.FLOAT, false, 0, 0);
+	
+	// Set up texture sampler
+	//TODO:
+	// Some of this might not have to be done every time. Investigate.
+	this.gl.activeTexture(this.gl.TEXTURE0);
+	this.gl.bindTexture(this.gl.TEXTURE_2D, sprite.texture);
+	this.gl.uniform1i(this.gl.getUniformLocation(this.program, 'u_sampler'), 0);
+	
+	// Draw the sprite
+	this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
+ }; 
+
+/**
+ * Draws a sprite to the canvas, stretched to fill a rectangle
+ *
+ * @param {Sprite} sprite The sprite to draw
+ * @param {number} frame The the frame to draw
+ * @param {number} left The x-coordinate of the leftmost pixels of the destination
+ * @param {number} top The y-coordinate of the top pixels of the destination
+ * @param {number} right The x-coordinate of the rightmost pixels of the destination
+ * @param {number} bottom The y-coordinate of the bottom pixels of the destination
+ * @see Sprite
+ */ 
+ IfyGL.prototype.draw_sprite_strecthed = function(sprite, frame, left, top, right, bottom)
+ {
+	// Rounding coordinates
+	left = Math.round(left);
+	top = Math.round(top);
+	right = Math.round(right);
+	bottom = Math.round(bottom);
+ 
+ 
+	// Set up the position vertex buffer, and pass it to the vertex shader
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_vertex);
+	this.gl.bufferData(this.gl.ARRAY_BUFFER, this.make_rect(left, top, right, bottom), this.gl.STATIC_DRAW);
 	this.gl.vertexAttribPointer(this.p_position, 2, this.gl.FLOAT, false, 0, 0);
 	
 	// Ditto for the texture coordinate buffer
