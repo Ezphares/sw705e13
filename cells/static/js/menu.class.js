@@ -15,7 +15,6 @@ Menu = function(active, inactive, tile, back, home)
 	this.spr_inactive_button = inactive;
 };
 
-
 Menu.prototype.get_pixel_coordinate = function(point)
 {
 
@@ -91,6 +90,11 @@ Menu.prototype.draw_button = function(active, text, x, y)
 		gl.draw_sprite(this.spr_inactive_button, 0, gl.width/2, y);
 	
 	gl.draw_text(text, 'black', 25, 'center', gl.width/2, y-15);
+};
+
+Menu.prototype.isWithin = function (x,y)
+{
+	
 };
 
 /**

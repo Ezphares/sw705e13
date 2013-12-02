@@ -51,7 +51,8 @@ IfyGL.prototype.init = function()
 	
 	element.width = this.width;
 	element.height = this.height;
-
+	element.addEventListener('mousedown', gl.doMouseDown, false);
+	
 	this.gl = element.getContext('experimental-webgl', { premultipliedAlpha: false });
 	if (this.gl === null)
 		throw 'Could not initialize WebGL. Does your browser support it?';
@@ -68,6 +69,42 @@ IfyGL.prototype.init = function()
 	// Create destination (vertex) and source (texture) buffers
 	this.buffer_vertex = this.gl.createBuffer();
 	this.buffer_texture = this.gl.createBuffer();
+};
+
+IfyGL.prototype.doMouseDown = function(event)
+{
+	B = document.body;
+	H = document.documentElement;
+	width = Math.max( B.scrollWidth, B.offsetWidth, H.clientWidth, H.scrollWidth, H.offsetWidth);
+	offset_x = Math.ceil((width-640)/2);
+	offset_y = 50;
+	
+	canvas_x = event.pageX-offset_x;
+	canvas_y = event.pageY-offset_y;
+	gl.checkButton('Start', canvas_x, canvas_y);
+};
+
+IfyGL.prototype.checkButton = function(screen, x, y)
+{
+	//If x is between 256 and 384 && y is between 138 and 202, the user clicked square button 1
+	if(x <= gl.width/2+64 && x >= gl.width/2-64)
+	{
+		if(y >= 480/2-70-32 && y <= 480/2-70+32)
+			alert("X="+x+" Y="+y+"  Button 1");
+		if(y >= 480/2-32 && y <= 480/2+32)
+			alert("X="+x+" Y="+y+"  Button 2");
+		if(y >= 480/2+70-32 && y <= 480/2+70+32)
+			alert("X="+x+" Y="+y+"  Button 3");
+		if(y >= 480/2+140-32 && y <= 480/2+140+32)
+			alert("X="+x+" Y="+y+"  Button 4");
+	}
+	
+	if(x <= gl.width/2+128 && x >= gl.width/2+64 || (x >= gl.width/2-128 && x <= gl.width/2-64))
+	{
+		alert("X="+x+" Y="+y);
+	}
+	
+	
 };
 
 /**
