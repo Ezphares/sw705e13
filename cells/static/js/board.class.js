@@ -11,6 +11,7 @@ Board = function(size, spr_tile)
 	this.size = size;
 	this.spr_tile = spr_tile;
 	this.entities = [];
+	this.offset = [0, 120];
 	
 	this.index = 0; // For avoiding race conditions on entity removal
 };
@@ -25,7 +26,7 @@ Board.prototype.get_pixel_coordinate = function(point)
 {
 	var xdelta = [16, 0]; // [x,y] pixel shift for each tile x shift.
 	var ydelta = [-8, 12]; // [x,y] pixel shift for each tile y shift.
-	var origin = [ -ydelta[0] * this.size, ydelta[1] / 2 ];
+	var origin = [offset[0] - ydelta[0] * this.size, offset[1] + ydelta[1] / 2 ];
 	return [ origin[0] + point[0] * xdelta[0] + point[1] * ydelta[0],
 			 origin[1] + point[0] * xdelta[1] + point[1] * ydelta[1] ];
 };
@@ -45,7 +46,7 @@ Board.prototype.draw = function(gl)
 			if (this.is_inside([i,j]))
 			{
 				var draw_pos = this.get_pixel_coordinate([i, j]);
-				gl.draw_sprite(this.spr_tile, 0, draw_pos[0], 120+draw_pos[1]);
+				gl.draw_sprite(this.spr_tile, 0, draw_pos[0], draw_pos[1]);
 			}
 		}
 	}
