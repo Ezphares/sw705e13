@@ -116,8 +116,15 @@ Game.prototype.checkButton = function(screen, x, y)
 
 Game.prototype.update = function()
 {
-	if(this.state) {
-		return 0;
+	if(this.state == 'none') {
+		m = new menu(activeb, inactiveb, tile, back, home, this.gl);
+		state = 'Start';
+		m.draw_startmenu();
 	}
+	
+	if(this.state == 'Start') {
+		
+	}
+	
 	b.update();
 };
