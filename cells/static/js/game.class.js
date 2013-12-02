@@ -14,13 +14,16 @@ Game = function()
 
 Game.prototype.init = function()
 {
+	var game = this;
+	
+	this.gl.init();
+	
 	document.getElementById(this.gl.canvas).addEventListener('onMouseDown', function(event)
 	{
-		this.doMouseDown(event);
-	}, true);
-
-	this.gl.init();
-
+		console.log(game.gl);
+		game.doMouseDown(event);
+	}, false);
+	
 	var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
@@ -35,7 +38,7 @@ Game.prototype.init = function()
 						 {filename: 'health_bar_red_end.png', fame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'active_button2.png', fame_width: 256, frame_height: 64, origin: [128,32]},
 						 {filename: 'inactive_button2.png', fame_width: 256, frame_height: 64, origin: [128,32]}];
-						 
+	var gl = this.gl;				 
 	this.gl.load_sprites(sprite_loader, function(sprites)
 	{
 		var tile = sprites[0];
@@ -54,7 +57,7 @@ Game.prototype.init = function()
 		
 		b = new Board(10, tile);
 		f =  new Food(100, [2, 0]);
-		m = new Menu(activeb, inactiveb, tile, back, home, this.gl);
+		m = new Menu(activeb, inactiveb, tile, back, home);
 		
 		b.add_entity(f);
 		c = new Cell([0, 0], 175, sprites[2], new Program(3), 1);
@@ -62,19 +65,16 @@ Game.prototype.init = function()
 		b.add_entity(c);
 		b.add_entity(r);
 		
-		m.draw_background();
-		if(m.state === 'Start'){
-			m.draw_startmenu();
-		}
+		m.draw(gl);
 		
-		var game = this;
+		/*var game = this;
 		setInterval(function()
 		{
 			this.update();
 			//b.update();
 			//b.draw(gl);
 			//m.draw(gl);
-		}, 1000);
+		}, 1000);*/
 	});
 };
 
@@ -112,20 +112,6 @@ Game.prototype.checkButton = function(screen, x, y)
 	{
 		alert("X="+x+" Y="+y);
 	}
-};
-
-
-Game.prototype.doMouseDown = function(event)
-{
-	B = document.body;
-	H = document.documentElement;
-	width = Math.max( B.scrollWidth, B.offsetWidth, H.clientWidth, H.scrollWidth, H.offsetWidth);
-	offset_x = Math.ceil((width-640)/2);
-	offset_y = 50;
-	
-	canvas_x = event.pageX-offset_x;
-	canvas_y = event.pageY-offset_y;
-	gl.checkButton('Start', canvas_x, canvas_y);
 };
 
 Game.prototype.update = function()
