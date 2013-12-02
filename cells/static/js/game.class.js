@@ -30,16 +30,14 @@ Game.prototype.init = function()
 						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'active_button.png', frame_width: 256, frame_height: 64, origin: [128,32]},
-						 {filename: 'inactive_button.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+						 {filename: 'active_button2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+						 {filename: 'inactive_button2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
 						 {filename: 'back_arrow.png', frame_width: 32, frame_height: 32, origin: [0,0]},
 						 {filename: 'home_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
 						 {filename: 'health_bar_green_start.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_green_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_red_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'health_bar_red_end.png', fame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'active_button2.png', fame_width: 256, frame_height: 64, origin: [128,32]},
-						 {filename: 'inactive_button2.png', fame_width: 256, frame_height: 64, origin: [128,32]}];
+						 {filename: 'health_bar_red_end.png', fame_width: 16, frame_height: 16, origin: [0,0]}];
 					 
 	this.gl.load_sprites(sprite_loader, function(sprites)
 	{
@@ -95,8 +93,7 @@ Game.prototype.doMouseDown = function(event)
 Game.prototype.checkButton = function(screen, x, y)
 {
 	var isChanged = false;
-	//If x is between 256 and 384 && y is between 138 and 202, the user clicked square button 1
-	if(x <= this.gl.width/2+64 && x >= this.gl.width/2-64)
+	if(x <= this.gl.width/2+128 && x >= this.gl.width/2-128)
 	{
 		//First button is pressed
 		if(y >= 480/2-70-32 && y <= 480/2-70+32)
