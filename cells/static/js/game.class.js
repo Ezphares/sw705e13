@@ -1,24 +1,25 @@
 
-Game = function(gl)
+Game = function()
 {
 	// Default parameters:
-	this.gl = gl;
-	
-	
-	
-};
-
-Game.prototype.init = function()
-{
-	gl = new IfyGL({
+	this.gl = new IfyGL({
 		canvas: 'game',
 		texturepath: 'static/img/',
 		shaderpath: 'static/shaders/',
 		width: 640,
 		height: 480
 	});
+	this.state = 'Non';
+};
 
-	gl.init();
+Game.prototype.init = function()
+{
+	document.getElementById(this.gl.canvas).addEventListener('onMouseDown', function(event)
+	{
+		this.doMouseDown(event);
+	}, true);
+
+	this.gl.init();
 
 	var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
@@ -35,10 +36,8 @@ Game.prototype.init = function()
 						 {filename: 'active_button2.png', fame_width: 256, frame_height: 64, origin: [128,32]},
 						 {filename: 'inactive_button2.png', fame_width: 256, frame_height: 64, origin: [128,32]}];
 						 
-	gl.load_sprites(sprite_loader, function(sprites)
+	this.gl.load_sprites(sprite_loader, function(sprites)
 	{
-		var state = 'Start';
-		
 		var tile = sprites[0];
 		var food = sprites[1];
 		var back = sprites[6];
@@ -55,7 +54,7 @@ Game.prototype.init = function()
 		
 		b = new Board(10, tile);
 		f =  new Food(100, [2, 0]);
-		m = new Menu(activeb, inactiveb, tile, back, home);
+		m = new Menu(activeb, inactiveb, tile, back, home, this.gl);
 		
 		b.add_entity(f);
 		c = new Cell([0, 0], 175, sprites[2], new Program(3), 1);
@@ -63,9 +62,9 @@ Game.prototype.init = function()
 		b.add_entity(c);
 		b.add_entity(r);
 		
-		m.draw_background(gl);
+		m.draw_background();
 		if(m.state === 'Start'){
-			m.draw_startmenu(gl);
+			m.draw_startmenu();
 		}
 		
 		/*setInterval(function()
@@ -77,10 +76,25 @@ Game.prototype.init = function()
 	});
 };
 
+Game.prototype.doMouseDown = function(event)
+{
+	alert("Test");
+	B = document.body;
+	H = document.documentElement;
+	width = Math.max( B.scrollWidth, B.offsetWidth, H.clientWidth, H.scrollWidth, H.offsetWidth);
+	offset_x = Math.ceil((width-640)/2);
+	offset_y = 50;
+	
+	canvas_x = event.pageX-offset_x;
+	canvas_y = event.pageY-offset_y;
+	
+	this.checkButton('Start', canvas_x, canvas_y);
+};
+
 Game.prototype.checkButton = function(screen, x, y)
 {
 	//If x is between 256 and 384 && y is between 138 and 202, the user clicked square button 1
-	if(x <= gl.width/2+64 && x >= gl.width/2-64)
+	if(x <= this.gl.width/2+64 && x >= this.gl.width/2-64)
 	{
 		if(y >= 480/2-70-32 && y <= 480/2-70+32)
 			alert("X="+x+" Y="+y+"  Button 1");
@@ -92,21 +106,9 @@ Game.prototype.checkButton = function(screen, x, y)
 			alert("X="+x+" Y="+y+"  Button 4");
 	}
 	
-	if(x <= gl.width/2+128 && x >= gl.width/2+64 || (x >= gl.width/2-128 && x <= gl.width/2-64))
+	if(x <= this.gl.width/2+128 && x >= this.gl.width/2+64 || (x >= this.gl.width/2-128 && x <= this.gl.width/2-64))
 	{
 		alert("X="+x+" Y="+y);
 	}
 };
 
-Game.prototype.doMouseDown = function(event)
-{
-	B = document.body;
-	H = document.documentElement;
-	width = Math.max( B.scrollWidth, B.offsetWidth, H.clientWidth, H.scrollWidth, H.offsetWidth);
-	offset_x = Math.ceil((width-640)/2);
-	offset_y = 50;
-	
-	canvas_x = event.pageX-offset_x;
-	canvas_y = event.pageY-offset_y;
-	gl.checkButton('Start', canvas_x, canvas_y);
-};
