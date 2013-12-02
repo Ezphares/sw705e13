@@ -10,20 +10,21 @@ Game = function()
 		height: 480
 	});
 	this.state = 'None';
+	this.menu = null;
 };
 
 Game.prototype.init = function()
 {
 	var game = this;
-	
+	var gl = this.gl; //Used because of call back
+	var canvas = document.getElementById('game');
 	this.gl.init();
 	
-	document.getElementById(this.gl.canvas).addEventListener('onMouseDown', function(event)
+	canvas.addEventListener('mousedown', function(event)
 	{
-		console.log(game.gl);
 		game.doMouseDown(event);
 	}, false);
-	
+	console.log(canvas);
 	var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
@@ -38,7 +39,7 @@ Game.prototype.init = function()
 						 {filename: 'health_bar_red_end.png', fame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'active_button2.png', fame_width: 256, frame_height: 64, origin: [128,32]},
 						 {filename: 'inactive_button2.png', fame_width: 256, frame_height: 64, origin: [128,32]}];
-	var gl = this.gl;				 
+					 
 	this.gl.load_sprites(sprite_loader, function(sprites)
 	{
 		var tile = sprites[0];
@@ -80,7 +81,6 @@ Game.prototype.init = function()
 
 Game.prototype.doMouseDown = function(event)
 {
-	alert("Test");
 	B = document.body;
 	H = document.documentElement;
 	width = Math.max( B.scrollWidth, B.offsetWidth, H.clientWidth, H.scrollWidth, H.offsetWidth);
