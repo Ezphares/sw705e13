@@ -69,8 +69,7 @@ Game.prototype.init = function()
 		
 		setInterval(function()
 		{
-			console.log(game.state);
-			//game.update();
+			game.update();
 		}, 1000);
 	});
 };
@@ -160,8 +159,7 @@ Game.prototype.checkButton = function(screen, x, y)
 
 Game.prototype.update = function()
 {
-	this.menu.draw_background(this.gl);
-	
+	// Menu relevant code
 	if(this.state === 'Start'){
 		this.menu.draw_startmenu(this.gl);
 	}
@@ -169,7 +167,7 @@ Game.prototype.update = function()
 		this.menu.draw_singleplayermenu(this.gl);
 	}
 	else if(this.state === 'Multiplayer'){
-		
+		alert("Multiplayer not yet implemented");
 	}
 	else if(this.state === 'Challenges') {
 		this.menu.draw_challengesmenu(this.gl);
@@ -177,12 +175,12 @@ Game.prototype.update = function()
 	else if(this.state === 'Skirmish'){
 		this.menu.draw_skirmishmenu(this.gl);
 	}
+	
+	// TODO: *** TEMPORARY CODE TO TEST THE BOARD - WHEN EDITOR IS IMPLEMENTED THIS HAS TO BE CHANGED TO DRAW THAT INSTEAD OF THE BOARD ***
 	else if(this.state === 'InEditor'){
 		alert("Go to editor");
 	}
-	else if(this.state === '1' || this.state === '2' || this.state === '3' || this.state === '4'){
-		alert("Go to challenge " + this.state);
-	}
 	
-	this.board.update();
+	
+	
 };
