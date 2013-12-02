@@ -176,7 +176,6 @@ Game.prototype.checkButton = function(screen, x, y)
 
 Game.prototype.update = function()
 {
-	console.log("I have updated");
 	// Menu relevant code
 	if(this.state === 'Start'){
 		this.menu.draw_startmenu(this.gl);
