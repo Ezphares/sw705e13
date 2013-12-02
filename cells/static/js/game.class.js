@@ -9,8 +9,9 @@ Game = function()
 		width: 640,
 		height: 480
 	});
-	this.state = 'None';
+	this.state = 'Start';
 	this.menu = null;
+	this.board = null;
 };
 
 Game.prototype.init = function()
@@ -24,7 +25,7 @@ Game.prototype.init = function()
 	{
 		game.doMouseDown(event);
 	}, false);
-	console.log(canvas);
+	
 	var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
@@ -56,26 +57,23 @@ Game.prototype.init = function()
 		
 		Food.sprite = food;
 		
-		b = new Board(10, tile);
+		game.board = new Board(10, tile);
 		f =  new Food(100, [2, 0]);
-		m = new Menu(activeb, inactiveb, tile, back, home);
+		game.menu = new Menu(activeb, inactiveb, tile, back, home);
 		
-		b.add_entity(f);
+		game.board.add_entity(f);
 		c = new Cell([0, 0], 175, sprites[2], new Program(3), 1);
 		r = new Cell([16,16], 100, sprites[3], new Program(3), 2);
-		b.add_entity(c);
-		b.add_entity(r);
+		game.board.add_entity(c);
+		game.board.add_entity(r);
 		
-		m.draw(gl);
+		game.menu.draw(gl);
 		
-		/*var game = this;
 		setInterval(function()
 		{
-			this.update();
-			//b.update();
-			//b.draw(gl);
-			//m.draw(gl);
-		}, 1000);*/
+			console.log(game.state);
+			game.update();
+		}, 1000);
 	});
 };
 
@@ -90,7 +88,8 @@ Game.prototype.doMouseDown = function(event)
 	canvas_x = event.pageX-offset_x;
 	canvas_y = event.pageY-offset_y;
 	
-	this.checkButton('Start', canvas_x, canvas_y);
+	this.checkButton(this.state, canvas_x, canvas_y);
+	this.update();
 };
 
 Game.prototype.checkButton = function(screen, x, y)
@@ -99,19 +98,88 @@ Game.prototype.checkButton = function(screen, x, y)
 	if(x <= this.gl.width/2+64 && x >= this.gl.width/2-64)
 	{
 		if(y >= 480/2-70-32 && y <= 480/2-70+32)
-			alert("X="+x+" Y="+y+"  Button 1");
+		{
+			if(this.state == 'Start')
+				this.state = 'Singleplayer';
+			else if(this.state === 'Singleplayer')
+				this.state = 'Challenges';
+			else if(this.state === '
+			
+			if(state == 'Start')
+			{
+				this.state = 'Singleplayer';
+			}
+		}
 		if(y >= 480/2-32 && y <= 480/2+32)
-			alert("X="+x+" Y="+y+"  Button 2");
+		{
+			this.state = 'Multiplayer';
+			alert("Multiplayer is not yet implemented");
+		}
 		if(y >= 480/2+70-32 && y <= 480/2+70+32)
-			alert("X="+x+" Y="+y+"  Button 3");
+		{
+			this.state = 'Manual';
+		}
 		if(y >= 480/2+140-32 && y <= 480/2+140+32)
-			alert("X="+x+" Y="+y+"  Button 4");
+		{
+			this.state = 'Editor';
+			alert("Editor not yet implemented");
+		}
 	}
-	
-	if(x <= this.gl.width/2+128 && x >= this.gl.width/2+64 || (x >= this.gl.width/2-128 && x <= this.gl.width/2-64))
+	else if(screen === 'Singleplayer')
 	{
-		alert("X="+x+" Y="+y);
+		if(x <= this.gl.width/2+64 && x >= this.gl.width/2-64)
+		{
+			if(y >= 480/2-70-32 && y <= 480/2-70+32)
+			{
+				this.state = 'Challenges';
+			}
+			if(y >= 480/2-32 && y <= 480/2+32)
+			{
+				this.state = 'Skirmish';
+			}
+		}
 	}
+	else if(screen === 'Challenges')
+	{
+		if(x <= this.gl.width/2+64 && x >= this.gl.width/2-64)
+		{
+			if(y >= 480/2-70-32 && y <= 480/2-70+32)
+			{
+				this.state = '1';
+			}
+			if(y >= 480/2-32 && y <= 480/2+32)
+			{
+				this.state = '2';
+			}
+			if(y >= 480/2+70-32 && y <= 480/2+70+32)
+			{
+				this.state = '3';
+			}
+			if(y >= 480/2+140-32 && y <= 480/2+140+32)
+			{
+				this.state = '4';
+			}
+		}
+	}
+	else if(screen === 'Skirmish')
+	{
+		if(x <= this.gl.width/2+64 && x >= this.gl.width/2-64)
+		{
+			if(y >= 480/2-70-32 && y <= 480/2-70+32)
+			{
+				this.state = 'New';
+			}
+			if(y >= 480/2-32 && y <= 480/2+32)
+			{
+				this.state = 'Import';
+			}
+		}
+	}
+	else if(screen === 'Editor' || screen === 'New' || screen === '1' || screen === '2' || screen === '3' || screen === '4')
+	{
+		this.state = 'InEditor';
+		alert("Go to editor");
+	}	
 };
 
 Game.prototype.update = function()
@@ -126,5 +194,5 @@ Game.prototype.update = function()
 		
 	}
 	
-	b.update();
+	this.board.update();
 };
