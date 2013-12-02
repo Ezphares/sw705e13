@@ -77,38 +77,33 @@ Board.prototype.draw = function(gl)
 		}
 	}
 	
-	count = this.health_count(cell_green_hp, cell_red_hp) * 16; // Multiplied with the pixel offset of 16 for the healthbar (tells me how many times to draw a .png
+	//Checks if one of the cells are dead.
 	
+	if(cell_red_hp != 0 || cell_green_hp) {
+		count = this.health_count(cell_green_hp, cell_red_hp) * 16; // Multiplied with the pixel offset of 16 for the healthbar (tells me how many times to draw a .png
 	
-	gl.draw_sprite(healthbar_green_start, 0, 0, 0);
-	for(var i = 16; i < count; i+=16)
-	{
-		gl.draw_sprite(healthbar_green_mid, 0, i, 0);
-	}
+		gl.draw_sprite(healthbar_green_start, 0, 0, 0);
+		for(var i = 16; i < count; i+=16)
+		{
+			gl.draw_sprite(healthbar_green_mid, 0, i, 0);
+		}
 	
-	for(var i = count; i < 640; i+=16) {
-		gl.draw_sprite(healthbar_red_mid, 0, i, 0);
-	}
+		for(var i = count; i < 640; i+=16) {
+			gl.draw_sprite(healthbar_red_mid, 0, i, 0);
+		}
 	
-	gl.draw_sprite(healthbar_red_end, 0, 624, 0);
-};
+		gl.draw_sprite(healthbar_red_end, 0, 624, 0);
+		}
+		
+		console.log("Cell green:"+ cell_green_hp);
+		console.log("Cell red:"+ cell_red_hp);
+	};
 
 Board.prototype.health_count = function(green_hp, red_hp) 
 {
 	var count = 0; // How many times should I draw the health_bar sprite for green??
 	var max_draw = 39; // Maximum number of times I can draw a health_bar sprite of 16 pixels on the canvas, boom.
-	
-	if(green_hp == red_hp) {
-		return 19;
-	}
-	
-	if(green_hp < 16) {
-		return 1;
-	}
-	
-	if(red_hp < 16) {
-		return 38;
-	}
+
 	
 	var temp = green_hp/(red_hp+green_hp); //Green's percentile cut of the HP combined
 	console.log(temp);
