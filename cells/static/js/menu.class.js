@@ -97,7 +97,7 @@ Menu.prototype.draw_button = function(active, text, x, y, gl)
 /**
  * Updates the Menu. Should be called once per frame.
  */
-Menu.prototype.update = function(buttonPressed, gl)
+/*Menu.prototype.update = function(buttonPressed, gl)
 {
 	this.draw_background(gl);
 	//TODO: Change menu depending on buttonPressed
@@ -113,7 +113,7 @@ Menu.prototype.update = function(buttonPressed, gl)
 		this.draw_startmenu(gl);
 	}
 	
-	if(buttonPressed ===4){
+	if(buttonPressed === 4){
 		this.draw_challengesmenu(gl);
 	}
-};
+};*/
