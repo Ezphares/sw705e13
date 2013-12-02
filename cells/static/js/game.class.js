@@ -98,14 +98,21 @@ Game.prototype.checkButton = function(screen, x, y)
 	//If x is between 256 and 384 && y is between 138 and 202, the user clicked square button 1
 	if(x <= this.gl.width/2+64 && x >= this.gl.width/2-64)
 	{
-		if(y >= 480/2-70-32 && y <= 480/2-70+32)
+		if(y >= 480/2-70-32 && y <= 480/2-70+32) {
 			alert("X="+x+" Y="+y+"  Button 1");
-		if(y >= 480/2-32 && y <= 480/2+32)
+		}
+		
+		if(y >= 480/2-32 && y <= 480/2+32) {
 			alert("X="+x+" Y="+y+"  Button 2");
-		if(y >= 480/2+70-32 && y <= 480/2+70+32)
+		}
+
+		if(y >= 480/2+70-32 && y <= 480/2+70+32) {
 			alert("X="+x+" Y="+y+"  Button 3");
-		if(y >= 480/2+140-32 && y <= 480/2+140+32)
+		}
+		
+		if(y >= 480/2+140-32 && y <= 480/2+140+32) {
 			alert("X="+x+" Y="+y+"  Button 4");
+		}
 	}
 	
 	if(x <= this.gl.width/2+128 && x >= this.gl.width/2+64 || (x >= this.gl.width/2-128 && x <= this.gl.width/2-64))
