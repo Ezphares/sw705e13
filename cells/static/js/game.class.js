@@ -69,7 +69,9 @@ Game.prototype.init = function()
 		
 		setInterval(function()
 		{
-			//game.update();
+			if(game.state == 'InEditor'){
+				game.board.update();
+			}
 		}, 1000);
 	});
 };
@@ -194,7 +196,7 @@ Game.prototype.update = function()
 	
 	// TODO: *** TEMPORARY CODE TO TEST THE BOARD - WHEN EDITOR IS IMPLEMENTED THIS HAS TO BE CHANGED TO DRAW THAT INSTEAD OF THE BOARD ***
 	else if(this.state === 'InEditor'){
-		alert("Go to editor");
+		this.board.draw(this.gl);
 	}
 	
 	

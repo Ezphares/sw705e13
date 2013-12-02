@@ -26,7 +26,7 @@ Board.prototype.get_pixel_coordinate = function(point)
 {
 	var xdelta = [16, 0]; // [x,y] pixel shift for each tile x shift.
 	var ydelta = [-8, 12]; // [x,y] pixel shift for each tile y shift.
-	var origin = [offset[0] - ydelta[0] * this.size, offset[1] + ydelta[1] / 2 ];
+	var origin = [this.offset[0] - ydelta[0] * this.size, this.offset[1] + ydelta[1] / 2 ];
 	return [ origin[0] + point[0] * xdelta[0] + point[1] * ydelta[0],
 			 origin[1] + point[0] * xdelta[1] + point[1] * ydelta[1] ];
 };
@@ -123,6 +123,7 @@ Board.prototype.health_count = function(green_hp, red_hp)
  */
 Board.prototype.update = function()
 {
+	console.log("board updated");
 	// TODO: Spawn food?
 	
 	for (this.index = 0; this.index < this.entities.length; this.index++)
