@@ -72,6 +72,8 @@ Menu.prototype.draw_challengesmenu = function(gl)
 	this.draw_button(true, '2', 0, 480/2, gl);
 	this.draw_button(true, '3', 0, 480/2+70, gl);
 	this.draw_button(true, '4', 0, 480/2+140, gl);
+	gl.draw_sprite(this.spr_back, 0, 0, 480-(this.spr_back.frame_height));
+	gl.draw_sprite(this.spr_home, 0, 40, 480-(this.spr_home.frame_height));
 };
 
 Menu.prototype.draw_skirmishmenu = function(gl)

@@ -110,7 +110,6 @@ Game.prototype.checkButton = function(screen, x, y)
 			}
 			else if(this.state === 'Skirmish'){
 				this.state = 'InEditor';
-				alert("Go to editor");
 			}
 		}
 		//Second button is pressed
@@ -135,7 +134,7 @@ Game.prototype.checkButton = function(screen, x, y)
 		{
 			isChanged = true;
 			if(this.state == 'Start'){
-				this.state = 'Manual';
+				alert("Go to manual");
 			}
 			else if(this.state === 'Challenges'){
 				alert("Go to challenge 3");
@@ -147,7 +146,9 @@ Game.prototype.checkButton = function(screen, x, y)
 			isChanged = true;
 			if(this.state == 'Start'){
 				this.state = 'InEditor';
-				alert("Go to editor");
+			}
+			else if(this.state === 'Challenges'){
+				alert("Go to challenge 4");
 			}
 		}
 	}
@@ -159,14 +160,28 @@ Game.prototype.checkButton = function(screen, x, y)
 
 Game.prototype.update = function()
 {
-	if(this.state == 'none') {
-		m = new menu(activeb, inactiveb, tile, back, home, this.gl);
-		state = 'Start';
-		m.draw_startmenu();
-	}
+	this.menu.draw_background(this.gl);
 	
-	if(this.state == 'Start') {
+	if(this.state === 'Start'){
+		this.menu.draw_startmenu(this.gl);
+	}
+	else if(this.state === 'Singleplayer') {
+		this.menu.draw_singleplayermenu(this.gl);
+	}
+	else if(this.state === 'Multiplayer'){
 		
+	}
+	else if(this.state === 'Challenges') {
+		this.menu.draw_challengesmenu(this.gl);
+	}
+	else if(this.state === 'Skirmish'){
+		this.menu.draw_skirmishmenu(this.gl);
+	}
+	else if(this.state === 'InEditor'){
+		alert("Go to editor");
+	}
+	else if(this.state === '1' || this.state === '2' || this.state === '3' || this.state === '4'){
+		alert("Go to challenge " + this.state);
 	}
 	
 	this.board.update();
