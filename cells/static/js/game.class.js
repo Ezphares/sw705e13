@@ -67,12 +67,14 @@ Game.prototype.init = function()
 			m.draw_startmenu();
 		}
 		
-		/*setInterval(function()
+		var game = this;
+		setInterval(function()
 		{
+			this.update();
 			//b.update();
 			//b.draw(gl);
-			m.draw(gl);
-		}, 1000);*/
+			//m.draw(gl);
+		}, 1000);
 	});
 };
 
@@ -112,3 +114,24 @@ Game.prototype.checkButton = function(screen, x, y)
 	}
 };
 
+
+Game.prototype.doMouseDown = function(event)
+{
+	B = document.body;
+	H = document.documentElement;
+	width = Math.max( B.scrollWidth, B.offsetWidth, H.clientWidth, H.scrollWidth, H.offsetWidth);
+	offset_x = Math.ceil((width-640)/2);
+	offset_y = 50;
+	
+	canvas_x = event.pageX-offset_x;
+	canvas_y = event.pageY-offset_y;
+	gl.checkButton('Start', canvas_x, canvas_y);
+};
+
+Game.prototype.update = function()
+{
+	if(this.state) {
+		return 0;
+	}
+	b.update();
+};
