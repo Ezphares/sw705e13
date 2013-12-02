@@ -174,7 +174,6 @@ Game.prototype.checkButton = function(screen, x, y)
 
 Game.prototype.update = function()
 {
-	console.log("I have updated");
 	// Menu relevant code
 	if(this.state === 'Start'){
 		this.menu.draw_startmenu(this.gl);
@@ -194,7 +193,7 @@ Game.prototype.update = function()
 	
 	// TODO: *** TEMPORARY CODE TO TEST THE BOARD - WHEN EDITOR IS IMPLEMENTED THIS HAS TO BE CHANGED TO DRAW THAT INSTEAD OF THE BOARD ***
 	else if(this.state === 'InEditor'){
-		alert("Go to editor");
+		this.board.draw(this.gl);
 	}
 	
 	
