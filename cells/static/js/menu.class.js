@@ -79,5 +79,3 @@ Menu.prototype.draw_skirmishmenu = function(gl)
 	gl.draw_sprite(this.spr_back, 0, 0, 480-(this.spr_back.frame_height));
 	gl.draw_sprite(this.spr_home, 0, 40, 480-(this.spr_home.frame_height));
 };
-
-
