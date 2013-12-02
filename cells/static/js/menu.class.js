@@ -13,6 +13,7 @@ Menu = function(active, inactive, tile, back, home)
 	this.spr_home = home;
 	this.spr_active_button = active;
 	this.spr_inactive_button = inactive;
+	this.state = 'Start';
 };
 
 Menu.prototype.get_pixel_coordinate = function(point)
@@ -29,7 +30,6 @@ Menu.prototype.draw = function(gl)
 {	
 	this.draw_background(gl);
 	this.draw_startmenu(gl);
-
 };
 
 Menu.prototype.draw_background = function(gl){
