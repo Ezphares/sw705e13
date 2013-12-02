@@ -68,12 +68,14 @@ Game.prototype.init = function()
 			m.draw_startmenu(gl);
 		}
 		
-		/*setInterval(function()
+		var game = this;
+		setInterval(function()
 		{
+			this.update();
 			//b.update();
 			//b.draw(gl);
-			m.draw(gl);
-		}, 1000);*/
+			//m.draw(gl);
+		}, 1000);
 	});
 };
 
@@ -110,3 +112,11 @@ Game.prototype.doMouseDown = function(event)
 	canvas_y = event.pageY-offset_y;
 	gl.checkButton('Start', canvas_x, canvas_y);
 };
+
+Game.prototype.update = function()
+{
+	if(this.state) {
+		return 0;
+	}
+	b.update();
+}
