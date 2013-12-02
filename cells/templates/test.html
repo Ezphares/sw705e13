@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="{{ STATIC_URL }}js/food.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/program.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/menu.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/game.class.js"></script>
 		<style>
 		*
 		{
@@ -44,7 +45,9 @@
 		<canvas id="text-render"></canvas>
 		
 		<script type="text/javascript">
-		gl = new IfyGL({
+		g = new Game;
+		g.init();
+		/*gl = new IfyGL({
 			canvas: 'game',
 			texturepath: 'static/img/',
 			shaderpath: 'static/shaders/',
@@ -103,7 +106,7 @@
 				//b.draw(gl);
 				m.draw(gl);
 			}, 1000);
-		});
+		});*/
 		
 		</script>
 	</body>

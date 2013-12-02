@@ -103,8 +103,6 @@ IfyGL.prototype.checkButton = function(screen, x, y)
 	{
 		alert("X="+x+" Y="+y);
 	}
-	
-	
 };
 
 /**
