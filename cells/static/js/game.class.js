@@ -197,7 +197,4 @@ Game.prototype.update = function()
 	else if(this.state === 'InEditor'){
 		this.board.draw(this.gl);
 	}
-	
-	
-	
 };

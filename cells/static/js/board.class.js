@@ -57,13 +57,14 @@ Board.prototype.draw = function(gl)
 		this.entities[i].draw(this, gl);
 	}
 	
-	
-	// ~~~~~~~~~~~~~~Healthbar Below~~~~~~~~~~~~~~~
-	// TODO: Test igen når spillet slutter når cellerne rammer 0 hp
+
 
 	
+	// ~~~~~~~~~~~~~~Healthbar Below~~~~~~~~~~~~~~~
+	// TODO: Test igen når spillet slutter når cellerne rammer 0 hp	
+	
 	var cell_green_hp = 0;
-	var cell_red_hp = 0; // testing purposes - I do not know yet which cell is red or green.
+	var cell_red_hp = 0;
 	var count = 0; // Contains number of times green has to be drawn relative to red.
 	
 	for(var i = 0; i < this.entities.length; i++) {
