@@ -69,10 +69,17 @@ Game.prototype.init = function()
 		
 		setInterval(function()
 		{
-			if(game.state == 'InEditor'){
+			if(game.board.isDone()){
+				this.state = 'Done';
+				game.board.draw(gl);
+			}	
+			else if(game.state == 'InEditor'){
+				console.log("#FriendlyCells: " + game.board.get_friendly_cells());
+				game.board.draw(gl);
 				game.board.update();
+				
 			}
-		}, 1000);
+		}, 2000);
 	});
 };
 

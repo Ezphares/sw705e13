@@ -53,7 +53,7 @@ Cell.prototype.update = function(board)
 			
 			if (board.is_inside(target))
 			{
-				var child = new Cell(target, Math.floor(this.energy / 2), this.sprite, this.program);
+				var child = new Cell(target, Math.floor(this.energy / 2), this.sprite, this.program, this.playertype);
 				board.add_entity(child);
 				child.battle(board);
 			}

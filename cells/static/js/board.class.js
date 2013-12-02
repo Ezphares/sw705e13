@@ -185,3 +185,37 @@ Board.prototype.remove_entity = function(entity)
 			this.index--;
 	}
 };
+
+Board.prototype.get_friendly_cells = function()
+{
+	var j = 0;
+	for(var i = 0; i < this.entities.length; i++) {
+		if(this.entities[i].type == 'cell' && this.entities[i].playertype == 1) {
+			j++;
+		}
+	}
+	return j;
+};
+
+Board.prototype.isDone = function()
+{
+	var friends = 0;
+	var enemies = 0;
+	
+	for(var i = 0; i < this.entities.length; i++) {
+		if(this.entities[i].type == 'cell' && this.entities[i].playertype == 1) {
+			friends++;
+		}
+		else if(this.entities[i].type == 'cell' && this.entities[i].playertype == 2) {
+			enemies++;
+		}
+	}
+	
+	//Anders' kode
+	if(enemies == 0 || friends == 0){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
