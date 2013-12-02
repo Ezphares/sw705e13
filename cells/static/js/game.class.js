@@ -70,6 +70,7 @@ Game.prototype.init = function()
 		setInterval(function()
 		{
 			if(game.state == 'InEditor'){
+				game.board.draw(gl);
 				game.board.update();
 			}
 		}, 1000);
