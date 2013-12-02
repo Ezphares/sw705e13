@@ -9,7 +9,7 @@ Game = function()
 		width: 640,
 		height: 480
 	});
-	this.state = 'Non';
+	this.state = 'None';
 };
 
 Game.prototype.init = function()
