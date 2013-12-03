@@ -26,13 +26,8 @@
 			margin: 50px auto;
 			width: 640px;
 		}
-		
-		canvas
-		{
-			border-width: 1px;
-			border-style: solid;
-		}
-		body {background-color:#fff0f5;}
+
+		body {background-color:#333333;}
 		
 		#text-render
 		{
@@ -41,7 +36,7 @@
 		</style>
 	</head>
 	<body>
-		<div id="wrapper" >
+		<div id="wrapper" style="border-width: 1px; border-style: solid;">
 			<canvas id="game"></canvas>
 		</div>
 		<canvas id="text-render"></canvas>
@@ -50,7 +45,6 @@
 		
 		g = new Game();
 		g.init();
-		
 		
 		</script>
 	</body>

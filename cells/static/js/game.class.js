@@ -14,6 +14,10 @@ Game = function()
 	this.board = null;
 };
 
+var mouseX;
+var mouseY;
+var draggable = false;
+
 Game.prototype.init = function()
 {
 	var game = this;
@@ -24,6 +28,16 @@ Game.prototype.init = function()
 	canvas.addEventListener('mousedown', function(event)
 	{
 		game.doMouseDown(event);
+	}, false);
+
+	canvas.addEventListener('mouseup', function()
+	{
+		game.doMouseUp(event);
+	}, false);
+
+	canvas.addEventListener('mousemove', function(event)
+	{
+		game.doMouseMove(event);
 	}, false);
 	
 	var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
@@ -82,6 +96,16 @@ Game.prototype.init = function()
 	});
 };
 
+Game.prototype.doMouseMove = function(event)
+{
+	if (draggable)
+	{
+		mouseX = event.pageX - offset_x;
+ 		mouseY = event.pageY - offset_y;
+ 	}
+ 	console.log("x:", mouseX, "y:", mouseY, "draggable:", draggable)
+}
+
 Game.prototype.doMouseDown = function(event)
 {
 	B = document.body;
@@ -90,11 +114,19 @@ Game.prototype.doMouseDown = function(event)
 	offset_x = Math.ceil((width-640)/2);
 	offset_y = 50;
 	
-	canvas_x = event.pageX-offset_x;
-	canvas_y = event.pageY-offset_y;
+	canvas_x = event.pageX - offset_x;
+	canvas_y = event.pageY - offset_y;
+	draggable = true;
 	
 	this.checkButton(this.state, canvas_x, canvas_y);
+	this.onmousemove = this.doMouseMove(event);
 };
+
+Game.prototype.doMouseUp = function()
+{
+	console.log("mouseUp")
+	draggable = false;
+}
 
 Game.prototype.checkButton = function(screen, x, y)
 {
