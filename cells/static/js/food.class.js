@@ -26,7 +26,7 @@ Food.prototype.update = function(board)
 {
 	this.energy--;
 	
-	if (this.energy === 0 || !board.is_inside(this.position))
+	if (this.energy === 0 || !board.grid.is_inside(this.position))
 	{
 		board.remove_entity(this);
 	}
@@ -43,7 +43,7 @@ Food.prototype.update = function(board)
  */
 Food.prototype.draw = function(board, gl)
 {
-	var draw_pos = board.get_pixel_coordinate(this.position);
+	var draw_pos = board.grid.get_pixel_coordinate(this.position);
 
 	gl.draw_sprite(this.sprite, this.frame++, draw_pos[0], draw_pos[1]);
 };
