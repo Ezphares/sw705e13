@@ -2,6 +2,7 @@
 
 <html>
 	<head>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/helpers.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/hexhelper.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/ifygl.class.js"></script>
@@ -21,6 +22,7 @@
 		
 		#wrapper
 		{
+			position: relative;
 			margin: 50px auto;
 			width: 640px;
 		}
@@ -32,22 +34,33 @@
 		}
 		body {background-color:#fff0f5;}
 		
+		#form
+		{
+			position: absolute;
+			z-index: -100;
+			left: 420px;
+			top: 40px;
+			width: 200px;
+			height: 400px;
+		}
+		
 		#text-render
 		{
 			display: none;
 		}
-		</style>
 	</head>
+		</style>
 	<body>
 		<div id="wrapper" >
 			<canvas id="game"></canvas>
+			<div id="form"></div>
 		</div>
 		<canvas id="text-render"></canvas>
 		
 		<script type="text/javascript">
 		g = new Game;
 		g.init();
-		/*gl = new IfyGL({
+		gl = new IfyGL({
 			canvas: 'game',
 			texturepath: 'static/img/',
 			shaderpath: 'static/shaders/',
@@ -56,7 +69,7 @@
 		});
 		
 		gl.init();
-		
+		/*
 		var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 							 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 							 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
