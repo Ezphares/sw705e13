@@ -29,4 +29,17 @@ An alternative to the Client-Server model is the Peer-to-Peer model. The Peer-to
 
 One of the positive aspects of this model is, that it drastically reduces the cost that a Client-Server based system has to keep servers running by avoiding the server completely. However, the Peer-to-Peer model also has some negative features. One of these features is that because most of the peers in a Peer-to-peer system are PC's, they may not always be available, and thus if no or few people are playing the game, it becomes difficult to play at all. Another negative feature is that the prevention of cheating becomes more difficult, since it is possible to have player clients run each others programs, but modified clients can still take over the system and corrupt the results.\newline
 
-\subsubsection{Model View Controller}\todo{See \url{http://professor.unisinos.br/wp/crespo/files/2011/07/00950428.pdf}}
+\subsubsection{Model-View-Controller}\todo{See \url{http://professor.unisinos.br/wp/crespo/files/2011/07/00950428.pdf}}
+The Model-View-Controller design pattern separates the representation of information from a user's interaction with it. MVC is often used in web applications and consists of three separate parts, model, view, and controller. Due to the separation of data and user input, it is possible to have multiple different views for the same data. An example could be that the boss of a company should be able to access a list of all employees with their salaries, where the secretary should only have access to the list of employees without salaries. An overview of the MVC workflow can be seen on \autoref{fig:mvc}.\\
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{img/mvc.png}
+\caption{Overview of the MVC workflow.}
+\label{fig:mvc}
+\end{figure}
+
+\textbf{Model:} contains the logic, which is usually designed in such a way that it can be reused and be shared with other applications. The model ignores how user requests are issued and how data is represented to the user.\\
+
+\textbf{View:} handles the representation of data for the end users. It is possible for an application to have multiple different views for use in various situations. The view ignores the form of user requests and the source of the data.\\
+
+\textbf{Controller:} manages user interactions and instanciates the model and view based on performed actions, user rights and the like. The controller ignores the logic of the model and the presentation of the view.
