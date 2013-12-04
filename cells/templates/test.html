@@ -10,8 +10,8 @@
 		<script type="text/javascript" src="{{ STATIC_URL }}js/board.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/cell.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/food.class.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}js/program.class.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}js/hexgrid.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/program.class.js"></script> 
+		<!-- <script type="text/javascript" src="{{ STATIC_URL }}js/hexgrid.class.js"></script> -->
 		<script type="text/javascript" src="{{ STATIC_URL }}js/menu.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/game.class.js"></script>
 		<style>
@@ -27,13 +27,8 @@
 			margin: 50px auto;
 			width: 640px;
 		}
-		
-		canvas
-		{
-			border-width: 1px;
-			border-style: solid;
-		}
-		body {background-color:#fff0f5;}
+
+		body {background-color:#333333;}
 		
 		#form
 		{
@@ -52,14 +47,14 @@
 	</head>
 		</style>
 	<body>
-		<div id="wrapper" >
+		<div id="wrapper" style="border-width: 1px; border-style: solid;">
 			<canvas id="game"></canvas>
 			<div id="form"></div>
 		</div>
 		<canvas id="text-render"></canvas>
 		
 		<script type="text/javascript">
-		/*
+		
 		g = new Game();
 		g.init();
 		gl = new IfyGL({
@@ -69,9 +64,8 @@
 			width: 640,
 			height: 480
 		});
-		
-		gl.init();
 		/*
+		gl.init();
 		var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 							 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 							 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},

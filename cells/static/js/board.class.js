@@ -11,24 +11,10 @@ Board = function(size, spr_tile)
 	this.size = size;
 	this.spr_tile = spr_tile;
 	this.entities = [];
-	this.offset = [0, 120];
+	
+	this.gird = new HexGrid([16, 16], 8, size, [0, 120], 'horizontal')
 	
 	this.index = 0; // For avoiding race conditions on entity removal
-};
-
-/**
- * Gets the pixel x and y for a given tile on the Board
- *
- * @param {array} point A 2-length array with the tile x and y coordinates.
- * @return {array} A 2-length array with the pixel x and y coordinates.
- */
-Board.prototype.get_pixel_coordinate = function(point)
-{
-	var xdelta = [16, 0]; // [x,y] pixel shift for each tile x shift.
-	var ydelta = [-8, 12]; // [x,y] pixel shift for each tile y shift.
-	var origin = [this.offset[0] - ydelta[0] * this.size, this.offset[1] + ydelta[1] / 2 ];
-	return [ origin[0] + point[0] * xdelta[0] + point[1] * ydelta[0],
-			 origin[1] + point[0] * xdelta[1] + point[1] * ydelta[1] ];
 };
 
 /**
@@ -43,9 +29,9 @@ Board.prototype.draw = function(gl)
 	{
 		for (var j = 0; j < this.size * 2 / 1; j++)
 		{
-			if (this.is_inside([i,j]))
+			if (this.grid.is_inside([i,j]))
 			{
-				var draw_pos = this.get_pixel_coordinate([i, j]);
+				var draw_pos = this.grid.get_pixel_coordinate([i, j]);
 				gl.draw_sprite(this.spr_tile, 0, draw_pos[0], draw_pos[1]);
 			}
 		}
@@ -126,29 +112,6 @@ Board.prototype.update = function()
 	{
 		this.entities[this.index].update(this);
 	}
-};
-
-/**
- * Checks if a tile is inside the board bounds.
- *
- * @param {array} point A 2-length array with the tile x and y coordinates.
- * @return {bool} true if the tile is inside the board, false otherwise.
- */
-Board.prototype.is_inside = function(point)
-{
-	if (point[0] < 0 || point[1] < 0
-	  || point[0] >= (this.size * 2) - 1
-	  || point[1] >= (this.size * 2) - 1)
-	{
-		return false;
-	}
-	
-	if (point[0] - point[1] > this.size - 1 || point[1] - point[0] > this.size - 1)
-	{
-		return false;
-	}
-	
-	return true;
 };
 
 /**
