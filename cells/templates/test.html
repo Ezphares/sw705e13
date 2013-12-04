@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="{{ STATIC_URL }}js/cell.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/food.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/program.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/hexgrid.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/menu.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/game.class.js"></script>
 		<style>
@@ -58,7 +59,8 @@
 		<canvas id="text-render"></canvas>
 		
 		<script type="text/javascript">
-		g = new Game;
+		/*
+		g = new Game();
 		g.init();
 		gl = new IfyGL({
 			canvas: 'game',
@@ -119,8 +121,7 @@
 				//b.draw(gl);
 				m.draw(gl);
 			}, 1000);
-		});*/
-		
+		});*/		
 		</script>
 	</body>
 </html>

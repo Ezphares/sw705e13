@@ -53,7 +53,7 @@ Cell.prototype.update = function(board)
 			
 			if (board.is_inside(target))
 			{
-				var child = new Cell(target, Math.floor(this.energy / 2), this.sprite, this.program);
+				var child = new Cell(target, Math.floor(this.energy / 2), this.sprite, this.program, this.playertype);
 				board.add_entity(child);
 				child.battle(board);
 			}
@@ -121,7 +121,7 @@ Cell.prototype.draw = function(board, gl)
 {
 	var draw_pos = board.get_pixel_coordinate(this.position);
 	
-	gl.draw_sprite(this.sprite, this.frame++, draw_pos[0], 120+draw_pos[1]);
+	gl.draw_sprite(this.sprite, this.frame++, draw_pos[0], draw_pos[1]);
 };
 /**
  * Executes the cells program to determine an action for the cell to take

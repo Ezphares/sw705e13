@@ -45,7 +45,7 @@ Food.prototype.draw = function(board, gl)
 {
 	var draw_pos = board.get_pixel_coordinate(this.position);
 
-	gl.draw_sprite(this.sprite, this.frame++, draw_pos[0], 120+draw_pos[1]);
+	gl.draw_sprite(this.sprite, this.frame++, draw_pos[0], draw_pos[1]);
 };
 
 Food.sprite = null;
