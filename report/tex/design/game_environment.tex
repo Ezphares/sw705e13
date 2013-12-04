@@ -1,6 +1,6 @@
 \section{Programming the Cell}\todo{Expand}
 
-Programming the cell is an essential part of the game. This is where the user will learn basic construct in the imperative paradigm by using them to program the initial cell and all future copies of that cell.\\
+Programming the cell is an essential part of the game. This is where the user will learn basic construct in the imperative paradigm by using them to program the initial cell and all future copies of that cell.\newline
 
 The game begins with the player programming the initial cell in a drag-and-drop block interface similar to that of Carnage Heart.
 The player can add, declare variables, for-loops, conditional statements, and standard action functions with parameters, see \autoref{sec:designingBehaviorCells}.
@@ -11,65 +11,3 @@ For this to work, the colors will have to be dynamic and evaluation of construct
 If the colors are not update regularly, a construct might be flagged as red/wrong, the user corrects it, so that the construct is valid, but the construct is still flagged as red/wrong.
 In general terms, it is important that the user cannot make too many construct mistakes.
 Otherwise, the game is in danger of becoming a debugging game, when it should be a game about creating the most optimized and best algorithm/cell.
-
-%%%%%%%%%%%%%%%%% BEFORE %%%%%%%%%%%%%%%%%
-
-
-%\section{Game Environment}
-%\label{sec:game_environment}
-
-%Given our purpose for the game, it is important that the game is accessible to the user.
-%This means, that the user intuitively knows have the game is supposed to work, and how success within the game can be achieved.
-%The challenge will then be to create a game, which manages to educate, while maintaining engaging gameplay for the user.
-%Many ideas to do this is described in the analysis part of this report.
-%The following sections will describe the initial design ideas, and how a solution that achieves this could look in the early stages of the design phase.
-
-%\subsection{Gameplay}
-
-%The game is intended to be a competitive \textit{'who-has-the-best-algorithm-to-solve-a-problem-on-a playing-field'} type of game.
-%This competitive aspects is one of the essential human desires described in \autoref{sec:gamification}.
-%The player will initially be in charge of a single organic cell with the ability to consume red blood cells or enemy infecting cells.
-%The red blood cells contain oxygen, which works as a nutrient to the cell, and consuming enemy cells will also work as a nutrient, but only if the enemy cell is smaller than the players cell.
-%These red blood cells are placed on the playing field, see \autoref{subsec:playingfield}, and consuming them will allow the initial cell to grow larger/gain health, and evolve.
-%Evolution can be implemented by either allowing player to modify their cells while the game is played by editing their code or by splitting the cell up into two cells.
-%The game is finished, when all enemy cells has been consumed.\newline
-
-%Before the cells are released onto the playing field, the player will program either cells in a block structure similar to that of Carnage Heart and Kodu Game Lab.
-%In this block structure, the player will have multiple actions to implement, that is available to the initial cell and all future evolutions of that cell.
-%These standard actions include:\newline
-
-
-%\verb|Move(x:steps, y:direction)| is an action that moves the cell $x$ steps in $y$ direction.
-%Steps can only be positive integers, and might be limited by an ability or health of the cells that performs the move action.
-%Since the playing field consist of multiple hexagonal tiles, each cell can move in six directions.
-%Direction is an enum type that can have the values (TopRight, TopLeft, BottomRight, BottomLeft, Left or Right).\todo{check later}\newline
-
-%\verb|Consume()| is a function that, if the cell is standing on a tile containing a red blood cell, will make the cell consume the red blood cell and use the oxygen in that cells to grow.
-%The amount of oxygen in each red blood may vary and increases over time.
-%Consume() also consumes an opponent cell, if the opponent is smaller than the players cell.\newline
-
-%\verb|Attack(y:direction)| attacks the tile in the y direction. If this tile contain an enemy cell with less health than the attacking cell, then the attacking cell will consume the enemy cells health and move to that the tile, that the enemy was standing on. If the enemy has greater health than the attacking cell, the attacking cell will be consumed completely by the enemy.\newline
-
-%\verb|Split(a:health, y:direction)| splits the cell into two cells in the $y$ direction, where the new cell get $'a$ amount of health from the splitting cell and is place on the tile in the $y$ direction from the splitting cell.
-%$'a$ is restricted by the health of the splitting cell, since all cells must have a minimum health of $1$.
-%If a cell is on the edge of the playing field, it is possible to split so the new cell is placed outside the playing field, which will result in the death of the newly created cell.
-
-%\section{Programming the Cell}\todo{Expand}
-
-%The game begins with the player programming the initial cell in a drag-and-drop block interface similar to that of Carnage Heart.
-%The player can add declare variables, for-loops, conditional statements, and standard action functions with parameters.
-%Programming the cell should not be the cause of frustration due to the occurrence of peculiar programming-oriented errors, which the player will have to deal with.
-%For this reason, it is important that the interface provides the user with feedback which gives a clear understanding of when the user has combined a string of legal or illegal programming constructs.
-%This can be done by implementing a basic green is okay, red is bad, color schema, that allow the user to immediately identify good code and code that includes one or more errors.
-%For this to work, the colors will have to be dynamic and evaluation of constructs in the program must be done on a regular basis to keep given the player useful information. 
-%In general terms, it is important that the user cannot make too many construct mistakes.
-%Otherwise the game is in danger of becoming a debugging game, when it should be a game about creating the most optimized and best algorithm/cell.
-
-%\subsection{Playing Field}
-%\label{subsec:playingfield}
-%The playing field is the map on which the players cell play against either AI cells or other player cells.
-%It is a 2D environment, which is split up into hexagonal tiles making the playing field a grid.
-%Splitting the map into tiles will make it easier for the player to solve common problems such as is a given cell within attacking range of an enemy cell, or is a given cell standing next-to a red blood cell or some other item of interest.
-%Using tiles instead of the free 2D environment limits the freedom each player has in terms of places to move, since cells cannot move freely in the 2D environment (a complete 360 degrees) or make exactly the decision they may want to make. 
-%Hexagonal tiles was a compromise between a free 2D environment and square tiles, that would allow players to move in four direction.
-%Hexagonal tiles is used in the blockbuster game title Civilization 5, which is a strategy game, that is similar to many board games.\todo{Find eventuelt den talk Sid Meier afholder omkring Hexagons i CIV 5 og hvorfor det er superr duperr}
