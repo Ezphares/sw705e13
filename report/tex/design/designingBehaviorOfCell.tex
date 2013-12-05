@@ -1,13 +1,13 @@
 \section{Designing the Behavior of Cells}
 \label{sec:designingBehaviorCells}
 
-The behavior of each cell is defined by the player, since it is his/her job to program the behavior\todo{ref to designing of programming interface selection}.
+The behavior of each cell is defined by the player, since it is his/her job to program the behavior \todo{ref to designing of programming interface selection}.
 However, this section will focus on the standard actions that all cells can perform and how they work.
 We will also discuss other possible implementations of attributes for cells, that might include strength, speed, and vision.
 
 \subsection{Standard Actions}
 
-%The player will initially be in charge of a single organic cell with the ability to consume red blood cells\todo{We use stars instead of red blood cells} or enemy infecting cells.
+%The player will initially be in charge of a single organic cell with the ability to consume red blood cells or enemy infecting cells.
 The player will initially be in charge of a single organic cell with the ability to consume stars\todo{We use stars instead of red blood cells} or enemy infecting cells.
 This is done automatically if a cell moves to a tile where either a star or enemy is placed.
 %The red blood cells contain oxygen, which works as a nutrient to the cell, and consuming enemy cells will also work as a nutrient, but only if the enemy cell is smaller than the players cell.
@@ -17,7 +17,7 @@ These stars are placed on the playing field, see \autoref{sec:designing_playing_
 Evolution can be implemented by either allowing players to modify their cells while the game is played by editing their code or by splitting the cell up into two cells.
 The game is finished, when one side does not have any more cells left on the board.\newline
 
-When the cells are on the board, they use energy for every turn, so a cell with an energy level of $100$ would have an energy level of $99$ after one turn on the board regardless of the action that cell has done. The same is true for the stars, which will also decrease in energy level over time.\todo{I can not explain why this is done, but maybe someone else can\newline
+When the cells are on the board, they use energy for every turn, so a cell with an energy level of $100$ would have an energy level of $99$ after one turn on the board regardless of the action that cell has done. The same is true for the stars, which will also decrease in energy level over time.\todo{I can not explain why this is done, but maybe someone else can}\newline
 
 Before the cells are released onto the playing field, the player will program the initial cell in a block structure similar to that of 'Carnage Heart' and 'Kodu Game Lab'.
 In this block structure, the player will have multiple actions to implement, that is available to the initial cell and all future evolutions of that cell.
