@@ -1,10 +1,31 @@
 \section{Implementing the Menu}
 \label{sec:imp_menu}
 
-Points to include:
+The menu is a minor part of the overall game, so not much time will be used to explain the implementation. However, it is essential for navigating to specific options in the game. This section will cover how we calculate the (x,y)-pixel, detect button clicks and navigate around the different menu screens.
 
-\begin{itemize}
-	\item Calculating the correct coordinate based on the size of the window
-	\item Detecting button click
-	\item Navigating around the different screens
-\end{itemize}
+\subsection{Calculating Coordinates}
+
+Before we can detect a button click, it is necessary that we modify the (x,y)-coordinate provided when clicking on the canvas. To do this, we use the original (x,y)-coordinate and subtract an offset, that is based on the size of the window the game is played in. This makes it possible to interact with the menu if the window in not full screen.
+
+The offset for the y-coordinate is easy, since this does not change with the size of the window. It is always set to $50px$, which is subtracted from \verb|event.pageY| and put into the variable \verb|canvas_y|.\newline
+
+The offset for the x-coordinate is a little more difficult. The calculation is shown below:
+
+\begin{verbatim}
+	B = document.body;
+	H = document.documentElement;
+	width = Math.max( B.scrollWidth, B.offsetWidth, H.clientWidth, H.scrollWidth, H.offsetWidth);
+	offset_x = Math.ceil((width-document.getElementById(this.gl.canvas).width)/2);
+	offset_y = 50;
+	canvas_x = event.pageX - offset_x;
+	canvas_y = event.pageY - offset_y;
+\end{verbatim}
+ 
+Line $3$ finds the max width of the window and stores it in \verb|width|. In line $4$ the offset is set to the width of the document subtracted by the width of the canvas (\verb|document.getElementById(this.gl.canvas).width|), which is retrieved dynamically, and since the canvas is centered, we divide by 2. We take the ceiling of the result to get a round number and \verb|canvas_x| is then set to the $x$-coordinate minus the offset in line 6.
+
+\subsection{Detecting Buttons}
+
+
+
+\subsection{Navigating the Menu}
+
