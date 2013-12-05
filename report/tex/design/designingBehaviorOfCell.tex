@@ -1,41 +1,40 @@
 \section{Designing the Behavior of Cells}
 \label{sec:designingBehaviorCells}
-The behavior of each cell is defined by the player, since it is his/her job to program the behavior\todo{ref to designing of programming interface selection}. However, this section will focus on the standard actions that all cells can perform and how they work. We will also discuss other possible implementations of attributes for cells, that might include strength, speed, and vision.
+
+The behavior of each cell is defined by the player, since it is his/her job to program the behavior\todo{ref to designing of programming interface selection}.
+However, this section will focus on the standard actions that all cells can perform and how they work.
+We will also discuss other possible implementations of attributes for cells, that might include strength, speed, and vision.
 
 \subsection{Standard Actions}
 
-The player will initially be in charge of a single organic cell with the ability to consume red blood cells or enemy infecting cells.
-The red blood cells contain oxygen, which works as a nutrient to the cell, and consuming enemy cells will also work as a nutrient, but only if the enemy cell is smaller than the players cell.
-These red blood cells are placed on the playing field, see \autoref{sec:designing_playing_field}, and consuming them will allow the initial cell to grow larger/gain health, and evolve.
+%The player will initially be in charge of a single organic cell with the ability to consume red blood cells\todo{We use stars instead of red blood cells} or enemy infecting cells.
+The player will initially be in charge of a single organic cell with the ability to consume stars\todo{We use stars instead of red blood cells} or enemy infecting cells.
+This is done automatically if a cell moves to a tile where either a star or enemy is placed.
+%The red blood cells contain oxygen, which works as a nutrient to the cell, and consuming enemy cells will also work as a nutrient, but only if the enemy cell is smaller than the players cell.
+The stars contain energy, which works as a nutrient to the cell, and consuming enemy cells will also work as a nutrient, but only if the energy of the enemy cell is smaller than the energy of the players cell.
+%These red blood cells are placed on the playing field, see \autoref{sec:designing_playing_field}, and consuming them will allow the initial cell to grow larger/gain health, and evolve.
+These stars are placed on the playing field, see \autoref{sec:designing_playing_field}, and consuming them will allow the initial cell to grow larger/gain energy, and evolve.
 Evolution can be implemented by either allowing players to modify their cells while the game is played by editing their code or by splitting the cell up into two cells.
-The game is finished, when all enemy cells have been consumed.\newline
+The game is finished, when one side does not have any more cells left on the board.\newline
 
-Before the cells are released onto the playing field, the player will program the initial cell in a block structure similar to that of Carnage Heart and Kodu Game Lab.
+When the cells are on the board, they use energy for every turn, so a cell with an energy level of $100$ would have an energy level of $99$ after one turn on the board regardless of the action that cell has done. The same is true for the stars, which will also decrease in energy level over time.\todo{I can not explain why this is done, but maybe someone else can\newline
+
+Before the cells are released onto the playing field, the player will program the initial cell in a block structure similar to that of 'Carnage Heart' and 'Kodu Game Lab'.
 In this block structure, the player will have multiple actions to implement, that is available to the initial cell and all future evolutions of that cell.
 These standard actions include:\newline
 
 \verb|Move(x:steps, y:direction)| is an action that moves the cell $x$ steps in $y$ direction.
-Steps can only be positive integers, and might be limited by an ability or health of the cells that performs the move action.
+Steps can only be positive integers, and might be limited by an ability or the energy of the cells that performs the move action.
 Since the playing field consist of multiple hexagonal tiles, each cell can move in six directions.
-Direction is an enum type that can have the values (TopRight, TopLeft, BottomRight, BottomLeft, Left or Right).\todo{check later}\newline
+Direction is an enum type, that can have the values (TopRight, TopLeft, BottomRight, BottomLeft, Left or Right).\todo{check later}\newline
 
-\verb|Look(x:lookingFor, y:direction, z:trigger)| \newline 
+\verb|Look(x:lookingFor, y:direction, z:trigger)|\newline 
 
-\verb|Consume()| is a function that, if the cell is standing on a tile containing a red blood cell or a smaller enemy cell, will make the cell consume the cell and either use the oxygen in the red blood cell or the energy in the opponent cell to grow.
-The amount of oxygen in each red blood may vary and increases over time.\newline
+%\verb|Consume()| is a function that, if the cell is standing on a tile containing a red blood cell or a smaller enemy cell, will make the cell consume the cell and either use the oxygen in the red blood cell or the energy in the opponent cell to grow.
+%The amount of oxygen in each red blood may vary and increases over time.\newline
 
 %\verb|Attack(y:direction)| attacks the tile in the y direction. If this tile contain an enemy cell with less health than the attacking cell, then the attacking cell will consume the enemy cells health and move to that the tile, that the enemy was standing on. If the enemy has greater health than the attacking cell, the attacking cell will be consumed completely by the enemy.\newline
 
-\verb|Split(a:health, y:direction)| splits the cell into two cells in the $y$ direction, where the new cell get $'a$ amount of health from the splitting cell and is place on the tile in the $y$ direction from the splitting cell.
-$'a$ is restricted by the health of the splitting cell, since all cells must have a minimum health of $1$.
+\verb|Split(a:energy, y:direction)| splits the cell into two cells in the $y$ direction, where the new cell get $a$ amount of energy from the splitting cell and is place on the tile in the $y$ direction from the splitting cell.
+$a$ is restricted by the energy of the splitting cell, since all cells must have a minimum energy level of $1$.
 If a cell is on the edge of the playing field, it is possible to split so the new cell is placed outside the playing field, which will result in the death of the newly created cell.
-
-\subsection{Additional Cell Attributes}
-\todo{Move to reflection section.}
-It is possible to extend the game by given the cells attributes. One implementation option would be, that the player have $x$ amount of points in the beginning of the game. These points could then be distributed unto different attributes. These could include:\\
-
-\verb|Speed|, which would affect the amount of movement actions each cell could perform each turn.\\
-\verb|Vision|, which would affect how far away the cell could look and maybe how accurate the cell would observe cells in the distance.\\
-\verb|Strength|, which could be an additional parameter when attacking. The attacking power would then be equal to the health/energy of the cell plus some modifier of the strength of that cell.\\
-
-We did not think, that it would make sense to include a health attribute, since a health attribute for example would limit how much health each cell could contain, which we do not find to be a good approach. However, we have not user tested this theory, and we might be incorrect in our assumption, that all player would invest heavily in the health attribute not focus on the others
