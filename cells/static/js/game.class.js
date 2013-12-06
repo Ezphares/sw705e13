@@ -1,4 +1,3 @@
-
 Game = function()
 {
 	// Default parameters:
@@ -21,8 +20,7 @@ var draggable = false;
 Game.prototype.init = function()
 {
 	var game = this;
-	var gl = this.gl; //Used because of call back
-	var canvas = document.getElementById('game');
+	var canvas = document.getElementById(this.gl.canvas);
 	this.gl.init();
 	
 	canvas.addEventListener('mousedown', function(event)
@@ -79,17 +77,17 @@ Game.prototype.init = function()
 		game.board.add_entity(c);
 		game.board.add_entity(r);
 		
-		game.menu.draw_startmenu(gl);
+		game.menu.draw_startmenu(game.gl);
 		
 		setInterval(function()
 		{
 			if(game.board.isDone() && game.state != 'Done'){
 				game.state = 'Done';
-				game.board.draw(gl);
+				game.board.draw(game.gl);
 			}	
 			else if(game.state == 'InEditor'){
 				console.log("#FriendlyCells: " + game.board.get_friendly_cells());
-				game.board.draw(gl);
+				game.board.draw(game.gl);
 				game.board.update();
 			}
 		}, 1000);
@@ -111,7 +109,7 @@ Game.prototype.doMouseDown = function(event)
 	B = document.body;
 	H = document.documentElement;
 	width = Math.max( B.scrollWidth, B.offsetWidth, H.clientWidth, H.scrollWidth, H.offsetWidth);
-	offset_x = Math.ceil((width-640)/2);
+	offset_x = Math.ceil((width-this.gl.width)/2);
 	offset_y = 50;
 	
 	canvas_x = event.pageX - offset_x;
@@ -134,7 +132,7 @@ Game.prototype.checkButton = function(screen, x, y)
 	if(x <= this.gl.width/2+128 && x >= this.gl.width/2-128)
 	{
 		//First button is pressed
-		if(y >= 480/2-70-32 && y <= 480/2-70+32)
+		if(y >= this.gl.height/2-70-32 && y <= this.gl.height/2-70+32)
 		{
 			isChanged = true;
 			if(this.state == 'Start'){
@@ -151,7 +149,7 @@ Game.prototype.checkButton = function(screen, x, y)
 			}
 		}
 		//Second button is pressed
-		else if(y >= 480/2-32 && y <= 480/2+32)
+		else if(y >= this.gl.height/2-32 && y <= this.gl.height/2+32)
 		{
 			isChanged = true;
 			if(this.state == 'Start'){
@@ -168,7 +166,7 @@ Game.prototype.checkButton = function(screen, x, y)
 			}
 		}
 		//Third button is pressed
-		else if(y >= 480/2+70-32 && y <= 480/2+70+32)
+		else if(y >= this.gl.height/2+70-32 && y <= this.gl.height/2+70+32)
 		{
 			isChanged = true;
 			if(this.state == 'Start'){
@@ -179,7 +177,7 @@ Game.prototype.checkButton = function(screen, x, y)
 			}
 		}
 		//Fourth button is pressed
-		else if(y >= 480/2+140-32 && y <= 480/2+140+32)
+		else if(y >= this.gl.height/2+140-32 && y <= this.gl.height/2+140+32)
 		{
 			isChanged = true;
 			if(this.state == 'Start'){
@@ -190,7 +188,7 @@ Game.prototype.checkButton = function(screen, x, y)
 			}
 		}
 	}
-	else if(x >= 0 && x <= 32 && y <= document.getElementById(this.gl.canvas).height && y >= document.getElementById(this.gl.canvas).height-32){
+	else if(x >= 0 && x <= 32 && y <= this.gl.height && y >= this.gl.height-32){
 		if(this.state == 'Singleplayer' || this.state == 'Multiplayer'){
 			isChanged = true;
 			this.state = 'Start';
@@ -200,7 +198,7 @@ Game.prototype.checkButton = function(screen, x, y)
 			this.state = 'Singleplayer';
 		}
 	}
-	else if(x > 40 && x <= 70 && y <= document.getElementById(this.gl.canvas).height && y >= document.getElementById(this.gl.canvas).height-32){
+	else if(x > 40 && x <= 70 && y <= this.gl.height && y >= this.gl.height-32){
 		if(this.state != 'Start' && this.state != 'InEditor' && this.state != 'InGame'){
 			isChanged = true;
 			this.state = 'Start';
