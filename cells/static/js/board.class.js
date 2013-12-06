@@ -12,7 +12,7 @@ Board = function(size, spr_tile)
 	this.spr_tile = spr_tile;
 	this.entities = [];
 	
-	this.gird = new HexGrid([16, 16], 8, size, [0, 120], 'horizontal')
+	this.grid = new HexGrid([16, 16], 8, size, [0, 120], 'horizontal')
 	
 	this.index = 0; // For avoiding race conditions on entity removal
 };

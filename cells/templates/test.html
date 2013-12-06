@@ -2,9 +2,11 @@
 
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css"/>
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/helpers.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/hexhelper.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/hexgrid.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/ifygl.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/sprite.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/board.class.js"></script>
@@ -14,6 +16,7 @@
 		<!-- <script type="text/javascript" src="{{ STATIC_URL }}js/hexgrid.class.js"></script> -->
 		<script type="text/javascript" src="{{ STATIC_URL }}js/menu.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/game.class.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/formmanager.class.js"></script>
 		<style>
 		*
 		{
@@ -29,17 +32,7 @@
 		}
 
 		body {background-color:#333333;}
-		
-		#form
-		{
-			position: absolute;
-			z-index: -100;
-			left: 420px;
-			top: 40px;
-			width: 200px;
-			height: 400px;
-		}
-		
+			
 		#text-render
 		{
 			display: none;
@@ -49,7 +42,14 @@
 	<body>
 		<div id="wrapper" style="border-width: 1px; border-style: solid;">
 			<canvas id="game"></canvas>
-			<div id="form"></div>
+			<div id="form">
+				<div id="instruction"></div>
+				<div id="direction">
+					<span id="direction-header"> Set direction of next command </span>
+					<img id="direction-graphics" src="{{ STATIC_URL }}img/instruction_direction.png"/>
+					<div id="overlay"></div>
+				</div>
+			</div>
 		</div>
 		<canvas id="text-render"></canvas>
 		
