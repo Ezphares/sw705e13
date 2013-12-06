@@ -116,7 +116,10 @@ Game.prototype.doMouseDown = function(event)
 	canvas_y = event.pageY - offset_y;
 	draggable = true;
 	
-	this.checkButton(this.state, canvas_x, canvas_y);
+	if(this.menu.isButtonHit(this.state, canvas_x, canvas_y, this.gl)){
+		this.update();
+	}
+	
 	this.onmousemove = this.doMouseMove(event);
 };
 
@@ -126,111 +129,27 @@ Game.prototype.doMouseUp = function()
 	draggable = false;
 }
 
-Game.prototype.checkButton = function(screen, x, y)
-{
-	var isChanged = false;
-	if(x <= this.gl.width/2+128 && x >= this.gl.width/2-128)
-	{
-		//First button is pressed
-		if(y >= this.gl.height/2-70-32 && y <= this.gl.height/2-70+32)
-		{
-			isChanged = true;
-			if(this.state == 'Start'){
-				this.state = 'Singleplayer';
-			}
-			else if(this.state === 'Singleplayer'){
-				this.state = 'Challenges';
-			}
-			else if(this.state === 'Challenges'){
-				alert("Go to challenge 1");
-			}
-			else if(this.state === 'Skirmish'){
-				this.state = 'InEditor';
-			}
-		}
-		//Second button is pressed
-		else if(y >= this.gl.height/2-32 && y <= this.gl.height/2+32)
-		{
-			isChanged = true;
-			if(this.state == 'Start'){
-				alert("Multiplayer is not yet implemented");
-			}
-			else if(this.state === 'Singleplayer'){
-				this.state = 'Skirmish';
-			}
-			else if(this.state === 'Challenges'){
-				alert("Go to challenge 2");
-			}
-			else if(this.state === 'Skirmish'){
-				alert("Go to import screen");
-			}
-		}
-		//Third button is pressed
-		else if(y >= this.gl.height/2+70-32 && y <= this.gl.height/2+70+32)
-		{
-			isChanged = true;
-			if(this.state == 'Start'){
-				alert("Go to manual");
-			}
-			else if(this.state === 'Challenges'){
-				alert("Go to challenge 3");
-			}
-		}
-		//Fourth button is pressed
-		else if(y >= this.gl.height/2+140-32 && y <= this.gl.height/2+140+32)
-		{
-			isChanged = true;
-			if(this.state == 'Start'){
-				this.state = 'InEditor';
-			}
-			else if(this.state === 'Challenges'){
-				alert("Go to challenge 4");
-			}
-		}
-	}
-	else if(x >= 0 && x <= 32 && y <= this.gl.height && y >= this.gl.height-32){
-		if(this.state == 'Singleplayer' || this.state == 'Multiplayer'){
-			isChanged = true;
-			this.state = 'Start';
-		}
-		else if(this.state === 'Challenges' || this.state === 'Skirmish'){
-			isChanged = true;
-			this.state = 'Singleplayer';
-		}
-	}
-	else if(x > 40 && x <= 70 && y <= this.gl.height && y >= this.gl.height-32){
-		if(this.state != 'Start' && this.state != 'InEditor' && this.state != 'InGame'){
-			isChanged = true;
-			this.state = 'Start';
-		}
-	}
-	
-	if(isChanged){
-		this.update();
-	}
-};
-
 Game.prototype.update = function()
 {
 	// Menu relevant code
-	if(this.state === 'Start'){
+	if(this.menu.state === 'Start'){
 		this.menu.draw_startmenu(this.gl);
 	}
-	else if(this.state === 'Singleplayer') {
+	else if(this.menu.state === 'Singleplayer') {
 		this.menu.draw_singleplayermenu(this.gl);
 	}
-	else if(this.state === 'Multiplayer'){
+	else if(this.menu.state === 'Multiplayer'){
 		alert("Multiplayer not yet implemented");
 	}
-	else if(this.state === 'Challenges') {
+	else if(this.menu.state === 'Challenges') {
 		this.menu.draw_challengesmenu(this.gl);
 	}
-	else if(this.state === 'Skirmish'){
+	else if(this.menu.state === 'Skirmish'){
 		this.menu.draw_skirmishmenu(this.gl);
 	}
 	
 	// TODO: *** TEMPORARY CODE TO TEST THE BOARD - WHEN EDITOR IS IMPLEMENTED THIS HAS TO BE CHANGED TO DRAW THAT INSTEAD OF THE BOARD ***
-	else if(this.state === 'InEditor'){
+	else if(this.menu.state === 'InEditor'){
 		this.board.draw(this.gl);
 	}
 };

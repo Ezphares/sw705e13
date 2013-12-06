@@ -13,6 +13,7 @@ Menu = function(active, inactive, tile, back, home)
 	this.spr_home = home;
 	this.spr_active_button = active;
 	this.spr_inactive_button = inactive;
+	this.state;
 };
 
 Menu.prototype.draw_button = function(active, text, x, y, gl)
@@ -78,4 +79,88 @@ Menu.prototype.draw_skirmishmenu = function(gl)
 	this.draw_button(true, 'Import', 0, 480/2, gl);
 	gl.draw_sprite(this.spr_back, 0, 0, 480-(this.spr_back.frame_height));
 	gl.draw_sprite(this.spr_home, 0, 40, 480-(this.spr_home.frame_height));
+};
+
+Menu.prototype.isButtonHit = function(screen, x, y, gl)
+{
+	var isChanged = false;
+	if(x <= gl.width/2+128 && x >= gl.width/2-128)
+	{
+		//First button is pressed
+		if(y >= gl.height/2-70-32 && y <= gl.height/2-70+32)
+		{
+			isChanged = true;
+			if(screen == 'Start'){
+				this.state = 'Singleplayer';
+			}
+			else if(screen === 'Singleplayer'){
+				this.state = 'Challenges';
+			}
+			else if(screen === 'Challenges'){
+				alert("Go to challenge 1");
+			}
+			else if(screen === 'Skirmish'){
+				this.state = 'InEditor';
+			}
+		}
+		//Second button is pressed
+		else if(y >= gl.height/2-32 && y <= gl.height/2+32)
+		{
+			isChanged = true;
+			if(screen == 'Start'){
+				alert("Multiplayer is not yet implemented");
+			}
+			else if(screen === 'Singleplayer'){
+				this.state = 'Skirmish';
+			}
+			else if(screen === 'Challenges'){
+				alert("Go to challenge 2");
+			}
+			else if(screen === 'Skirmish'){
+				alert("Go to import screen");
+			}
+		}
+		//Third button is pressed
+		else if(y >= gl.height/2+70-32 && y <= gl.height/2+70+32)
+		{
+			isChanged = true;
+			if(screen == 'Start'){
+				alert("Go to manual");
+			}
+			else if(screen === 'Challenges'){
+				alert("Go to challenge 3");
+			}
+		}
+		//Fourth button is pressed
+		else if(y >= gl.height/2+140-32 && y <= gl.height/2+140+32)
+		{
+			isChanged = true;
+			if(screen == 'Start'){
+				this.state = 'InEditor';
+			}
+			else if(screen === 'Challenges'){
+				alert("Go to challenge 4");
+			}
+		}
+	}
+	else if(x >= 0 && x <= 32 && y <= gl.height && y >= gl.height-32)
+	{
+		if(screen == 'Singleplayer' || screen == 'Multiplayer'){
+			isChanged = true;
+			this.state = 'Start';
+		}
+		else if(screen === 'Challenges' || screen === 'Skirmish'){
+			isChanged = true;
+			this.state = 'Singleplayer';
+		}
+	}
+	else if(x > 40 && x <= 70 && y <= gl.height && y >= gl.height-32)
+	{
+		if(screen != 'Start' && screen != 'InEditor' && screen != 'InGame'){
+			isChanged = true;
+			this.state = 'Start';
+		}
+	}
+	
+	return isChanged;
 };
