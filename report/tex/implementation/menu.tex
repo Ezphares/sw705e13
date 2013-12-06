@@ -1,17 +1,17 @@
 \section{Implementing the Menu}
 \label{sec:imp_menu}
 
-The menu is a minor part of the overall game, so not much time will be used to explain the implementation. However, it is essential for navigating to specific options in the game. This section will cover how we calculate the (x,y)-pixel, detect button clicks and navigate around the different menu screens.
+The menu is a minor part of the overall game, so not much time will be used to explain the implementation. However, it is essential for navigating to specific options in the game. This section will cover how we calculate the (x,y) pixel and detect button clicks on the menu screens.
 
 \subsection{Calculating Coordinates}
 
-Before we can detect a button click, it is necessary that we modify the (x,y)-coordinate provided when clicking on the canvas. To do this, we use the original (x,y)-coordinate and subtract an offset, that is based on the size of the window the game is played in. This makes it possible to interact with the menu if the window in not full screen.
+Before we can detect a button click, it is necessary that we modify the (x,y) coordinate provided when clicking on the canvas. To do this, we use the original (x,y) coordinate and subtract an offset, that is based on the size of the window the game is played in. This makes it possible to interact with the menu if the window in not full screen.
 
-The offset for the y-coordinate is easy, since this does not change with the size of the window. It is always set to $50px$, which is subtracted from \verb|event.pageY| and put into the variable \verb|canvas_y|.\newline
+The offset for the $y$-coordinate is easy, since this does not change with the size of the window. It is always set to $50px$, which is subtracted from \verb|event.pageY| and put into the variable \verb|canvas_y|.\newline
 
 The offset for the x-coordinate is a little more difficult. The calculation is shown below:
 
-\begin{verbatim}
+\begin{lstlisting}[language=JavaScript, caption=doMouseDown(event)]
 	B = document.body;
 	H = document.documentElement;
 	width = Math.max( B.scrollWidth, B.offsetWidth, H.clientWidth, H.scrollWidth, H.offsetWidth);
@@ -19,13 +19,34 @@ The offset for the x-coordinate is a little more difficult. The calculation is s
 	offset_y = 50;
 	canvas_x = event.pageX - offset_x;
 	canvas_y = event.pageY - offset_y;
-\end{verbatim}
+\end{lstlisting}
  
-Line $3$ finds the max width of the window and stores it in \verb|width|. In line $4$ the offset is set to the width of the document subtracted by the width of the canvas (\verb|document.getElementById(this.gl.canvas).width|), which is retrieved dynamically, and since the canvas is centered, we divide by 2. We take the ceiling of the result to get a round number and \verb|canvas_x| is then set to the $x$-coordinate minus the offset in line 6.
+Line $3$ finds the max width of the window and stores it in \verb|width|. In line $4$ the offset is set to the width of the document subtracted by the width of the canvas (\verb|document.getElementById(this.gl.canvas).width|), which is retrieved dynamically, and since the canvas is centered, we divide by 2. We take the ceiling of the result to get a round number and \verb|canvas_x| is then set to the $x$-coordinate minus the offset in line $6$.
 
 \subsection{Detecting Buttons}
 
+Button clicks are defined as mouse events. To detect mouse events, a listener must be added to an element, which in this case is the canvas element, as seen below.
 
+\begin{lstlisting}[language=JavaScript, caption=Add event listener to canvas]
+canvas.addEventListener('mousedown', function(event)
+	{
+		game.doMouseDown(event);
+	}, false);
+\end{lstlisting}
 
-\subsection{Navigating the Menu}
+In this case, when the \verb|mousedown| event is triggered, the function\\
+\verb|doMousedown(event)| is called. \verb|doMouseDown()| first calculates the (x,y) coordinate with offsets as describe in the previous subsection, and then calls the function \verb|checkButton(x, y)|, which is responsible for setting the new state of the game after a button is pressed. The state of the game is saved in the variable \verb|state|, which is a \verb|String|. There are two chekcs; one for the $x$-coordinate and one for the $y$. These checks depend on the size of the canvas and buttons. Below is shown the checks condition for the $x$-coordinate:
 
+\begin{lstlisting}[language=JavaScript, caption=x condition check for menu buttons]
+if(x <= this.gl.width/2+128 && x >= this.gl.width/2-128){...}
+\end{lstlisting}
+
+\verb|this.gl.width| is the size of the canvas. To get the center, we divide by 2. Lastly we add and subtract $128$, which is half the width of the button. A similar operation is done to the $y$-coordinate:
+
+\begin{lstlisting}[language=JavaScript, caption=y condition check for menu buttons]
+if(y >= this.gl.height/2-70-32 && y <= this.gl.height/2-70+32){...}
+\end{lstlisting}
+
+Here we focus on the height of the canvas and the height of the button. Since the height of the button is $64px$, we add and subtract $32$ respectively. In this case, we are looking at the $y$ condition for button $1$, since we also subtract $70$. The center of button $1$ is place $70px$ from the center of the canvas, button $2$ is place in the center of the canvas, button $3$ is placed $70px$ below button $2$, and button $4$ is place $140px$ below button $2$.\\
+
+Just like the menu buttons, there also exist a back button and a home button, that work with similar boundary conditions, however we will not discuss this further. It should simply be noted, that the back button sets the state to the previous state and the home button sets the state as \verb|'Start'|, which is the home screen.
