@@ -116,7 +116,7 @@ Game.prototype.doMouseDown = function(event)
 	canvas_y = event.pageY - offset_y;
 	draggable = true;
 	
-	if(this.menu.isButtonHit(this.state, canvas_x, canvas_y, this.gl)){
+	if(this.menu.isButtonHit(canvas_x, canvas_y, this.gl)){
 		this.update();
 	}
 	
