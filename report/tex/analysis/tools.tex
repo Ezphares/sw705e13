@@ -12,8 +12,9 @@ Another focus, given the scope of the project, is that the game should exist sol
 \subsection{HTML5, Canvas and WebGL}
 HTML5 is the latest standard for implementing web-pages, and the current recommendation from \ac{w3c}.\cite{html513}
 It includes several useful APIs for implementing multimedia, specifically the canvas element, which provides an area, where graphics can be drawn.
-HTML5 games will be written in \texttt{JavaScript}, which is interpreted by the browser, and as such is available on most computer systems.\newline
+HTML5 games will be written in \texttt{JavaScript}, which is interpreted by the browser, and as such is available on most computer systems.\todo{From Martin: I know that its very unlikely, but what happens when JavaScript is disabled?}\newline
 
+The canvas is an element in the html that allows us to draw or import pictures, also known as sprites.\todo{Jeppe: Is this a correct understanding of the canvas element? Otherwise is there a better description and can we reference forward to our implementation section?}
 The canvas can be further improved using the WebGL extension, which allows for hardware accelerated graphics in the canvas.\cite{khronos13}
 This will eliminate much of the low performance, that can arise from software accelerated graphics.
 Additionally, WebGL is implemented by default in all modern browsers, including some mobile browsers, so most users will be able to play the game without downloading any additional software.
