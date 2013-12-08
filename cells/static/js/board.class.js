@@ -65,7 +65,7 @@ Board.prototype.draw = function(gl)
 	
 	//Checks if one of the cells are dead.
 	
-	if(cell_red_hp != 0 || cell_green_hp) {
+	if(cell_red_hp != 0 || cell_green_hp != 0) {
 		count = this.health_count(cell_green_hp, cell_red_hp) * 16; // Multiplied with the pixel offset of 16 for the healthbar (tells me how many times to draw a .png
 	
 		gl.draw_sprite(healthbar_green_start, 0, 0, 0);
