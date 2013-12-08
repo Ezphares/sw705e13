@@ -6,7 +6,7 @@ FormManager = function()
 $(function() 
 {
 	var f = new FormManager();
-	f.form_look();
+	f.form_if();
 	
 });
 
@@ -187,6 +187,46 @@ FormManager.prototype.form_look = function(json)
 	
 	var variable_direction = $('<div id="var-dir"></div>').append(this.form_selector('variable-dir', [{key: 'DIR1', value: '1'},{key: 'DIR2', value: '2'},{key: 'DIR3', value: '3'}])).hide().appendTo($('#instruction'));
 	variable_direction.css('height', '64px');
+	
+	var variables = $('<div></div>').appendTo($('#instruction')).css('margin', '15px');
+	
+	variables.append($('<div>Save entity to</div>'));
+	variables.append(this.form_selector('entity_var', [{key: 'ENT1', value: '1'}, {key: 'ENT2', value: '2'}, {key: 'ENT3', value: '3'}]));
+	variables.append($('<div>Save energy level to</div>'));
+	variables.append(this.form_selector('energy_var', [{key: 'NUM1', value: '1'}, {key: 'NUM2', value: '2'}, {key: 'NUM3', value: '3'}]));
+	
+	$('#action-choice').change(function(event)
+	{
+		if($(this).val() == 1)
+		{
+			set_direction.show();
+			variable_direction.hide();
+		}
+		else
+		{
+			set_direction.hide();
+			variable_direction.show();
+		}
+	});
+
+	this.program_direction_select($('#direction'), 'Set direction of next command');
+
+};
+
+FormManager.prototype.form_if = function(json)
+{
+	this.new_form();
+	
+	$('#instruction').append(this.form_header('static/img/editor_if_large.png', 'If')).append('<span>Test case type</span>').append(this.form_selector('action-choice', [{key: 'ENT variables', value: '1'},{key: 'NUM variables', value: '2'}, {key: 'DIR variables', value: '3'}]));
+	
+	var set_direction = $('<div></div>').appendTo($('#instruction')).css({position: 'relative', height: '64px', width: '100%'});
+	
+	var variable_direction = $('<div id="var-dir"></div>').append(this.form_selector('variable-dir', [{key: 'DIR1', value: '1'},{key: 'DIR2', value: '2'},{key: 'DIR3', value: '3'}])).hide().appendTo($('#instruction'));
+	var variable_entity = $('<div id="var-ent"></div>').append(this.form_selector('variable-dir', [{key: 'ENT1', value: '1'},{key: 'ENT2', value: '2'},{key: 'ENT3', value: '3'}])).hide().appendTo($('#instruction'));
+	var variable_number = $('<div id="var-num"></div>').append(this.form_selector('variable-dir', [{key: 'NUM1', value: '1'},{key: 'NUM2', value: '2'},{key: 'NUM3', value: '3'}])).hide().appendTo($('#instruction'));
+	variable_direction.css('height', '64px');
+	variable_entity.css('height', '64px');
+	variable_number.css('height', '64px');
 	
 	var variables = $('<div></div>').appendTo($('#instruction')).css('margin', '15px');
 	
