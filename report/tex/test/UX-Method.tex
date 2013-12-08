@@ -42,7 +42,31 @@ Cultural debugging is also part of this layer, to ensure that there are no cultu
 
 \section{Our Test-method}
 \label{sec:test_method}
-\todo{Nedenstaaende udfyldes som programmet bliver faerdigt og vi finder ud af, hvad vi kan}
+
+\subsection{Limitations}
+
+When we take into account the GX method, it is apparent to us, that there are things we cannot test for - it is simply out of scope, for a university 
+project of this magnitude. For example, testing of player context, it would only be viable for us to test, how well the game plays while on-the-move, 
+in terms of whether the lights and colors on the screen are clear enough, however hiring an expert in the field, to aid with cultural debugging, is out 
+of scope when the target group for this project does not imply cultural differences. With this in mind, it is clear that to test the player context, 
+the application needs to be mobile, which it is not at this stage.\todo{Vend tilbage naar spillet er faerdigt og dobbelttjek}
+
+
+In terms of evaluating the player, it is not possible for us, to set up a psycophysiological test, as that would demand access to hardware that we do 
+not currently posses. Finally, in terms of testing the system, given most of these tests are all software based, we are able to do all of them, so it is simply a matter of chosing which ones, we feel are the most relevant.
+
+\subsection{The Set-up}
+
+The test will be conducted by requesting a server from the University to host our game, which will then be accessible to the outside world, by simply visiting a website. Opening up the game to the entire world, ensures that we have a high chance of getting many people, to test our game which gives the test much more of a quantitative advantage, than necesserily a qualitative advantage. This will be taken into consideration, when we decide how to test the system, and make the player evaluation.
+
+\subsection{Testing the System}
+
+We have decided to employ \textbf{Unit Tests} to both check that the code works as intended, but the more code we are able to unit test, the more do we ensure a high code coverage on our tests, so it feels like a once-the-effort-twice-the-pay situation for us. Furthermore, we will use player logging on our system, to record what buttons the user presses, to get an idea of how clear the software is to use during a playthrough, whether they chose the direct-path through our game, or they have trouble figuring out, what to do.\todo{Vend tilbage hertil naar spillet er faerdigt og dobbelttjek argumentationen.}
+
+\subsection{Testing the Player}
+
+Given the aforementioned limitations, the only viable test mechanisms we can use for this sort of quantitative evaluation, are questionnaires and interviews (/feedback) which we harvest, from the users when they test our game. This decision is further backed up, by the way we wish to conduct the test. If we are able to have every person who tests the software fill out a questionnaire and give us feedback, there will be sufficient data to go through.
+
 \subsection{Questionnaire}
 
 \subsection{Results}
