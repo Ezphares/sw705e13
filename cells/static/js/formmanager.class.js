@@ -1,9 +1,13 @@
-FormManager = function(){};
+FormManager = function()
+{
+	this.form = $('#form');
+};
 
 $(function() 
 {
 	var f = new FormManager();
-	f.form_move();
+	f.form_look();
+	
 });
 
 FormManager.prototype.form_header = function(img, text)
@@ -17,6 +21,17 @@ FormManager.prototype.form_header = function(img, text)
 	
 }
 
+FormManager.prototype.clear = function()
+{
+	this.form.html('').hide();
+};
+
+FormManager.prototype.new_form = function()
+{
+	this.clear();
+	this.form.html('<div id="instruction"></div><div id="direction"></div>').show();
+};
+
 FormManager.prototype.form_selector = function(id, options)
 {
 	var selector = $('<select id="' + id + '"></select>');
@@ -29,115 +44,156 @@ FormManager.prototype.form_selector = function(id, options)
 	return selector;
 }
 
-FormManager.prototype.form_nop = function(json)
+FormManager.prototype.form_arrows = function(jqs, img)
 {
-	$('#instruction').append(this.direction_form_header('static/img/editor_empty_large.png', 'No operation'));
+	var img = $('<img class="direction-image" src="' + img + '"></img>');
+	jqs.append(img);
+	img.css({left: jqs.width()/2, top: jqs.height()/2, 'pointer-events': 'none'});
 	
-	var direction_form = $('#direction');
-	$('#direction-graphics').css({left: direction_form.width()/2, top: direction_form.height()/2});
+	return img;
+}
+
+FormManager.prototype.program_direction_select = function(jqs, text)
+{
+	var header = $('<span></span>').text(text).appendTo(jqs);
+	var graphics = $('<img src="static/img/instruction_direction.png"/>').appendTo(jqs).css({left: jqs.width()/2, top: jqs.height()/2, position: 'absolute', margin: '-32px 0 0 -32px'});
+	var manager = this;
+	var grid = new HexGrid([24, 24], 12, 2, [-4, 2], 'horizontal');
 	
-	grid = new HexGrid([24, 24], 12, 2, [-4, 2], 'horizontal');
-	
-	$('#direction-graphics').click(function(event)
+	var image = null;
+	graphics.click(function(event)
 	{
 		var offset = $(this).offset();
 		var position = [event.clientX - offset.left, event.clientY - offset.top];
 		var tile_position = grid.get_tile_position(position);
 		
-		if(tile_position[0] === 0 && tile_position[1] === 0)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_ul.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
+		var images = {
+			'[0,0]': 'static/img/selection_direction_ul.png',
+			'[1,0]': 'static/img/selection_direction_ur.png',
+			'[2,1]': 'static/img/selection_direction_r.png',
+			'[2,2]': 'static/img/selection_direction_dr.png',
+			'[1,2]': 'static/img/selection_direction_dl.png',
+			'[0,1]': 'static/img/selection_direction_l.png'
+		};
 		
-		if(tile_position[0] === 1 && tile_position[1] === 0)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_ur.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
+		if(image !== null)
+			image.remove();
+			
+		image = manager.form_arrows(jqs, images[JSON.stringify(tile_position)]);
+	});
+}
+
+FormManager.prototype.action_direction_select = function(jqs)
+{
+	var graphics = $('<img src="static/img/move_direction.png"/>').appendTo(jqs).css({left: jqs.width()/2, top: jqs.height()/2, position: 'absolute', margin: '-32px 0 0 -32px'});
+	var manager = this;
+	var grid = new HexGrid([24, 24], 12, 2, [-4, 2], 'horizontal');
+	
+	var image = null;
+	graphics.click(function(event)
+	{
+		var offset = $(this).offset();
+		var position = [event.clientX - offset.left, event.clientY - offset.top];
+		var tile_position = grid.get_tile_position(position);
 		
-		if(tile_position[0] === 2 && tile_position[1] === 1)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_r.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
+		var images = {
+			'[0,0]': 'static/img/move_dir_ul.png',
+			'[1,0]': 'static/img/move_dir_ur.png',
+			'[2,1]': 'static/img/move_dir_r.png',
+			'[2,2]': 'static/img/move_dir_dr.png',
+			'[1,2]': 'static/img/move_dir_dl.png',
+			'[0,1]': 'static/img/move_dir_l.png'
+		};
 		
-		if(tile_position[0] === 2 && tile_position[1] === 2)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_dr.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
+		if(image !== null)
+			image.remove();
+			
+		image = manager.form_arrows(jqs, images[JSON.stringify(tile_position)]);
+	});
+}
+
+FormManager.prototype.form_nop = function(json)
+{
+	this.new_form();
+	
+	$('#instruction').append(this.form_header('static/img/editor_empty_large.png', 'No operation'));
+	this.program_direction_select($('#direction'), 'Set position of next command');
+	
 		
-		if(tile_position[0] === 1 && tile_position[1] === 2)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_dl.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
-		
-		if(tile_position[0] === 0 && tile_position[1] === 1)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_l.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
-	});	
 };
 
 FormManager.prototype.form_move = function(json)
 {
+	this.new_form();
 	
 	$('#instruction').append(this.form_header('static/img/editor_move_large.png', 'Move action')).append(this.form_selector('action-choice', [{key: 'Set Direction', value: '1'},{key: 'From Variable', value: '2'}]));
-	
-	var set_direction = $('<div id="set-dir"><img id="move-direction" src="static/img/move_direction.png"/></div>');
-	set_direction.appendTo($('#instruction'));
-	$('#move-direction').css({left: $('#set-dir').width()/2, top: $('#set-dir').height()/2});
-	
-	set_dir_grid = new HexGrid([24, 24], 12, 2, [-4, 2], 'horizontal');
-	$('#move-direction').click(function(event)
-	{
-		var offset = $(this).offset();
-		var position = [event.clientX - offset.left, event.clientY - offset.top];
-		var tile_position = set_dir_grid.get_tile_position(position);
-		
-		if(tile_position[0] === 0 && tile_position[1] === 0)
-		{
-			set_direction.append('<img class="direction-image" src="static/img/move_dir_ul.png"></img>');
-			$('.direction-image').css({left: set_direction.width()/2, top: set_direction.height()/2});
-		}
-		
-		if(tile_position[0] === 1 && tile_position[1] === 0)
-		{
-			set_direction.append('<img class="direction-image" src="static/img/move_dir_ur.png"></img>');
-			$('.direction-image').css({left: set_direction.width()/2, top: set_direction.height()/2});
-		}
-		
-		if(tile_position[0] === 2 && tile_position[1] === 1)
-		{
-			set_direction.append('<img class="direction-image" src="static/img/move_dir_r.png"></img>');
-			$('.direction-image').css({left: set_direction.width()/2, top: set_direction.height()/2});
-		}
-		
-		if(tile_position[0] === 2 && tile_position[1] === 2)
-		{
-			set_direction.append('<img class="direction-image" src="static/img/move_dir_dr.png"></img>');
-			$('.direction-image').css({left: set_direction.width()/2, top: set_direction.height()/2});
-		}
-		
-		if(tile_position[0] === 1 && tile_position[1] === 2)
-		{
-			set_direction.append('<img class="direction-image" src="static/img/move_dir_dl.png"></img>');
-			$('.direction-image').css({left: set_direction.width()/2, top: set_direction.height()/2});
-		}
-		
-		if(tile_position[0] === 0 && tile_position[1] === 1)
-		{
-			set_direction.append('<img class="direction-image" src="static/img/move_dir_l.png"></img>');
-			$('.direction-image').css({left: set_direction.width()/2, top: set_direction.height()/2});
-		}
-	});	
-	
-	
+	var set_direction = $('<div></div>').appendTo($('#instruction')).css({position: 'relative', height: '64px', width: '100%'});
+	this.action_direction_select(set_direction);
 	
 	var variable_direction = $('<div id="var-dir"></div>').append(this.form_selector('variable-dir', [{key: 'DIR1', value: '1'},{key: 'DIR2', value: '2'},{key: 'DIR3', value: '3'}])).hide().appendTo($('#instruction'));
+	$('#action-choice').change(function(event)
+	{
+		if($(this).val() == 1)
+		{
+			set_direction.show();
+			variable_direction.hide();
+		}
+		else
+		{
+			set_direction.hide();
+			variable_direction.show();
+		}
+	});
+
+	this.program_direction_select($('#direction'), 'Set direction of next command');
+
+};
+
+FormManager.prototype.form_split = function(json)
+{
+	this.new_form();
+	
+	$('#instruction').append(this.form_header('static/img/editor_split_large.png', 'Split action')).append(this.form_selector('action-choice', [{key: 'Set Direction', value: '1'},{key: 'From Variable', value: '2'}]));
+	var set_direction = $('<div></div>').appendTo($('#instruction')).css({position: 'relative', height: '64px', width: '100%'});
+	this.action_direction_select(set_direction);
+	
+	var variable_direction = $('<div id="var-dir"></div>').append(this.form_selector('variable-dir', [{key: 'DIR1', value: '1'},{key: 'DIR2', value: '2'},{key: 'DIR3', value: '3'}])).hide().appendTo($('#instruction'));
+	$('#action-choice').change(function(event)
+	{
+		if($(this).val() == 1)
+		{
+			set_direction.show();
+			variable_direction.hide();
+		}
+		else
+		{
+			set_direction.hide();
+			variable_direction.show();
+		}
+	});
+
+	this.program_direction_select($('#direction'), 'Set direction of next command');
+
+};
+
+FormManager.prototype.form_look = function(json)
+{
+	this.new_form();
+	
+	$('#instruction').append(this.form_header('static/img/editor_look_large.png', 'Look')).append(this.form_selector('action-choice', [{key: 'Set Direction', value: '1'},{key: 'From Variable', value: '2'}]));
+	
+	var set_direction = $('<div></div>').appendTo($('#instruction')).css({position: 'relative', height: '64px', width: '100%'});
+	this.action_direction_select(set_direction);
+	
+	var variable_direction = $('<div id="var-dir"></div>').append(this.form_selector('variable-dir', [{key: 'DIR1', value: '1'},{key: 'DIR2', value: '2'},{key: 'DIR3', value: '3'}])).hide().appendTo($('#instruction'));
+	variable_direction.css('height', '64px');
+	
+	var variables = $('<div></div>').appendTo($('#instruction')).css('margin', '15px');
+	
+	variables.append($('<div>Save entity to</div>'));
+	variables.append(this.form_selector('entity_var', [{key: 'ENT1', value: '1'}, {key: 'ENT2', value: '2'}, {key: 'ENT3', value: '3'}]));
+	variables.append($('<div>Save energy level to</div>'));
+	variables.append(this.form_selector('energy_var', [{key: 'NUM1', value: '1'}, {key: 'NUM2', value: '2'}, {key: 'NUM3', value: '3'}]));
 	
 	$('#action-choice').change(function(event)
 	{
@@ -152,54 +208,7 @@ FormManager.prototype.form_move = function(json)
 			variable_direction.show();
 		}
 	});
-	
-	/*----------- INSTRUCTION DIRECTION --------------*/
-	var direction_form = $('#direction');
-	$('#direction-graphics').css({left: direction_form.width()/2, top: direction_form.height()/2});
-	
-	grid = new HexGrid([24, 24], 12, 2, [-4, 2], 'horizontal');
-	
-	$('#direction-graphics').click(function(event)
-	{
-		var offset = $(this).offset();
-		var position = [event.clientX - offset.left, event.clientY - offset.top];
-		var tile_position = grid.get_tile_position(position);
-		
-		if(tile_position[0] === 0 && tile_position[1] === 0)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_ul.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
-		
-		if(tile_position[0] === 1 && tile_position[1] === 0)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_ur.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
-		
-		if(tile_position[0] === 2 && tile_position[1] === 1)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_r.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
-		
-		if(tile_position[0] === 2 && tile_position[1] === 2)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_dr.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
-		
-		if(tile_position[0] === 1 && tile_position[1] === 2)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_dl.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
-		
-		if(tile_position[0] === 0 && tile_position[1] === 1)
-		{
-			direction_form.append('<img class="direction-image" src="static/img/selection_direction_l.png"></img>');
-			$('.direction-image').css({left: direction_form.width()/2, top: direction_form.height()/2});
-		}
-	});	
-};
 
+	this.program_direction_select($('#direction'), 'Set direction of next command');
+
+};
