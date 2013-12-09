@@ -38,8 +38,10 @@ IfyGL = function(params)
 	
 	this.p_source = null;
 	this.p_target = null;
+	this.p_stetch = null;
 	this.source = [0,0];
 	this.target = [0,0];
+	this.stretch = [0,0];
 };
 
 /**
@@ -70,9 +72,11 @@ IfyGL.prototype.init = function()
 	this.gl.disable(this.gl.DEPTH_TEST);
 	this.gl.pixelStorei(this.gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
 	
-	// Create destination (vertex) and source (texture) buffers
-	this.buffer_vertex = this.gl.createBuffer();
-	this.buffer_texture = this.gl.createBuffer();
+	// Create unit buffer for primitive draws
+	this.buffer_unit = this.gl.createBuffer();
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_unit);
+	this.gl.bufferData(this.gl.ARRAY_BUFFER, Sprite.make_rect(0, 0, 1, 1), this.gl.STATIC_DRAW);
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
 	
 	// Single texture setup
 	this.gl.activeTexture(this.gl.TEXTURE0);
@@ -126,6 +130,7 @@ IfyGL.prototype.init = function()
 	
 	this.p_source = this.gl.getUniformLocation(this.program, 'u_source');
 	this.p_target = this.gl.getUniformLocation(this.program, 'u_target');
+	this.p_stretch = this.gl.getUniformLocation(this.program, 'u_stretch');
  };
 
 /**
@@ -248,6 +253,7 @@ IfyGL.prototype.load_shader = function(name, type)
  {
 	this.gl.uniform2f(this.p_source, this.source[0], this.source[1]);
 	this.gl.uniform2f(this.p_target, this.target[0], this.target[1]);
+	this.gl.uniform2f(this.p_stretch, this.stretch[0], this.stretch[1]);
  }
  
 /**
@@ -267,6 +273,7 @@ IfyGL.prototype.load_shader = function(name, type)
 
 	this.source = sprite.get_frame(frame);
 	this.target = [x, y];
+	this.stretch = [1, 1]; // No stretch.
 	this.bind_uniforms();
  
 	// Set up the position vertex buffer, and pass it to the vertex shader
@@ -277,7 +284,7 @@ IfyGL.prototype.load_shader = function(name, type)
 	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, sprite.source);
 	this.gl.vertexAttribPointer(this.p_texture, 2, this.gl.FLOAT, false, 0, 0);
 	
-	// Set up texture sampler
+	// Activate the texture
 	this.gl.bindTexture(this.gl.TEXTURE_2D, sprite.texture);
 	
 	// Draw the sprite
@@ -295,7 +302,7 @@ IfyGL.prototype.load_shader = function(name, type)
  * @param {number} bottom The y-coordinate of the bottom pixels of the destination
  * @see Sprite
  */ 
- IfyGL.prototype.draw_sprite_strecthed = function(sprite, frame, left, top, right, bottom)
+ IfyGL.prototype.draw_sprite_stretched = function(sprite, frame, left, top, right, bottom)
  {
 	// Rounding coordinates
 	left = Math.round(left);
@@ -303,24 +310,21 @@ IfyGL.prototype.load_shader = function(name, type)
 	right = Math.round(right);
 	bottom = Math.round(bottom);
  
+	this.source = sprite.get_frame(frame);
+	this.target = [left, top];
+	this.stretch = [right - left, bottom - top]; // Use stretch to create the position
+	this.bind_uniforms();
  
-	// Set up the position vertex buffer, and pass it to the vertex shader
-	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_vertex);
-	this.gl.bufferData(this.gl.ARRAY_BUFFER, this.make_rect(left, top, right, bottom), this.gl.STATIC_DRAW);
+	// Set up the unit buffer for positions
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_unit);
 	this.gl.vertexAttribPointer(this.p_position, 2, this.gl.FLOAT, false, 0, 0);
 	
-	// Ditto for the texture coordinate buffer
-	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_texture);
-	var texcoord = sprite.get_frame(frame);
-	this.gl.bufferData(this.gl.ARRAY_BUFFER, this.make_rect(texcoord[0], texcoord[1], texcoord[2], texcoord[3]), this.gl.STATIC_DRAW);
+	// Texture coordinate buffer
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, sprite.source);
 	this.gl.vertexAttribPointer(this.p_texture, 2, this.gl.FLOAT, false, 0, 0);
 	
-	// Set up texture sampler
-	//TODO:
-	// Some of this might not have to be done every time. Investigate.
-	this.gl.activeTexture(this.gl.TEXTURE0);
+	// Activate the texture
 	this.gl.bindTexture(this.gl.TEXTURE_2D, sprite.texture);
-	this.gl.uniform1i(this.gl.getUniformLocation(this.program, 'u_sampler'), 0);
 	
 	// Draw the sprite
 	this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
@@ -344,6 +348,7 @@ IfyGL.prototype.load_shader = function(name, type)
 	
 	// Create text
 	var data = helpers.create_text(this.gl, text, color, size, align);
+	// TODO: Cache this.
 	
 	var xoffset = 0;
 	if (align === 'center')
@@ -351,24 +356,20 @@ IfyGL.prototype.load_shader = function(name, type)
 	else if (align === 'right')
 		xoffset = -data.width;
 	
-	
-	// Set up the position vertex buffer, and pass it to the vertex shader
-	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_vertex);
-	this.gl.bufferData(this.gl.ARRAY_BUFFER, this.make_rect(x + xoffset, y, x + data.width + xoffset, y + data.height), this.gl.STATIC_DRAW);
+	this.source = [0,0];
+	this.target = [x + xoffset, y];
+	this.stretch = [data.width, data.height];
+	this.bind_uniforms();
+ 
+	// Set up the unit buffer for positions
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_unit);
 	this.gl.vertexAttribPointer(this.p_position, 2, this.gl.FLOAT, false, 0, 0);
-	
-	// We want to draw the entire text
-	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_texture);
-	this.gl.bufferData(this.gl.ARRAY_BUFFER, this.make_rect(0, 0, 1, 1), this.gl.STATIC_DRAW);
+
+	// Unit buffer for texture as well. Eureka.
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_unit);
 	this.gl.vertexAttribPointer(this.p_texture, 2, this.gl.FLOAT, false, 0, 0);
 	
-	// Set up texture sampler
-	//TODO:
-	// Some of this might not have to be done every time. Investigate.
-	this.gl.activeTexture(this.gl.TEXTURE0);
 	this.gl.bindTexture(this.gl.TEXTURE_2D, data.texture);
-	this.gl.uniform1i(this.gl.getUniformLocation(this.program, 'u_sampler'), 0);
-	
 	
 	// Draw the text
 	this.gl.drawArrays(this.gl.TRIANGLES, 0, 6); 

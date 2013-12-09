@@ -27,11 +27,11 @@ Sprite = function(gl, texture, img, frame_width, frame_height, origin)
 	
 	this.source = gl.createBuffer();	
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.source);
-	gl.bufferData(gl.ARRAY_BUFFER, this.make_rect(fzero[0], fzero[1], fzero[2], fzero[3]), gl.STATIC_DRAW);
+	gl.bufferData(gl.ARRAY_BUFFER, Sprite.make_rect(fzero[0], fzero[1], fzero[2], fzero[3]), gl.STATIC_DRAW);
 	
 	this.target = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.target);
-	gl.bufferData(gl.ARRAY_BUFFER, this.make_rect(0 - origin[0], 0 - origin[1], frame_width - origin[0], frame_height - origin[1]), gl.STATIC_DRAW);
+	gl.bufferData(gl.ARRAY_BUFFER, Sprite.make_rect(0 - origin[0], 0 - origin[1], frame_width - origin[0], frame_height - origin[1]), gl.STATIC_DRAW);
 	
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 	
@@ -40,7 +40,7 @@ Sprite = function(gl, texture, img, frame_width, frame_height, origin)
 		throw 'Attempt to create a sprite without frames. Possibly frame width/height was set to a larger value than the image size';
 };
 
-Sprite.prototype.make_rect = function(left, top, right, bottom)
+Sprite.make_rect = function(left, top, right, bottom)
 {
 	return new Float32Array([
 	left, top,
