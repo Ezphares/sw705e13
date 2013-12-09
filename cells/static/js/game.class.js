@@ -81,11 +81,11 @@ Game.prototype.init = function()
 		
 		setInterval(function()
 		{
-			if(game.board.isDone() && game.state != 'Done'){
-				game.state = 'Done';
+			if(game.board.isDone() && game.menu.state != 'Done'){
+				game.menu.state = 'Done';
 				game.board.draw(game.gl);
 			}	
-			else if(game.state == 'InEditor'){
+			else if(game.menu.state == 'InEditor'){
 				console.log("#FriendlyCells: " + game.board.get_friendly_cells());
 				game.board.draw(game.gl);
 				game.board.update();
@@ -119,7 +119,6 @@ Game.prototype.doMouseDown = function(event)
 	if(this.menu.isButtonHit(canvas_x, canvas_y, this.gl)){
 		this.update();
 	}
-	console.log("Event: " + event);
 };
 
 Game.prototype.doMouseUp = function()
