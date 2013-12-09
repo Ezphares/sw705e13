@@ -119,8 +119,7 @@ Game.prototype.doMouseDown = function(event)
 	if(this.menu.isButtonHit(canvas_x, canvas_y, this.gl)){
 		this.update();
 	}
-	
-	this.onmousemove = this.doMouseMove(event);
+	console.log("Event: " + event);
 };
 
 Game.prototype.doMouseUp = function()
