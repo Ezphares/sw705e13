@@ -35,6 +35,11 @@ IfyGL = function(params)
 	/** @private */ this.p_resolution = null;	// Pointer to GPU resolution
 	/** @private */ this.p_position = null;		// Pointer to GPU draw destination
 	/** @private */ this.p_texture = null;		// Pointer to GPU draw source
+	
+	this.p_source = null;
+	this.p_target = null;
+	this.source = [0,0];
+	this.target = [0,0];
 };
 
 /**
@@ -68,6 +73,21 @@ IfyGL.prototype.init = function()
 	// Create destination (vertex) and source (texture) buffers
 	this.buffer_vertex = this.gl.createBuffer();
 	this.buffer_texture = this.gl.createBuffer();
+	
+	// Single texture setup
+	this.gl.activeTexture(this.gl.TEXTURE0);
+	this.gl.uniform1i(this.gl.getUniformLocation(this.program, 'u_sampler'), 0);
+	
+	// Frame Hack
+	window.requestAnimFrame = (function(){
+		return  window.requestAnimationFrame       ||
+				window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame    ||
+				function( callback )
+				{
+					window.setTimeout(callback, 1000 / 60);
+				};
+	})();
 };
 
 /**
@@ -103,6 +123,9 @@ IfyGL.prototype.init = function()
 	
 	this.p_texture = this.gl.getAttribLocation(this.program, 'a_texcoord');
 	this.gl.enableVertexAttribArray(this.p_texture);
+	
+	this.p_source = this.gl.getUniformLocation(this.program, 'u_source');
+	this.p_target = this.gl.getUniformLocation(this.program, 'u_target');
  };
 
 /**
@@ -148,6 +171,7 @@ IfyGL.prototype.load_shader = function(name, type)
  * @param {number} right The x-coordinate of right side of the rectangle
  * @param {number} bottom The y-coordinate of bottom of the rectangle
  * @return {Float32Array} The WebGL triangle-list
+ * @deprecated
  */
  IfyGL.prototype.make_rect = function(left, top, right, bottom)
  {
@@ -208,7 +232,7 @@ IfyGL.prototype.load_shader = function(name, type)
 				i.gl.bindTexture(i.gl.TEXTURE_2D, null);
 				
 				// Add the sprite to the result array
-				res.push(new Sprite(texture, img, sprites[len]['frame_width'], sprites[len]['frame_height'], sprites[len]['origin']));
+				res.push(new Sprite(gl, texture, img, sprites[len]['frame_width'], sprites[len]['frame_height'], sprites[len]['origin']));
 				
 				// Recursive call
 				i.load_sprites(sprites, callback, len + 1, res);
@@ -219,6 +243,12 @@ IfyGL.prototype.load_shader = function(name, type)
 		img.src = this.texturepath + sprites[len]['filename'];
 	}
  };
+ 
+ IfyGL.prototype.bind_uniforms = function()
+ {
+	this.gl.uniform2f(this.p_source, this.source[0], this.source[1]);
+	this.gl.uniform2f(this.p_target, this.target[0], this.target[1]);
+ }
  
 /**
  * Draws a sprite to the canvas
@@ -234,25 +264,21 @@ IfyGL.prototype.load_shader = function(name, type)
 	// Rounding coordinates
 	x = Math.round(x);
 	y = Math.round(y);
- 
+
+	this.source = sprite.get_frame(frame);
+	this.target = [x, y];
+	this.bind_uniforms();
  
 	// Set up the position vertex buffer, and pass it to the vertex shader
-	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_vertex);
-	this.gl.bufferData(this.gl.ARRAY_BUFFER, this.make_rect(x - sprite.origin[0], y - sprite.origin[1], x + sprite.frame_width - sprite.origin[0], y + sprite.frame_height - sprite.origin[1]), this.gl.STATIC_DRAW);
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, sprite.target);
 	this.gl.vertexAttribPointer(this.p_position, 2, this.gl.FLOAT, false, 0, 0);
 	
 	// Ditto for the texture coordinate buffer
-	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer_texture);
-	var texcoord = sprite.get_frame(frame);
-	this.gl.bufferData(this.gl.ARRAY_BUFFER, this.make_rect(texcoord[0], texcoord[1], texcoord[2], texcoord[3]), this.gl.STATIC_DRAW);
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, sprite.source);
 	this.gl.vertexAttribPointer(this.p_texture, 2, this.gl.FLOAT, false, 0, 0);
 	
 	// Set up texture sampler
-	//TODO:
-	// Some of this might not have to be done every time. Investigate.
-	this.gl.activeTexture(this.gl.TEXTURE0);
 	this.gl.bindTexture(this.gl.TEXTURE_2D, sprite.texture);
-	this.gl.uniform1i(this.gl.getUniformLocation(this.program, 'u_sampler'), 0);
 	
 	// Draw the sprite
 	this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);

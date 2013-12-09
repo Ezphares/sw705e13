@@ -9,7 +9,7 @@
  * @param {array} origin The x and y offsets of the sprite's origin
  * @see IfyGL
  */
-Sprite = function(texture, img, frame_width, frame_height, origin)
+Sprite = function(gl, texture, img, frame_width, frame_height, origin)
 {
 	// Properties
 	this.texture = texture;
@@ -22,9 +22,33 @@ Sprite = function(texture, img, frame_width, frame_height, origin)
 	this.frames_per_row = Math.floor(this.img.width / this.frame_width);
 	this.frames = Math.floor(this.img.height / this.frame_height) * this.frames_per_row;
 	
+	// Buffers
+	var fzero = this.get_frame(0);
+	
+	this.source = gl.createBuffer();	
+	gl.bindBuffer(gl.ARRAY_BUFFER, this.source);
+	gl.bufferData(gl.ARRAY_BUFFER, this.make_rect(fzero[0], fzero[1], fzero[2], fzero[3]), gl.STATIC_DRAW);
+	
+	this.target = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, this.target);
+	gl.bufferData(gl.ARRAY_BUFFER, this.make_rect(0 - origin[0], 0 - origin[1], frame_width - origin[0], frame_height - origin[1]), gl.STATIC_DRAW);
+	
+	gl.bindBuffer(gl.ARRAY_BUFFER, null);
+	
 	// Sanity check
 	if (this.frames < 1)
 		throw 'Attempt to create a sprite without frames. Possibly frame width/height was set to a larger value than the image size';
+};
+
+Sprite.prototype.make_rect = function(left, top, right, bottom)
+{
+	return new Float32Array([
+	left, top,
+	right, top,
+	left, bottom,
+	left, bottom,
+	right, top,
+	right, bottom]);
 };
 
 /**
