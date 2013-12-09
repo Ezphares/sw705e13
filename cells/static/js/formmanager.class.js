@@ -225,6 +225,9 @@ FormManager.prototype.form_if = function(json)
 	var entity1 = $('<div id="entity1" class="form-margin"></div>').append(this.form_selector('set-ent-choice1', [{key: 'Set Entity', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
 	var set_entity1 = $('<div></div>').append(this.form_selector('set-entity1', [{key: 'Friend', value: '1'}, {key: 'Enemy', value: '2'}, {key: 'Food', value: '3'}, {key: 'Boundary', value: '4'}, {key: 'Empty', value: '5'}])).hide().appendTo($('#entity1'));
 	var variable_entity1 = $('<div></div>').append(this.form_selector('variable-ent1', [{key: 'ENT1', value: '1'},{key: 'ENT2', value: '2'},{key: 'ENT3', value: '3'}])).hide().appendTo($('#entity1'));
+	
+	var ent_comparison = $('<div></div>').append(this.form_selector('ent-comparison', [{key: '=', value: '1'},{key: '!=', value: '2'}])).hide().appendTo($('#entity1'));
+	
 	var entity2 = $('<div id="entity2" class="form-margin"></div>').append(this.form_selector('set-ent-choice2', [{key: 'Set Entity', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
 	var set_entity2 = $('<div></div>').append(this.form_selector('set-entity2', [{key: 'Friend', value: '1'}, {key: 'Enemy', value: '2'}, {key: 'Food', value: '3'}, {key: 'Boundary', value: '4'}, {key: 'Empty', value: '5'}])).hide().appendTo($('#entity2'));
 	var variable_entity2 = $('<div></div>').append(this.form_selector('variable-ent2', [{key: 'ENT1', value: '1'},{key: 'ENT2', value: '2'},{key: 'ENT3', value: '3'}])).hide().appendTo($('#entity2'));
@@ -233,16 +236,22 @@ FormManager.prototype.form_if = function(json)
 	var set_direction1 = $('<div></div>').hide().appendTo($('#ins-direction1')).css({position: 'relative', height: '64px', width: '100%'});
 	this.action_direction_select(set_direction1);
 	var variable_direction1 = $('<div></div>').append(this.form_selector('variable-dir1', [{key: 'DIR1', value: '1'},{key: 'DIR2', value: '2'},{key: 'DIR3', value: '3'}])).hide().appendTo($('#ins-direction1'));	
+	
+	var dir_comparison = $('<div></div>').append(this.form_selector('dir-comparison', [{key: '=', value: '1'},{key: '!=', value: '2'}])).hide().appendTo($('#ins-direction1'));	
+	
 	var direction2 = $('<div id="ins-direction2" class="form-margin"></div>').append(this.form_selector('set-dir-choice2', [{key: 'Set Direction', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
 	var set_direction2 = $('<div></div>').hide().appendTo($('#ins-direction2')).css({position: 'relative', height: '64px', width: '100%'});
 	this.action_direction_select(set_direction2);
 	var variable_direction2 = $('<div></div>').append(this.form_selector('variable-dir2', [{key: 'DIR1', value: '1'},{key: 'DIR2', value: '2'},{key: 'DIR3', value: '3'}])).hide().appendTo($('#ins-direction2'));	
 
 	var number1 = $('<div id="number1" class="form-margin"></div>').append(this.form_selector('set-num-choice1', [{key: 'Set Number', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
-	var set_number1 = $('<div></div>').append('<input type="number"></input>').hide().appendTo($('#number')).css({position: 'relative', height: '64px', width: '100%'});
+	var set_number1 = $('<div></div>').append('<input type="number"></input>').hide().appendTo($('#number1')).css({position: 'relative', height: '64px', width: '100%'});
 	var variable_number1 = $('<div></div>').append(this.form_selector('variable-num1', [{key: 'NUM1', value: '1'},{key: 'NUM2', value: '2'},{key: 'NUM3', value: '3'}])).hide().appendTo($('#number1'));	
+	
+	var num_comparison = $('<div></div>').append(this.form_selector('num-comparison', [{key: '>', value: '1'},{key: '=', value: '2'}, {key: '<', value: '3'}])).hide().appendTo($('#number1'));		
+	
 	var number2 = $('<div id="number2" class="form-margin"></div>').append(this.form_selector('set-num-choice2', [{key: 'Set Number', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
-	var set_number2 = $('<div></div>').append('<input type="number"></input>').hide().appendTo($('#number')).css({position: 'relative', height: '64px', width: '100%'});
+	var set_number2 = $('<div></div>').append('<input type="number"></input>').hide().appendTo($('#number2')).css({position: 'relative', height: '64px', width: '100%'});
 	var variable_number2 = $('<div></div>').append(this.form_selector('variable-num1', [{key: 'NUM1', value: '1'},{key: 'NUM2', value: '2'},{key: 'NUM3', value: '3'}])).hide().appendTo($('#number2'));	
 
 	$('#action-choice').change(function(event)
@@ -252,28 +261,35 @@ FormManager.prototype.form_if = function(json)
 			direction1.hide();
 			direction2.hide();
 			number1.hide();
+			num_comparison.hide();
 			number2.hide();
 			entity1.show();
-			
+			ent_comparison.show();
 			entity2.show();
 		}
 		
 		else if($(this).val() == 2)
 		{
 			entity1.hide();
+			ent_comparison.hide();
 			entity2.hide();
 			number1.hide();
+			num_comparison.hide();
 			number2.hide();
 			direction1.show();
+			dir_comparison.show();
 			direction2.show();
 		}
 		else
 		{
 			entity1.hide();
+			ent_comparison.hide();
 			entity2.hide();
 			direction1.hide();
+			dir_comparison.hide();
 			direction2.hide();
 			number1.show();
+			num_comparison.show();
 			number2.show();
 		}
 	}).trigger('change');
@@ -283,18 +299,29 @@ FormManager.prototype.form_if = function(json)
 		if($(this).val() == 1)
 		{
 			set_entity1.show();
-			set_entity2.show();
 			variable_entity1.hide();
-			variable_entity2.hide();
 		}
 		else
 		{
 			set_entity1.hide();
-			set_entity2.hide();
 			variable_entity1.show();
+		}
+	}).trigger('change');	
+
+	$('#set-ent-choice2').change(function(event)
+	{
+		if($(this).val() == 1)
+		{
+			set_entity2.show();
+			variable_entity2.hide();
+		}
+		else
+		{
+			set_entity2.hide();
 			variable_entity2.show();
 		}
-	}).trigger('change');
+	}).trigger('change');	
+
 	
 	$('#set-dir-choice1').change(function(event)
 	{

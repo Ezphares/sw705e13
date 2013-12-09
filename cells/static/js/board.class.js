@@ -47,8 +47,6 @@ Board.prototype.draw = function(gl)
 
 	
 	// ~~~~~~~~~~~~~~Healthbar Below~~~~~~~~~~~~~~~
-	// TODO: Test igen når spillet slutter når cellerne rammer 0 hp	
-	
 	var cell_green_hp = 0;
 	var cell_red_hp = 0;
 	var count = 0; // Contains number of times green has to be drawn relative to red.
@@ -69,8 +67,7 @@ Board.prototype.draw = function(gl)
 		count = this.health_count(cell_green_hp, cell_red_hp) * 16; // Multiplied with the pixel offset of 16 for the healthbar (tells me how many times to draw a .png
 	
 		gl.draw_sprite(healthbar_green_start, 0, 0, 0);
-		for(var i = 16; i < count; i+=16)
-		{
+		for(var i = 16; i < count; i+=16) {
 			gl.draw_sprite(healthbar_green_mid, 0, i, 0);
 		}
 	
@@ -78,12 +75,9 @@ Board.prototype.draw = function(gl)
 			gl.draw_sprite(healthbar_red_mid, 0, i, 0);
 		}
 	
-		gl.draw_sprite(healthbar_red_end, 0, 624, 0);
-		}
-		
-		console.log("Cell green:"+ cell_green_hp);
-		console.log("Cell red:"+ cell_red_hp);
-	};
+	gl.draw_sprite(healthbar_red_end, 0, 624, 0);
+	}
+};
 
 Board.prototype.health_count = function(green_hp, red_hp) 
 {
