@@ -1,20 +1,22 @@
-Editor = function(size, spr_tile, spr_set)
+Editor = function(size, spr_tile, spr_select, spr_set)
 {
 	this.size = size;
 	this.new_program(size);
 	this.spr_tile = spr_tile;
+	this.spr_select = spr_select;
 	this.spr_set = spr_set || {};
 	this.form_manager = new FormManager();
+	this.select = null;
 	
 	this.forms = 
 	{
-		'nop': this.form_manager.form_nop,
-		'move': this.form_manager.form_move,
-		'split': this.form_manager.form_split,
-		'if': this.form_manager.form_if,
-		'for': this.form_manager.form_for,
-		'look': this.form_manager.form_look,
-		'var': this.form_manager.form_var
+		'nop': 'form_nop',
+		'move': 'form_move',
+		'split': 'form_split',
+		'if': 'form_if',
+		'for': 'form_for',
+		'look': 'form_look',
+		'var': 'form_var'
 	};
 };
 
@@ -48,6 +50,12 @@ Editor.prototype.draw = function(gl)
 			}
 		}
 	}
+	
+	if (this.select !== null)
+	{
+		var draw_pos = this.program.grid.get_pixel_coordinate(this.select);
+		gl.draw_sprite(this.spr_select, 0, draw_pos[0], draw_pos[1]);
+	}
 };
 
 Editor.prototype.drop = function(point, instruction)
@@ -57,16 +65,19 @@ Editor.prototype.drop = function(point, instruction)
 Editor.prototype.click = function(point)
 {
 	var tile = this.program.grid.get_tile_position(point);
-	console.log(tile);
 	var instruction = this.program.get_instruction(tile);
 	
+	this.form_manager.clear();
+	this.select = null;
+	
 	if (instruction !== null)
-	{
-		this.form_manager.clear();
-		
+	{	
 		var form = this.forms[instruction.type];
 		if (form !== undefined)
-			form(instruction);
+		{
+			this.form_manager[form](instruction);
+			this.select = [tile[0], tile[1]];
+		}
 	}
 };
 
@@ -83,13 +94,15 @@ Editor.test = function()
 	
 	var sprite_loader = [{filename: 'editor_tile_large.png', frame_width: 64, frame_height: 64, origin: [32,32]},
 						 {filename: 'editor_empty_large.png', frame_width: 64, frame_height: 64, origin: [32,32]},
-						 {filename: 'selection_direction_r.png', frame_width: 64, frame_height: 64, origin: [32,32]}];
+						 {filename: 'editor_select_large.png', frame_width: 64, frame_height: 64, origin: [32,32]},
+						 {filename: 'selection_direction_r.png', frame_width: 64, frame_height: 64, origin: [32,32]},
+						 {filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]}];
 						 
 	gl.load_sprites(sprite_loader, function(spr)
 	{
-		var e = new Editor(6, spr[0], {
+		var e = new Editor(6, spr[0], spr[2], {
 			'nop': spr[1],
-			'R': spr[2]
+			'R': spr[3]
 		});
 		
 		$('#game').click(function(event)
@@ -102,7 +115,12 @@ Editor.test = function()
 		e.program.set_instruction([0,0], {type: 'nop', 'continue': 'R'});
 		e.program.set_instruction([1,0], {type: 'nop', 'continue': 'R'});
 		e.program.set_instruction([2,0], {type: 'nop', 'continue': 'R'});
-		e.draw(gl);
+		
+		(function render()
+		{
+			requestAnimFrame(render);
+			e.draw(gl);
+		})();
 	});
 };
 
