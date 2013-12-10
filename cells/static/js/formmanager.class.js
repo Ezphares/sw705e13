@@ -385,7 +385,8 @@ FormManager.prototype.form_if = function(json)
 		}
 	}).trigger('change');
 	
-	this.program_direction_select($('#direction'), 'Set direction of next command');
+	this.program_direction_select($('#direction'), 'Set direction of next command if test case is true ');
+	this.program_direction_select($('#direction'), 'Set direction of next command if test case is false ');
 
 };
 
@@ -429,5 +430,6 @@ FormManager.prototype.form_loop = function(json)
 		}
 	}).trigger('change');	
 	
-	this.program_direction_select($('#direction'), 'Set possible directions of next command');
+	this.program_direction_select($('#direction'), 'Set direction of loop entry');
+	this.program_direction_select($('#direction'), 'Set direction of loop exit');
 };
