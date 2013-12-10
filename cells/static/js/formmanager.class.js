@@ -3,12 +3,9 @@ FormManager = function()
 	this.form = $('#form');
 };
 
-$(function() 
+FormManager.prototype.continue_form = function(json, has_divert)
 {
-	var f = new FormManager();
-	f.form_loop();
-	
-});
+}
 
 FormManager.prototype.form_header = function(img, text)
 {

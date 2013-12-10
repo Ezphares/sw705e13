@@ -11,6 +11,7 @@
 	border-color: #0f0;
 	background-color: #000;
 	color: #fff;
+	display: none;
 }
 
 .direction-image
@@ -83,6 +84,33 @@
 	height: 98px;
 	width: 100%;
 	
+}
+
+/**
+ * JEPPE STARTED HERE, NASTY STUFF ENSUES
+ */
+.direction_palette
+{
+	pointer-events: none;
+	left: 50%;
+	top: 50%;
+	width: 64px;
+	height: 64px;
+}
+ 
+.overlay
+{
+	position: absolute;
+}
+
+.overlay.editor
+{
+	background-image: url('static/img/overlay_editor.png');
+}
+
+.overlay.board
+{
+	background-image: url('static/img/overlay_board.png');
 }
 
 .clear
