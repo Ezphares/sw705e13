@@ -103,7 +103,7 @@ Editor.test = function()
 						 
 	gl.load_sprites(sprite_loader, function(spr)
 	{
-		var e = new Editor(6, spr[0], spr[2], {
+		var e = new Editor(5, spr[0], spr[2], {
 			'nop': spr[1],
 			'loop': spr[5],
 			'if': spr[4],
