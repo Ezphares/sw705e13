@@ -13,6 +13,7 @@
 
 	test('isButtonHit', function() {
 			//Button is not hit
+			/* Since width of sprite is 256, we know that the center (320) + 129 is should not be a button hit */
 			equal(Menu.prototype.isButtonHit(320+129, 240, game.gl), false, 'isButtonHit: Succeed if button is not hit');
 			
 			//Button is hit
