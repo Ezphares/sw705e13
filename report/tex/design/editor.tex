@@ -14,7 +14,7 @@ The programming grid makes use of a drag-and-drop interface.
 Each programming construct, e.g. if-statements and loops, can be dragged from the top of the screen onto the hexagonal grid.
 Initially this hexagonal grid only has a start point, and it is up to the player to create the program itself.
 The program will be running from the start point on the grid to a user defined end point.
-This end point is created by simply letting the program run outside the hexagonal grid.\todo{Maybe it is possible to implement a construct like if-statements that work like a terminate construct.}
+This end point is created by simply letting the program run outside the hexagonal grid.\todo{Design question: Maybe it is possible to implement a construct like if-statements that work like a terminate construct.}
 By doing this, the player is essentially creating a loop, that the program will be running in during its execution.\newline
 
 Since the editor is using a drag-and-drop interface, adding new functionality to a program is done by dragging a construct onto the path of the current program, and define variables if needed.
@@ -23,7 +23,7 @@ These are; numbers, entities, and directions.
 The idea is that by limiting variables to three categories with meaningful names, the player will hopefully be able to easily understand what happens without prior knowledge to types in programming.
 
 \subsubsection*{Details Panel}
-The fine tuning/details panel is activated, when the player clicks on a construct, that has been placed on the hexagonal grid.\todo{What happens if no construct is selected?}
+The fine tuning/details panel is activated, when the player clicks on a construct, that has been placed on the hexagonal grid.\todo{Design question: What happens if no construct is selected?}
 The panel will show different information depending on what kind of construct the player has clicked on.
 For example, one of the options available for the if-statement includes a list of variables, that the if-statement can compare to generate a scenario where the variable can be in a true or false state, making the if work.
 A move construct, however, will only include the option to define in which direction the cell will move.
@@ -46,5 +46,5 @@ It also makes it possible for the two branches of an if statement or a loop to b
 
 The details panel was more difficult to design, since the options available is different for every construct.
 When it was chosen, that the editor should utilize a visual programming interface with drag-and-drop, the player would need to be able to set some amount of variables for the program to be functional enough.
-The details panel was chosen\todo{over what alternative}, because it removes the need to exit out of the details panel to be able to switch to the details of another construct on the grid, if the details were to pop up over the hexagonal grid.
+The details panel was chosen\todo{Maybe include: over what alternative}, because it removes the need to exit out of the details panel to be able to switch to the details of another construct on the grid, if the details were to pop up over the hexagonal grid.
 The details panel on the right side of the hexagonal grid effectively eliminates a number of steps, with the purpose to make the game quicker and less frustrating to use.
