@@ -14,7 +14,7 @@ Editor = function(size, spr_tile, spr_select, spr_set)
 		'move': 'form_move',
 		'split': 'form_split',
 		'if': 'form_if',
-		'for': 'form_for',
+		'loop': 'form_loop',
 		'look': 'form_look',
 		'var': 'form_var'
 	};
@@ -88,7 +88,8 @@ Editor.test = function()
 		texturepath: 'static/img/',
 		shaderpath: 'static/shaders/',
 		width: 800,
-		height: 600
+		height: 600,
+		debug: true
 	});
 	gl.init();
 	
@@ -96,12 +97,16 @@ Editor.test = function()
 						 {filename: 'editor_empty_large.png', frame_width: 64, frame_height: 64, origin: [32,32]},
 						 {filename: 'editor_select_large.png', frame_width: 64, frame_height: 64, origin: [32,32]},
 						 {filename: 'selection_direction_r.png', frame_width: 64, frame_height: 64, origin: [32,32]},
+						 {filename: 'editor_if_large.png', frame_width: 64, frame_height: 64, origin: [32,32]},
+						 {filename: 'editor_for_large.png', frame_width: 64, frame_height: 64, origin: [32,32]},
 						 {filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]}];
 						 
 	gl.load_sprites(sprite_loader, function(spr)
 	{
 		var e = new Editor(6, spr[0], spr[2], {
 			'nop': spr[1],
+			'loop': spr[5],
+			'if': spr[4],
 			'R': spr[3]
 		});
 		
@@ -113,12 +118,21 @@ Editor.test = function()
 		});
 		
 		e.program.set_instruction([0,0], {type: 'nop', 'continue': 'R'});
-		e.program.set_instruction([1,0], {type: 'nop', 'continue': 'R'});
-		e.program.set_instruction([2,0], {type: 'nop', 'continue': 'R'});
+		e.program.set_instruction([1,0], {type: 'loop', 'continue': 'R'});
+		e.program.set_instruction([2,0], {type: 'if', 'continue': 'R'});
+		
+		var then = new Date().getTime();
 		
 		(function render()
 		{
-			gl.draw_text('Hello, Performance', 'white', 14, 'left', 0, 0);
+			var now = new Date().getTime();
+			var delta = now - then;
+			
+			var fps = Math.floor(1000 / delta);
+			$('#fps').text('FPS: ' + fps);
+			
+			then = now;
+		
 			requestAnimFrame(render);
 			e.draw(gl);
 		})();

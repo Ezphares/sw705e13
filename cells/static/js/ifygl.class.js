@@ -18,6 +18,7 @@ IfyGL = function(params)
 	this.canvas = 'ifygl';		// ID
 	this.width = 640;			// Resolution
 	this.height = 480;			// Resolution
+	this.debug = false;
 	
 	// Extract parameters if given
 	if (typeof params === 'object')

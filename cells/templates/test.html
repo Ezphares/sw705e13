@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<!-- <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css"/> -->
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css"/>
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/helpers.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/hexhelper.js"></script>
@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="{{ STATIC_URL }}js/hexgrid.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/menu.class.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/game.class.js"></script>
-		<!-- <script type="text/javascript" src="{{ STATIC_URL }}js/formmanager.class.js"></script> -->
+		<script type="text/javascript" src="{{ STATIC_URL }}js/formmanager.class.js"></script>
 		<style>
 		*
 		{
@@ -35,6 +35,11 @@
 
 		body {background-color:#333333;}
 			
+		#fps
+		{
+			color: white;
+		}
+		
 		#text-render
 		{
 			display: none;
@@ -42,6 +47,7 @@
 	</head>
 		</style>
 	<body>
+		<div id="fps"></div>
 		<div id="wrapper" style="border-width: 1px; border-style: solid;">
 			<canvas id="game"></canvas>
 			<div id="form">
@@ -50,8 +56,8 @@
 		<canvas id="text-render"></canvas>
 		
 		<script type="text/javascript">
-		game = new Game();
-		game.init();
+		/*g = new Game();
+		g.init();
 		/*
 		gl.init();
 		var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},

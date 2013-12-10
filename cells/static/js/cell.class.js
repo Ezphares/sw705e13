@@ -51,7 +51,7 @@ Cell.prototype.update = function(board)
 		{
 			var target = Hex.move(this.position, action.dir);
 			
-			if (board.is_inside(target))
+			if (board.grid.is_inside(target))
 			{
 				var child = new Cell(target, Math.floor(this.energy / 2), this.sprite, this.program, this.playertype);
 				board.add_entity(child);
