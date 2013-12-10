@@ -1,0 +1,52 @@
+\section{IfyGL Class}
+The IfyGL class handles the main WebGL calls while providing functions for adding and manipulating sprites using JavaScript. The class consists of a number of functions, some of which only used internally, while a few can be used by other classes.\newline
+
+When the website is loaded, the IfyGL class loads its \texttt{init} function which creates the canvas and initializes the WebGL, or gives an error message if the browser does not support it. The \texttt{create\_program} function is loaded by the \texttt{init} function, and creates the vertex and fragment shaders required by WebGL. The vertex shader draws the vertices of the objects on the screen such that primitive shapes can be shown, the fragment shader then draws the appropriate colors. The function \texttt{load\_shader} then compiles and loads the shaders that \texttt{create\_program} generated.\newline
+
+The \texttt{load\_sprites} function in \autoref{lst:loadsprites} loads the sprites for the game as a texture in WebGL. The first 4 lines handle the setup of the WebGL image and texture container, while the \texttt{img.onload} function creates an anonymous callback function which uses WebGL on lines 10-15 to process an image as a texture which is added to an array on line 17. The funciton is then called again on line 19 for the next image in the input array, once all images have processed, line 22 will load them.
+
+\begin{lstlisting}[language=JavaScript, caption=The function \texttt{load\_sprites}, label=lst:loadsprites]
+var texture = this.gl.createTexture();
+var img = new Image();
+var gl = this.gl;
+var instance = this;
+
+img.onload = function()
+{
+	(function(i)
+	{
+		i.gl.bindTexture(i.gl.TEXTURE_2D, texture);
+		i.gl.texImage2D(i.gl.TEXTURE_2D, 0, i.gl.RGBA, i.gl.RGBA, i.gl.UNSIGNED_BYTE, img);
+		i.gl.texParameteri(i.gl.TEXTURE_2D, i.gl.TEXTURE_MAG_FILTER, i.gl.LINEAR);
+		i.gl.texParameteri(i.gl.TEXTURE_2D, i.gl.TEXTURE_MIN_FILTER, i.gl.LINEAR_MIPMAP_NEAREST);
+		i.gl.generateMipmap(i.gl.TEXTURE_2D);
+		i.gl.bindTexture(i.gl.TEXTURE_2D, null);
+		
+		res.push(new Sprite(gl, texture, img, sprites[len]['frame_width'], sprites[len]['frame_height'], sprites[len]['origin']));
+		
+		i.load_sprites(sprites, callback, len + 1, res);
+	})(instance);
+};
+img.src = this.texturepath + sprites[len]['filename'];
+\end{lstlisting}
+
+The function \texttt{draw\_sprite} in \autoref{lst:drawsprite} draws a sprite to the canvas. First the source and target position on the canvas are specified. Then the stretch is set to not stretch the sprite, this is used in the \texttt{draw\_sprite\_stretched} function, which is similar to \texttt{draw\_sprite} but with the ability to stretch a sprite. Lines 6-10 sets up the sprite for the vertex and texture position buffer. Line 12 activates the texture and line 14 draws the sprite to the canvas.
+
+\begin{lstlisting}[language=JavaScript, caption=The function \texttt{draw\_sprite}, label=lst:drawsprite]
+this.source = sprite.get_frame(frame);
+this.target = [x, y];
+this.stretch = [1, 1];
+this.bind_uniforms();
+
+this.gl.bindBuffer(this.gl.ARRAY_BUFFER, sprite.target);
+this.gl.vertexAttribPointer(this.p_position, 2, this.gl.FLOAT, false, 0, 0);
+
+this.gl.bindBuffer(this.gl.ARRAY_BUFFER, sprite.source);
+this.gl.vertexAttribPointer(this.p_texture, 2, this.gl.FLOAT, false, 0, 0);
+
+this.gl.bindTexture(this.gl.TEXTURE_2D, sprite.texture);
+
+this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
+\end{lstlisting}
+
+The function \texttt{draw\_text} does the same as \texttt{draw\_sprite} but for text.
