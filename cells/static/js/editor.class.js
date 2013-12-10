@@ -118,6 +118,7 @@ Editor.test = function()
 		
 		(function render()
 		{
+			gl.draw_text('Hello, Performance', 'white', 14, 'left', 0, 0);
 			requestAnimFrame(render);
 			e.draw(gl);
 		})();

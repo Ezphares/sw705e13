@@ -25,7 +25,7 @@ Menu.prototype.draw_button = function(active, text, x, y, gl)
 		gl.draw_sprite(this.spr_inactive_button, 0, gl.width/2, y);
 	}
 	
-	gl.draw_text(text, 'black', 25, 'center', gl.width/2, y-15);
+	gl.draw_text(text, 'black', 25, 'center', 0, -15);
 };
 
 Menu.prototype.draw_background = function(gl){
