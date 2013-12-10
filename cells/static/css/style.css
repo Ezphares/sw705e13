@@ -89,28 +89,80 @@
 /**
  * JEPPE STARTED HERE, NASTY STUFF ENSUES
  */
-.direction_palette
+.direction-palette-wrapper
 {
-	pointer-events: none;
+	position: relative;
+	height: 64px;
+} 
+ 
+.direction-palette
+{
 	left: 50%;
 	top: 50%;
 	width: 64px;
 	height: 64px;
+	margin: -32px 0 0 -32px;
+	position: absolute;
 }
- 
+
 .overlay
 {
-	position: absolute;
+	pointer-events: none;
+}
+
+.picker.board
+{
+	background-image: url('../img/picker_board.png');
+}
+
+.picker.continue
+{
+	background-image: url('../img/picker_continue.png');
+}
+
+.picker.divert
+{
+	background-image: url('../img/picker_divert.png');
 }
 
 .overlay.editor
 {
-	background-image: url('static/img/overlay_editor.png');
+	background-image: url('../img/overlay_editor.png');
 }
 
 .overlay.board
 {
-	background-image: url('static/img/overlay_board.png');
+	background-image: url('../img/overlay_board.png');
+}
+
+.overlay.ul
+{
+	background-position: 0 0;
+}
+
+.overlay.ur
+{
+	background-position: -64px 0;
+}
+
+.overlay.r
+{
+	background-position: -128px 0;
+}
+
+.overlay.dl
+{
+	background-position: -64px -64px;
+}
+
+.overlay.dr
+{
+	background-position: 0 -64px;
+}
+
+.overlay.l
+{
+	background-position: 128px 64px;
 }
 
 .clear

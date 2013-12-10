@@ -152,7 +152,7 @@ Editor.test = function()
 			 
 	Editor.load_sprites(gl, function()
 	{
-		var e = new Editor(5);
+		e = new Editor(5);
 		
 		$('#game').click(function(event)
 		{

@@ -1,10 +1,62 @@
 FormManager = function()
 {
-	this.form = $('#form');
+	this.$form = $('#form');
 };
 
-FormManager.prototype.continue_form = function(json, has_divert)
+FormManager.grid_data = {
+	'[0,0]': 'ul',
+	'[1,0]': 'ur',
+	'[2,1]': 'r',
+	'[2,2]': 'dr',
+	'[1,2]': 'dl',
+	'[0,1]': 'l'
+};
+
+FormManager.prototype.formpart_continue = function(json, has_divert)
 {
+	$('#direction').append(this.formpart_direction_pick(json, 'continue', 'continue', 'editor'));
+}
+
+FormManager.prototype.formpart_direction_pick = function(json, key, class_picker, class_overlay)
+{
+	var $element = $('<div class="direction-palette-wrapper"></div>').data('direct', false);
+	var $picker = $('<div class="direction-palette picker"></div>').addClass(class_picker).appendTo($element);
+	var $overlay = $('<div class="direction-palette overlay"></div>').addClass(class_overlay).appendTo($element);
+	var grid = new HexGrid([24, 24], 12, 2, [-4, 2], 'horizontal');
+
+	var direction = json[key].value;
+	if (!direction)
+	{
+		$element.data('direct', true);
+		direction = json[key];
+	}
+	$element.data('direction', direction.toLowerCase());
+		
+	$element.bind('refresh', function(event)
+	{
+		$overlay.removeClass('l r ul ur dl dr').addClass($(this).data('direction'));
+		var value = $(this).data('direction').toUpperCase();
+		
+		if ($(this).data('direct'))
+			json[key] = value;
+		else
+			json[key].value = value;
+		
+	}).trigger('refresh');
+	
+	$picker.click(function(event)
+	{
+		var offset = $(this).offset();
+		var position = [event.pageX - offset.left, event.pageY - offset.top];
+		var tile_position = grid.get_tile_position(position);
+		
+		if(grid.is_inside(tile_position) && !(tile_position[0] === 1 && tile_position[1] === 1))
+		{
+			$element.data('direction', FormManager.grid_data[JSON.stringify(tile_position)]).trigger('refresh');
+		}
+	});
+	
+	return $element;
 }
 
 FormManager.prototype.form_header = function(img, text)
@@ -20,13 +72,13 @@ FormManager.prototype.form_header = function(img, text)
 
 FormManager.prototype.clear = function()
 {
-	this.form.html('').hide();
+	this.$form.html('').hide();
 };
 
 FormManager.prototype.new_form = function()
 {
 	this.clear();
-	this.form.html('<div id="instruction"></div><div id="direction"></div>').show();
+	this.$form.html('<div id="instruction"></div><div id="direction"></div>').show();
 };
 
 FormManager.prototype.form_selector = function(id, options)
@@ -75,75 +127,14 @@ FormManager.prototype.form_arrows = function(jqs, img)
 	return img;
 }
 
-FormManager.prototype.program_direction_select = function(jqs, text)
-{
-	var header = $('<span></span>').text(text).appendTo(jqs);
-	var graphics = $('<img src="static/img/instruction_direction.png"/>').appendTo(jqs).css({left: jqs.width()/2, top: jqs.height()/2, position: 'absolute', margin: '-32px 0 0 -32px'});
-	var manager = this;
-	var grid = new HexGrid([24, 24], 12, 2, [-4, 2], 'horizontal');
-	
-	var image = null;
-	graphics.click(function(event)
-	{
-		var offset = $(this).offset();
-		var position = [event.clientX - offset.left, event.clientY - offset.top];
-		var tile_position = grid.get_tile_position(position);
-		
-		if(grid.is_inside(tile_position) && !(tile_position[0] === 1 && tile_position[1] === 1))
-		{
-			var images = {
-				'[0,0]': 'static/img/selection_direction_ul.png',
-				'[1,0]': 'static/img/selection_direction_ur.png',
-				'[2,1]': 'static/img/selection_direction_r.png',
-				'[2,2]': 'static/img/selection_direction_dr.png',
-				'[1,2]': 'static/img/selection_direction_dl.png',
-				'[0,1]': 'static/img/selection_direction_l.png'
-			};
-			
-			if(image !== null)
-				image.remove();
-				
-			image = manager.form_arrows(jqs, images[JSON.stringify(tile_position)]);
-		}
-	});
-}
-
-FormManager.prototype.action_direction_select = function(jqs)
-{
-	var graphics = $('<img src="static/img/move_direction.png"/>').appendTo(jqs).css({left: jqs.width()/2, top: jqs.height()/2, position: 'absolute', margin: '-32px 0 0 -32px'});
-	var manager = this;
-	var grid = new HexGrid([24, 24], 12, 2, [-4, 2], 'horizontal');
-	
-	var image = null;
-	graphics.click(function(event)
-	{
-		var offset = $(this).offset();
-		var position = [event.clientX - offset.left, event.clientY - offset.top];
-		var tile_position = grid.get_tile_position(position);
-		
-		var images = {
-			'[0,0]': 'static/img/move_dir_ul.png',
-			'[1,0]': 'static/img/move_dir_ur.png',
-			'[2,1]': 'static/img/move_dir_r.png',
-			'[2,2]': 'static/img/move_dir_dr.png',
-			'[1,2]': 'static/img/move_dir_dl.png',
-			'[0,1]': 'static/img/move_dir_l.png'
-		};
-		
-		if(image !== null)
-			image.remove();
-			
-		image = manager.form_arrows(jqs, images[JSON.stringify(tile_position)]);
-	});
-}
-
 FormManager.prototype.form_nop = function(json)
 {
 	this.new_form();
-	
+	this.formpart_continue(json, false);
+	/*
 	$('#instruction').append(this.form_header('static/img/editor_empty_large.png', 'No operation'));
 	this.program_direction_select($('#direction'), 'Set position of next command');
-	
+	*/
 		
 };
 
