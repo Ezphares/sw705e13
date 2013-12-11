@@ -603,41 +603,4 @@ FormManager.prototype.form_loop = function(json)
 			$entity_wrapper.show().trigger('update');
 		}
 	}).trigger('change');
-
-/*	
-	var entity = $('<div></div>').append('<span>Choose variable to loop</span>').append(this.var_selector('entity', 'ent-var')).hide().appendTo($('#instruction'));
-	
-	var direction = $('<div id="dir-select"></div>').append('<span>Choose loop direction and start</span>').append(this.form_selector('directions', [{key: 'clockwise', value: '1'}, {key: 'counter-clockwise', value: '2'}])).appendTo($('#instruction'));
-	var set_direction = $('<div></div>').css({position: 'relative', height: '64px', width: '100%'}).appendTo($('#dir-select'));
-	this.action_direction_select(set_direction);
-	
-	var number = $('<div id ="number"></div>').append('<span>Choose variable to save current loop number in </span>').append(this.var_selector('number', 'num-var')).hide().appendTo($('#instruction'));
-	var set_number1 = $('<div></div>').append('<span>Choose starting number </span>').append('<input type="number"></input>').appendTo($('#number')).css({position: 'relative', height: '64px', width: '100%'});
-	var set_number2 = $('<div></div>').append('<span>Choose ending number </span>').append('<input type="number"></input>').appendTo($('#number')).css({position: 'relative', height: '64px', width: '100%'});
-	
-	$('#action-choice').change(function(event)
-	{
-		if($(this).val() == 1)
-		{
-			entity.show();
-			direction.hide();
-			number.hide();
-			
-		}
-		else if($(this).val() == 2)
-		{
-			direction.show();
-			entity.hide();
-			number.hide();
-		}
-		else
-		{
-			number.show();
-			direction.hide();
-			entity.hide();
-		}
-	}).trigger('change');	
-	
-	this.program_direction_select($('#direction'), 'Set direction of loop entry');
-	//this.program_direction_select($('#direction'), 'Set direction of loop exit');*/
 };
