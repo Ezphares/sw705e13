@@ -79,18 +79,18 @@ Game.prototype.init = function()
 		setInterval(function()
 		{
 			// Is the game done?
-			if(game.menu.state == 'Start'){
+			if(game.menu.state == 'Done'){
+				game.menu.state = 'Start';
 				game.board = new Board(10, tile);
 				f =  new Food(100, [2, 0]);
 				c = new Cell([0, 0], 175, sprites[2], new Program(3), 1);
 				r = new Cell([16,16], 100, sprites[3], new Program(3), 2);
-				game.board.init(this.f, this.c, this.r);
+				game.board.init(f, c, r);
 				game.update();
 			}
 			else if(game.board.isDone() && game.menu.state != 'Done'){
-				game.menu.state = 'Start';
+				game.menu.state = 'Done';
 				game.board.draw(game.gl);
-				game.update();
 			}	
 			// Is the game in the editor?
 			/*else if(game.menu.state == 'InEditor'){
