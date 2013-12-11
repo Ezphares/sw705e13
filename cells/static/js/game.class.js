@@ -66,7 +66,7 @@ Game.prototype.init = function()
 		
 		game.board = new Board(10, tile);
 		game.menu = new Menu(activeb, inactiveb, tile, back, home);
-		game.editor = new Editor(6);
+		game.editor = new Editor(10);
 		
 		f =  new Food(100, [2, 0]);
 		c = new Cell([0, 0], 175, sprites[2], new Program(3), 1);
@@ -93,14 +93,14 @@ Game.prototype.init = function()
 				game.board.draw(game.gl);
 			}	
 			// Is the game in the editor?
-			/*else if(game.menu.state == 'InEditor'){
-				game.editor.test();
-			}*/
-			// Is the game running?
 			else if(game.menu.state == 'InEditor'){
+				game.editor.test();
+			}
+			// Is the game running?
+			/*else if(game.menu.state == 'InEditor'){
 				game.board.draw(game.gl);
 				game.board.update();
-			}
+			}*/
 			
 		}, 1000);
 	});
