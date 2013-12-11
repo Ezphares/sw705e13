@@ -33,3 +33,49 @@ Hex.move = function(point, direction)
 
 	return result;
 };
+
+Hex.rotate = function(direction, increment)
+{
+	if (direction === 'L')
+	{
+		if (increment === 'CC')
+			return 'DL';
+		else
+			return 'UL';
+	}
+	else if (direction === 'R')
+	{
+		if (increment === 'CC')
+			return 'UR';
+		else
+			return 'DR';
+	}
+	else if (direction === 'UL')
+	{
+		if (increment === 'CC')
+			return 'L';
+		else
+			return 'UR';
+	}
+	else if (direction === 'UR')
+	{
+		if (increment === 'CC')
+			return 'UL';
+		else
+			return 'R';
+	}
+	else if (direction === 'DL')
+	{
+		if (increment === 'CC')
+			return 'DR';
+		else
+			return 'L';
+	}
+	else if (direction === 'DR')
+	{
+		if (increment === 'CC')
+			return 'R';
+		else
+			return 'DL';
+	}
+};
