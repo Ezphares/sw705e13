@@ -71,18 +71,18 @@ Board.prototype.draw = function(gl)
 			gl.draw_sprite(healthbar_green_mid, 0, i, 0);
 		}
 	
-		for(var i = count; i < 640; i+=16) {
+		for(var i = count; i < gl.width; i+=16) {
 			gl.draw_sprite(healthbar_red_mid, 0, i, 0);
 		}
 	
-	gl.draw_sprite(healthbar_red_end, 0, 624, 0);
+	gl.draw_sprite(healthbar_red_end, 0, gl.width-16, 0);
 	}
 };
 
 Board.prototype.health_count = function(green_hp, red_hp) 
 {
 	var count = 0; // How many times should I draw the health_bar sprite for green??
-	var max_draw = 39; // Maximum number of times I can draw a health_bar sprite of 16 pixels on the canvas, boom.
+	var max_draw = (800-16)/16; // Maximum number of times I can draw a health_bar sprite of 16 pixels on the canvas, boom.
 
 	
 	var temp = green_hp/(red_hp+green_hp); //Green's percentile cut of the HP combined
