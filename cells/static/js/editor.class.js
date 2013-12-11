@@ -1,12 +1,14 @@
-Editor = function(size, spr_tile, spr_select, spr_set)
+Editor = function(size)
 {
 	this.size = size;
 	this.new_program(size);
-	this.spr_tile = spr_tile || Editor.tile;
-	this.spr_select = spr_select || Editor.select;
-	this.spr_set = spr_set || Editor.set;
+	this.spr_tile = Editor.tile;
+	this.spr_select = Editor.select;
+	this.spr_set = Editor.set;
 	this.form_manager = new FormManager();
 	this.select = null;
+	
+	this.gl;
 	
 	this.direction_frames = 
 	{
@@ -38,12 +40,9 @@ Editor.prototype.new_program = function(size)
 Editor.prototype.draw = function(gl)
 {
 	// Grid
-	for (var i = 0; i < this.size * 2 / 1; i++)
-	{
-		for (var j = 0; j < this.size * 2 / 1; j++)
-		{
-			if (this.program.grid.is_inside([i,j]))
-			{
+	for (var i = 0; i < this.size * 2 / 1; i++){
+		for (var j = 0; j < this.size * 2 / 1; j++){
+			if (this.program.grid.is_inside([i,j])){
 				var draw_pos = this.program.grid.get_pixel_coordinate([i, j]);
 				gl.draw_sprite(this.spr_tile, 0, draw_pos[0], draw_pos[1]);
 			}
@@ -51,30 +50,28 @@ Editor.prototype.draw = function(gl)
 	}
 	
 	// Instruction
-	for (var i = 0; i < this.size * 2 / 1; i++)
-	{
-		for (var j = 0; j < this.size * 2 / 1; j++)
-		{
-			if (this.program.grid.is_inside([i,j]))
-			{	
+	for (var i = 0; i < this.size * 2 / 1; i++){
+		for (var j = 0; j < this.size * 2 / 1; j++){
+			if (this.program.grid.is_inside([i,j])){	
 				var instruction = this.program.get_instruction([i, j]);
-				if (instruction.type !== 'empty')
-				{
+				
+				if (instruction.type !== 'empty'){
 					var draw_pos = this.program.grid.get_pixel_coordinate([i, j]);
 					gl.draw_sprite(this.spr_set[instruction.type], 0, draw_pos[0], draw_pos[1]);
 					
-					if (instruction['continue'] !== undefined)
+					if (instruction['continue'] !== undefined){
 						gl.draw_sprite(this.spr_set['continue'], this.direction_frames[instruction['continue']], draw_pos[0], draw_pos[1]);
+					}
 						
-					if (instruction['divert'] !== undefined)
+					if (instruction['divert'] !== undefined){
 						gl.draw_sprite(this.spr_set['divert'], this.direction_frames[instruction['divert']], draw_pos[0], draw_pos[1]);
+					}
 				}
 			}
 		}
 	}
 	
-	if (this.select !== null)
-	{
+	if (this.select !== null){
 		var draw_pos = this.program.grid.get_pixel_coordinate(this.select);
 		gl.draw_sprite(this.spr_select, 0, draw_pos[0], draw_pos[1]);
 	}
@@ -138,7 +135,7 @@ Editor.load_sprites = function(gl, callback)
 	});
 }
 
-Editor.test = function()
+Editor.prototype.test = function()
 {
 	gl = new IfyGL({
 		canvas: 'game',
@@ -149,7 +146,7 @@ Editor.test = function()
 		debug: true
 	});
 	gl.init();
-			 
+
 	Editor.load_sprites(gl, function()
 	{
 		var e = new Editor(5);
@@ -168,6 +165,7 @@ Editor.test = function()
 		
 		var then = new Date().getTime();
 		
+		/* Frame rate display */
 		(function render()
 		{
 			var now = new Date().getTime();
