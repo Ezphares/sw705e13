@@ -161,10 +161,12 @@ Editor.test = function()
 			e.click(pos);
 		});
 		
-		e.program.set_instruction([0,0], {type: 'nop', 'continue': 'R'});
-		e.program.set_instruction([1,0], {type: 'loop', 'continue': 'R'});
+		e.program.set_instruction([0,0], Instruction.nop());
+		e.program.set_instruction([1,0], Instruction.loop());
 		e.program.set_instruction([2,0], Instruction.if());
-		e.program.set_instruction([2,1], {type: 'nop', 'continue': 'UR'});
+		e.program.set_instruction([2,1], Instruction.look());
+		e.program.set_instruction([3,0], Instruction.move());
+		e.program.set_instruction([4,0], Instruction.split());
 		
 		var then = new Date().getTime();
 		

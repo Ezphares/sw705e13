@@ -40,18 +40,15 @@ Instruction.split = function()
 Instruction.look = function()
 {
 	return {
-		'type': 'split',
+		'type': 'look',
 		'target':
 		{
 			'source': 'explicit',
 			'value': 'R'
 		},
 		
-		'save':
-		{
-			'entity': 'ENT1',
-			'energy': 'NUM1'
-		},
+		'save_entity': 'ENT1',
+		'save_energy': 'NUM1',
 		
 		'continue': 'R'
 	};
@@ -66,7 +63,7 @@ Instruction.if = function()
 		'first':
 		{
 			'source': 'explicit',
-			'value': 50
+			'value': '50'
 		},
 		'second':
 		{

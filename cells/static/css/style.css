@@ -89,6 +89,14 @@
 /**
  * JEPPE STARTED HERE, NASTY STUFF ENSUES
  */
+ 
+input, select, .form-label
+{
+	margin: 2px 15px;
+	display: block;
+	width: 168px;
+}
+ 
 .direction-palette-wrapper
 {
 	position: relative;
