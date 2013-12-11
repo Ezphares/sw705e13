@@ -1,10 +1,10 @@
-Editor = function(size)
+Editor = function(size, spr_tile, spr_select, spr_set)
 {
 	this.size = size;
 	this.new_program(size);
-	this.spr_tile = Editor.tile;
-	this.spr_select = Editor.select;
-	this.spr_set = Editor.set;
+	this.spr_tile = spr_tile || Editor.tile;
+	this.spr_select = spr_select || Editor.select;
+	this.spr_set = spr_set || Editor.set;
 	this.form_manager = new FormManager();
 	this.select = null;
 	
@@ -135,7 +135,7 @@ Editor.load_sprites = function(gl, callback)
 	});
 }
 
-Editor.prototype.test = function()
+Editor.test = function()
 {
 	gl = new IfyGL({
 		canvas: 'game',

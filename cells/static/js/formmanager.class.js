@@ -13,7 +13,7 @@ FormManager.grid_data = {
 };
 
 FormManager.directions = ['UL', 'UR', 'R', 'DR', 'DL', 'L'];
-FormManager.entities = ['FRIEND', 'ENEMY', 'EMPTY', 'FOOD', 'BOUND'];
+FormManager.entities = ['FRIEND', 'ENEMY', 'FOOD', 'EMPTY', 'BOUND'];
 
 FormManager.prototype.clear = function()
 {
@@ -92,7 +92,32 @@ FormManager.prototype.formpart_choose_variable = function(json, key, type)
 	
 	return $element;
 };
- 
+
+FormManager.prototype.formpart_number_pick = function(json, key)
+{
+	var initial = json[key].value;
+	if (isNaN(parseInt(initial)))
+		initial = '0';
+	
+	var $element = $('<input type="number" />').val(initial);
+	
+	$element.bind('update', function(event)
+	{
+		event.stopPropagation();
+		event.preventDefault();
+		var value = $(this).val();
+		
+		json[key].value = value;
+		json[key].source = 'explicit';
+
+	}).change(function(event)
+	{
+		$(this).trigger('update');
+	});
+	
+	return $element;
+};
+
 FormManager.prototype.formpart_entity_pick = function(json, key)
 {
 	var initial = json[key].value;
@@ -116,7 +141,7 @@ FormManager.prototype.formpart_entity_pick = function(json, key)
 	});
 	
 	return $element;
-}
+};
  
 FormManager.prototype.formpart_direction_pick = function(json, key, class_picker, class_overlay)
 {
@@ -189,7 +214,55 @@ FormManager.prototype.formpart_continue = function(json, has_divert)
 		this.formpart_direction_pick(json, 'divert', 'divert', 'editor').css({'width': width, 'display': 'inline-block'}).appendTo($element);
 		
 	return $element;
-}
+};
+
+FormManager.prototype.formpart_load_number = function(json, key)
+{
+	var $element = $('<div></div>').css('height', '110px');
+	$element.append($('<div class="form-label">Choose number:</div>'));
+	var $picker = this.formpart_dropdown([{key: 'Set Number', value: 'explicit'}, {key: 'From Variable', value: 'variable'}, {key: 'Own Health', value: 'derived'}]).val(json[key].source).appendTo($element);
+	
+	var $explicit_wrapper = $('<div></div>').hide().appendTo($element);
+	var $variable_wrapper = $('<div></div>').hide().appendTo($element);
+	
+	var $explicit = this.formpart_number_pick(json, key).appendTo($explicit_wrapper);
+	var $variable = this.formpart_choose_variable(json, key, 'NUM').appendTo($variable_wrapper);
+
+	$picker.change(function(event)
+	{
+		var source = $(this).val();
+		if (source === 'explicit')
+		{
+			$explicit_wrapper.show();
+			$explicit.trigger('update');
+			
+			$variable_wrapper.hide();
+		}
+		else if (source === 'variable')
+		{
+			$variable_wrapper.show();
+			$variable.trigger('update');
+			
+			$explicit_wrapper.hide();
+		}
+		else 
+		{
+			$explicit_wrapper.hide();
+			$variable_wrapper.hide();
+			json[key] = {source: 'derived', value: 'DV_OWNHEALTH'};
+		}
+	});
+	
+	$element.bind('update', function(event)
+	{
+		event.preventDefault();
+		event.stopPropagation();
+		
+		$picker.trigger('change');
+	});
+	
+	return $element;
+};
 
 FormManager.prototype.formpart_load_direction = function(json, key)
 {
@@ -352,6 +425,25 @@ FormManager.prototype.form_if = function(json)
 	
 	// NUMBER COMPARISON
 	var $number_wrapper = $('<div></div').appendTo($('#instruction')).hide();
+	var $number_first = this.formpart_load_number(json, 'first').appendTo($number_wrapper);
+	$number_wrapper.append($('<div class="form-label">Comparison operator:</div>'));
+	var $number_operator = this.formpart_dropdown([{key: 'Equal', value: '='}, {key: 'Less', value: '<'}, {key: 'Greater', value: '>'}, {key: 'Less or Equal', value: '<='}, {key: 'Greater or Equal', value: '>='}, {key: 'Not Equal', value: '!='}]).val(json.operator).appendTo($number_wrapper);
+	var $number_second = this.formpart_load_number(json, 'second').appendTo($number_wrapper);
+	
+	$number_operator.change(function()
+	{
+		json.operator = $(this).val();
+	});
+	
+	$number_wrapper.bind('update', function(event)
+	{
+		event.preventDefault();
+		event.stopPropagation();
+		
+		$number_operator.trigger('change');
+		$number_first.trigger('update');
+		$number_second.trigger('update');
+	});
 	
 	
 	// ENTITY COMPARISON
@@ -400,152 +492,6 @@ FormManager.prototype.form_if = function(json)
 			$entity_wrapper.show().trigger('update');
 		}
 	}).trigger('change');
-	
-	
-	
-	
-	/*
-	var entity1 = $('<div id="entity1" class="form-margin"></div>').append(this.form_selector('set-ent-choice1', [{key: 'Set Entity', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
-	var set_entity1 = $('<div></div>').append(this.set_entity('set-entity1')).hide().appendTo($('#entity1'));
-	var variable_entity1 = $('<div></div>').append(this.var_selector('entity', 'variable-ent1')).hide().appendTo($('#entity1'));
-	
-	var ent_comparison = $('<div></div>').append(this.form_selector('ent-comparison', [{key: '=', value: '1'},{key: '!=', value: '2'}])).hide().appendTo($('#entity1'));
-	
-	var entity2 = $('<div id="entity2" class="form-margin"></div>').append(this.form_selector('set-ent-choice2', [{key: 'Set Entity', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
-	var set_entity2 = $('<div></div>').append(this.set_entity('set-entity2')).hide().appendTo($('#entity2'));
-	var variable_entity2 = $('<div></div>').append(this.var_selector('entity', 'variable-ent2')).hide().appendTo($('#entity2'));
-
-	var direction1 = $('<div id="ins-direction1" class="form-margin"></div>').append(this.form_selector('set-dir-choice1', [{key: 'Set Direction', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
-	var set_direction1 = $('<div></div>').hide().appendTo($('#ins-direction1')).css({position: 'relative', height: '64px', width: '100%'});
-	this.action_direction_select(set_direction1);
-	var variable_direction1 = $('<div></div>').append(this.var_selector('direction', 'variable-dir1')).hide().appendTo($('#ins-direction1'));	
-	
-	var dir_comparison = $('<div></div>').append(this.form_selector('dir-comparison', [{key: '=', value: '1'},{key: '!=', value: '2'}])).hide().appendTo($('#ins-direction1'));	
-	
-	var direction2 = $('<div id="ins-direction2" class="form-margin"></div>').append(this.form_selector('set-dir-choice2', [{key: 'Set Direction', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
-	var set_direction2 = $('<div></div>').hide().appendTo($('#ins-direction2')).css({position: 'relative', height: '64px', width: '100%'});
-	this.action_direction_select(set_direction2);
-	var variable_direction2 = $('<div></div>').append(this.var_selector('direction','variable-dir2')).hide().appendTo($('#ins-direction2'));	
-
-	var number1 = $('<div id="number1" class="form-margin"></div>').append(this.form_selector('set-num-choice1', [{key: 'Set Number', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
-	var set_number1 = $('<div></div>').append('<input type="number"></input>').hide().appendTo($('#number1')).css({position: 'relative', height: '64px', width: '100%'});
-	var variable_number1 = $('<div></div>').append(this.var_selector('number', 'variable-num1')).hide().appendTo($('#number1'));	
-	
-	var num_comparison = $('<div></div>').append(this.form_selector('num-comparison', [{key: '>', value: '1'},{key: '=', value: '2'}, {key: '<', value: '3'}])).hide().appendTo($('#number1'));		
-	
-	var number2 = $('<div id="number2" class="form-margin"></div>').append(this.form_selector('set-num-choice2', [{key: 'Set Number', value: '1'},{key: 'From Variable', value: '2'}])).hide().appendTo('#instruction');
-	var set_number2 = $('<div></div>').append('<input type="number"></input>').hide().appendTo($('#number2')).css({position: 'relative', height: '64px', width: '100%'});
-	var variable_number2 = $('<div></div>').append(this.form_selector('number', 'variable-num1')).hide().appendTo($('#number2'));	
-
-	$('#action-choice').change(function(event)
-	{
-		if($(this).val() == 1)
-		{
-			direction1.hide();
-			direction2.hide();
-			number1.hide();
-			num_comparison.hide();
-			number2.hide();
-			entity1.show();
-			ent_comparison.show();
-			entity2.show();
-		}
-		
-		else if($(this).val() == 2)
-		{
-			entity1.hide();
-			ent_comparison.hide();
-			entity2.hide();
-			number1.hide();
-			num_comparison.hide();
-			number2.hide();
-			direction1.show();
-			dir_comparison.show();
-			direction2.show();
-		}
-		else
-		{
-			entity1.hide();
-			ent_comparison.hide();
-			entity2.hide();
-			direction1.hide();
-			dir_comparison.hide();
-			direction2.hide();
-			number1.show();
-			num_comparison.show();
-			number2.show();
-		}
-	}).trigger('change');
-	
-	$('#set-ent-choice1').change(function(event)
-	{
-		if($(this).val() == 1)
-		{
-			set_entity1.show();
-			variable_entity1.hide();
-		}
-		else
-		{
-			set_entity1.hide();
-			variable_entity1.show();
-		}
-	}).trigger('change');	
-
-	$('#set-ent-choice2').change(function(event)
-	{
-		if($(this).val() == 1)
-		{
-			set_entity2.show();
-			variable_entity2.hide();
-		}
-		else
-		{
-			set_entity2.hide();
-			variable_entity2.show();
-		}
-	}).trigger('change');	
-
-	
-	$('#set-dir-choice1').change(function(event)
-	{
-		if($(this).val() == 1)
-		{
-			set_direction1.show();
-			set_direction2.show();
-			variable_direction1.hide();
-			variable_direction2.hide();
-		}
-		else
-		{
-			set_direction1.hide();
-			set_direction2.hide();
-			variable_direction1.show();
-			variable_direction2.show();
-		}
-	}).trigger('change');	
-
-	$('#set-num-choice1').change(function(event)
-	{
-		if($(this).val() == 1)
-		{
-			set_number1.show();
-			set_number2.show();
-			variable_number1.hide();
-			variable_number2.hide();
-			
-		}
-		else
-		{
-			set_number1.hide();
-			set_number2.hide();
-			variable_number1.show();
-			variable_number2.show();
-		}
-	}).trigger('change');
-	
-	this.program_direction_select($('#direction'), 'Set direction of next command if test case is true ');
-	//this.program_direction_select($('#direction'), 'Set direction of next command if test case is false ');
-	*/
 };
 
 FormManager.prototype.form_loop = function(json)
@@ -554,9 +500,111 @@ FormManager.prototype.form_loop = function(json)
 	this.formpart_continue(json, true).appendTo($('#direction'));
 	
 	$('#instruction').append(this.form_header('static/img/editor_for_large.png', 'Loop'));
-	/*
-	$('#instruction').append('<span>Choose type to loop</span>').append(this.form_selector('action-choice', [{key: 'Entity', value: '1'},{key: 'Direction', value: '2'}, {key: 'Number', value: '3'}]));
 	
+	$('#instruction').append($('<div class="form-label">Choose loop type:</div>'));
+	var $picker = this.formpart_dropdown([{key: 'Numbers', value: 'NUM'}, {key: 'Directions', value: 'DIR'}, {key: 'Entity Types', value: 'ENT'}]).val(json.expr_type).appendTo($('#instruction'));
+
+	// DIRECTION LOOP	
+	var $direction_wrapper = $('<div></div').appendTo($('#instruction')).hide();
+	$direction_wrapper.append($('<div class="form-label">Choose loop variable:</div>'));
+	$direction_variable = this.formpart_choose_variable(json, 'variable', 'DIR').val(json.variable).appendTo($direction_wrapper);
+
+	$direction_wrapper.append($('<div class="form-label">Loop start:</div>'));
+	var $direction_start = this.formpart_load_direction(json, 'start').appendTo($direction_wrapper);
+	$direction_wrapper.append($('<div class="form-label">Loop end:</div>'));
+	var $direction_end = this.formpart_load_direction(json, 'end').appendTo($direction_wrapper);
+	
+	$direction_wrapper.append($('<div class="form-label">Loop direction:</div>'));
+	var $direction_increment = this.formpart_dropdown([{key: 'Clockwise', value: 'DV_CLOCKWISE'}, {key: 'Counter-Clockwise', value: 'DV_COUNTERCLOCKWISE'}]).val(json.increment).appendTo($direction_wrapper);
+	
+	$direction_increment.bind('change', function(event)
+	{
+		json.increment = $(this).val();
+	});
+	
+	$direction_wrapper.bind('update', function(event)
+	{
+		event.preventDefault();
+		event.stopPropagation();
+	
+		$direction_variable.trigger('change');
+		$direction_start.trigger('update');
+		$direction_end.trigger('update');
+		$direction_increment.trigger('change');
+	});
+	
+	// NUMBER LOOP
+	var $number_wrapper = $('<div></div').appendTo($('#instruction')).hide();
+	$number_wrapper.append($('<div class="form-label">Choose loop variable:</div>'));
+	$number_variable = this.formpart_choose_variable(json, 'variable', 'NUM').val(json.variable).appendTo($entity_wrapper);
+	
+	$number_wrapper.append($('<div class="form-label">Loop start:</div>'));
+	var $number_start = this.formpart_load_number(json, 'start').appendTo($number_wrapper);
+	$number_wrapper.append($('<div class="form-label">Loop end:</div>'));
+	var $number_end = this.formpart_load_number(json, 'end').appendTo($number_wrapper);
+	
+	$number_wrapper.append($('<div class="form-label">Loop direction:</div>'));
+	var $number_increment = this.formpart_dropdown([{key: '+1', value: '+1'}, {key: '-1', value: '-1'}]).val(json.increment).appendTo($number_wrapper);
+	
+	$number_increment.bind('change', function(event)
+	{
+		json.increment = $(this).val();
+	});
+	
+	$number_wrapper.bind('update', function(event)
+	{
+		event.preventDefault();
+		event.stopPropagation();
+	
+		$number_variable.trigger('change');
+		$number_start.trigger('update');
+		$number_end.trigger('update');
+		$number_increment.trigger('change');
+	});
+	
+	// ENTITY LOOP
+	var $entity_wrapper = $('<div></div').appendTo($('#instruction')).hide();
+	$entity_wrapper.append($('<div class="form-label">Choose loop variable:</div>'));
+	var $entity_variable = this.formpart_choose_variable(json, 'variable', 'ENT').val(json.variable).appendTo($entity_wrapper);
+	$entity_wrapper.append($('<div class="form-label">Entity type loop sequence:<br />&nbsp;Friend<br />&nbsp;Enemy<br />&nbsp;Food<br />&nbsp;Empty Tile<br />&nbsp;Out of Bounds</div>'));
+	
+	$entity_wrapper.bind('update', function(event)
+	{
+		event.preventDefault();
+		event.stopPropagation();
+		
+		$entity_variable.trigger('change');
+		json.start = {source: 'explicit', value: 'FRIEND'};
+		json.end = {source: 'explicit', value: 'BOUND'};
+		json.increment = 'DV_NEXTENTITY';
+	});
+	
+	// TYPE CHANGE
+	$picker.change(function(event)
+	{
+		json.expr_type = $(this).val();
+	
+		if ($(this).val() === 'DIR')
+		{
+			$direction_wrapper.show().trigger('update');
+			$number_wrapper.hide();
+			$entity_wrapper.hide();
+		}
+		else if ($(this).val() === 'NUM')
+		{
+			$direction_wrapper.hide();
+			$number_wrapper.show().trigger('update');
+			$entity_wrapper.hide();
+		}
+		else if ($(this).val() === 'ENT')
+		{
+			$direction_wrapper.hide();
+			$number_wrapper.hide();
+			$entity_wrapper.show().trigger('update');
+		}
+	}).trigger('change');
+
+/*	
 	var entity = $('<div></div>').append('<span>Choose variable to loop</span>').append(this.var_selector('entity', 'ent-var')).hide().appendTo($('#instruction'));
 	
 	var direction = $('<div id="dir-select"></div>').append('<span>Choose loop direction and start</span>').append(this.form_selector('directions', [{key: 'clockwise', value: '1'}, {key: 'counter-clockwise', value: '2'}])).appendTo($('#instruction'));

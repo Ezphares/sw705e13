@@ -3,9 +3,9 @@
 	position: absolute;
 	z-index: inherit;
 	left: 560px;
-	top: 40px;
+	top: 12px;
 	width: 200px;
-	height: 550px;
+	height: 580px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #0f0;
@@ -70,7 +70,7 @@
 #instruction
 {
 	position: relative;
-	height: 448px;
+	height: 478px;
 	width: 100%;
 }
 
