@@ -22,6 +22,33 @@ Cell = function(position, energy, sprite, program, playertype)
 	this.ip = [0,0]; // Instruction pointer
 	this.type = 'cell';
 	this.exhausted = true; // Prevent execution when entity is new
+	this.variables = {DIR1: 'R', DIR2: 'R', DIR3: 'R', ENT1: 'FRIEND', ENT2:'FRIEND', ENT3:'FRIEND', NUM1:'0', NUM2: '0', NUM3:'0'};
+};
+
+Cell.prototype.get_value(json)
+{
+	var source = json.source;
+	
+	if (source === 'undefined')
+	{
+		return json;
+	}
+	
+	if (source === 'explicit')
+	{
+		return json.value;
+	}
+	else if (source === 'variable')
+	{
+		return this.variables[json.value];
+	}
+	else
+	{
+		if (json.value === 'DV_OWNHEALTH')
+		{
+			return String(this.energy);s
+		}
+	}
 };
 
 /**
@@ -105,7 +132,7 @@ Cell.prototype.battle = function(board)
 				board.remove_entity(this);
 			}
 		}
-	};
+	}
 };
 
 /**
@@ -135,6 +162,7 @@ Cell.prototype.draw = function(board, gl)
 Cell.prototype.execute = function(board)
 {
 	var imax = 50;
+	var loops = [];
 	
 	// Ifetch loop
 	while (imax > 0)
@@ -144,11 +172,147 @@ Cell.prototype.execute = function(board)
 		
 		if (i === null || i.type === 'empty') // This will only happen in an invalid program
 			break;
-	
+		
+		if (i.type === 'if')
+		{
+			var first = this.get_value(i.first);
+			var second = this.get_value(i.second);
+			
+			if(i.expr_type === 'ENT' || i.expr_type === 'DIR')
+			{
+				if(i.operator === '=')
+				{
+					if (first !== second)
+						inext = 'divert';
+				}
+				else
+				{
+					if(first === second)
+					{
+						inext = 'divert';
+					}
+				}
+			}
+			else
+			{
+				first = parseInt(first);
+				second = parseInt(second);
+				
+				if (i.operator === '=')
+				{
+					if (first != second)
+						inext = 'divert';
+				}
+				else if (i.operator === '<')
+				{
+					if(first >= second)
+						inext = 'divert';
+				}				
+				else if (i.operator === '<=')
+				{
+					if(first > second)
+						inext = 'divert';
+				}
+				else if (i.operator === '>')
+				{
+					if(first <= second)
+						inext = 'divert';
+				}
+				else if (i.operator === '>=')
+				{
+					if(first < second)
+						inext = 'divert';
+				}
+				else
+				{
+					if (first === second)
+						inext = 'divert';
+				}
+			}
+		}
+		else if (i.type === 'loop')
+		{
+			var cache = JSON.stringify(this.ip);
+			if (loops.indexOf(cache) === -1)
+			{
+				loops.push(cache);
+				this.variables[i.variable] = this.get_value(i.start);
+			}
+			else
+			{
+				if(this.variables[i.variable] === this.get_value(i.end))
+				{
+					inext = 'divert';
+				}
+				else
+				{
+					if (i.increment === '+1')
+						this.variables[i.variable] = String(parseInt(this.variables[i.variable])+1);
+					
+					else if (i.increment == '-1')
+						this.variables[i.variable] = String(parseInt(this.variables[i.variable])-1);
+					
+					else if (i.increment === 'DV_NEXTENTITY')
+						this.variables[i.variable] = FormManager.entities[FormManager.entities.indexOf(this.variables[i.variable])+1];
+					
+					else if (i.increment === 'DV_COUNTERCLOCKWISE')
+						this.variables[i.variable] = Hex.rotate(this.variables[i.variable], 'CC');
+					
+					else if (i.increment === 'DV_CLOCKWISE')
+						this.variables[i.variable] = Hex.rotate(this.variables[i.variable], 'C');
+				}
+			}
+		}
+		else if (i.type === 'look')
+		{
+			var target = Hex.move(this.position, this.get_value(i.target));
+			if(!board.grid.is_inside(target))
+			{
+				this.variables[i.save_entity] = 'BOUND';
+				this.variables[i.save_energy] = '0';
+			}
+			else
+			{
+				this.variables[i.save_entity] = 'EMPTY';
+				this.variables[i.save_energy] = '0';
+				
+				for (var i = 0; i < board.entities.length; i++)
+				{
+					var other = board.entities[i];
+					
+					if (target[0] === other.position[0] && target[1] === other.position[1])
+					{
+						this.variables[i.save_energy] = String(other.energy);
+						
+						if(other.type === 'food')
+						{
+							this.variables[i.save_entity] = 'FOOD';
+						}
+						else if (this.playertype == other.playertype)
+						{
+							this.variables[i.save_entity] = 'FRIEND';
+						}
+						else
+						{
+							this.variables[i.save_entity] = 'ENEMY';
+						}
+					}
+				}	
+			}
+		}
+		
 		this.ip = Hex.move(this.ip, i[inext]);
 		imax--;
+		
+		if (i.type === 'move')
+		{
+			return {act: 'M', dir: this.get_value(i.target)};
+		}
+		else if (i.type === 'split')
+		{
+			return {act: 'S', dir: this.get_value(i.target)};
+		}
 	}
 
-	// TODO: Debug
-	return {act: 'S', dir: 'R'};
+	return {act: 'NOP'};
 };
