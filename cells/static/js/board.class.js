@@ -17,6 +17,13 @@ Board = function(size, spr_tile)
 	this.index = 0; // For avoiding race conditions on entity removal
 };
 
+Board.prototype.init = function(food, cell1, cell2)
+{
+	this.add_entity(food);
+	this.add_entity(cell1);
+	this.add_entity(cell2);
+};
+
 /**
  * Draws the board
  *
@@ -38,8 +45,7 @@ Board.prototype.draw = function(gl)
 	}
 	
 	// Call draw for each entity
-	for (var i = 0; i < this.entities.length; i++)
-	{
+	for (var i = 0; i < this.entities.length; i++){
 		this.entities[i].draw(this, gl);
 	}
 	
@@ -51,19 +57,18 @@ Board.prototype.draw = function(gl)
 	var cell_red_hp = 0;
 	var count = 0; // Contains number of times green has to be drawn relative to red.
 	
-	for(var i = 0; i < this.entities.length; i++) {
-		if(this.entities[i].type == 'cell' && this.entities[i].playertype == 1) {
+	for(var i = 0; i < this.entities.length; i++){
+		if(this.entities[i].type == 'cell' && this.entities[i].playertype == 1){
 			cell_green_hp += this.entities[i].energy;
 		}
-		
-		else if(this.entities[i].type == 'cell' && this.entities[i].playertype == 2) {
+		else if(this.entities[i].type == 'cell' && this.entities[i].playertype == 2){
 			cell_red_hp += this.entities[i].energy;
 		}
 	}
 	
 	//Checks if one of the cells are dead.
 	
-	if(cell_red_hp != 0 || cell_green_hp != 0) {
+	if(cell_red_hp != 0 || cell_green_hp != 0){
 		count = this.health_count(cell_green_hp, cell_red_hp) * 16; // Multiplied with the pixel offset of 16 for the healthbar (tells me how many times to draw a .png
 	
 		gl.draw_sprite(healthbar_green_start, 0, 0, 0);
@@ -71,25 +76,24 @@ Board.prototype.draw = function(gl)
 			gl.draw_sprite(healthbar_green_mid, 0, i, 0);
 		}
 	
-		for(var i = count; i < 640; i+=16) {
+		for(var i = count; i < gl.width; i+=16) {
 			gl.draw_sprite(healthbar_red_mid, 0, i, 0);
 		}
 	
-	gl.draw_sprite(healthbar_red_end, 0, 624, 0);
+		gl.draw_sprite(healthbar_red_end, 0, gl.width-16, 0);
 	}
 };
 
 Board.prototype.health_count = function(green_hp, red_hp) 
 {
 	var count = 0; // How many times should I draw the health_bar sprite for green??
-	var max_draw = 39; // Maximum number of times I can draw a health_bar sprite of 16 pixels on the canvas, boom.
+	var max_draw = (800-16)/16; // Maximum number of times I can draw a health_bar sprite of 16 pixels on the canvas, boom.
 
 	
 	var temp = green_hp/(red_hp+green_hp); //Green's percentile cut of the HP combined
 	console.log(temp);
 	
 	count = Math.floor((max_draw * temp));
-
 	
 	return count;
 }
@@ -102,8 +106,7 @@ Board.prototype.update = function()
 	console.log("board updated");
 	// TODO: Spawn food?
 	
-	for (this.index = 0; this.index < this.entities.length; this.index++)
-	{
+	for (this.index = 0; this.index < this.entities.length; this.index++){
 		this.entities[this.index].update(this);
 	}
 };
@@ -130,23 +133,12 @@ Board.prototype.add_entity = function(entity)
 Board.prototype.remove_entity = function(entity)
 {
 	var index = this.entities.indexOf(entity);
-	if (index !== -1)
-	{
+	if (index !== -1){
 		this.entities.splice(index, 1);
-		if (this.index >= index)
+		if (this.index >= index){
 			this.index--;
-	}
-};
-
-Board.prototype.get_friendly_cells = function()
-{
-	var j = 0;
-	for(var i = 0; i < this.entities.length; i++) {
-		if(this.entities[i].type == 'cell' && this.entities[i].playertype == 1) {
-			j++;
 		}
 	}
-	return j;
 };
 
 Board.prototype.isDone = function()
@@ -163,11 +155,5 @@ Board.prototype.isDone = function()
 		}
 	}
 	
-	//Anders' kode
-	if(enemies == 0 || friends == 0){
-		return true;
-	}
-	else{
-		return false;
-	}
+	return (enemies == 0 || friends == 0);
 }

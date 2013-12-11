@@ -1,16 +1,13 @@
 Game = function()
 {
-	// Default parameters:
 	this.gl = new IfyGL({
 		canvas: 'game',
 		texturepath: 'static/img/',
 		shaderpath: 'static/shaders/',
-		width: 640,
-		height: 480
 	});
-	this.state = 'Start';
 	this.menu = null;
 	this.board = null;
+	this.editor = null;
 };
 
 var mouseX;
@@ -37,7 +34,7 @@ Game.prototype.init = function()
 	{
 		game.doMouseMove(event);
 	}, false);
-	
+
 	var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
@@ -50,7 +47,7 @@ Game.prototype.init = function()
 						 {filename: 'health_bar_green_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_red_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_red_end.png', fame_width: 16, frame_height: 16, origin: [0,0]}];
-					 
+
 	this.gl.load_sprites(sprite_loader, function(sprites)
 	{
 		var tile = sprites[0];
@@ -68,41 +65,55 @@ Game.prototype.init = function()
 		Food.sprite = food;
 		
 		game.board = new Board(10, tile);
-		f =  new Food(100, [2, 0]);
 		game.menu = new Menu(activeb, inactiveb, tile, back, home);
+		game.editor = new Editor(10);
 		
-		game.board.add_entity(f);
+		f =  new Food(100, [2, 0]);
 		c = new Cell([0, 0], 175, sprites[2], new Program(3), 1);
 		r = new Cell([16,16], 100, sprites[3], new Program(3), 2);
-		game.board.add_entity(c);
-		game.board.add_entity(r);
 		
-		game.menu.draw_startmenu(game.gl);
+		game.board.init(f, c, r);
+
+		game.update();
 		
 		setInterval(function()
 		{
-			if(game.board.isDone() && game.menu.state != 'Done'){
+			// Is the game done?
+			if(game.menu.state == 'Done'){
+				game.menu.state = 'Start';
+				game.board = new Board(10, tile);
+				f =  new Food(100, [2, 0]);
+				c = new Cell([0, 0], 175, sprites[2], new Program(3), 1);
+				r = new Cell([16,16], 100, sprites[3], new Program(3), 2);
+				game.board.init(f, c, r);
+				game.update();
+			}
+			else if(game.board.isDone() && game.menu.state != 'Done'){
 				game.menu.state = 'Done';
 				game.board.draw(game.gl);
 			}	
+			// Is the game in the editor?
 			else if(game.menu.state == 'InEditor'){
-				console.log("#FriendlyCells: " + game.board.get_friendly_cells());
+				game.editor.test();
+			}
+			// Is the game running?
+			/*else if(game.menu.state == 'InEditor'){
 				game.board.draw(game.gl);
 				game.board.update();
-			}
+			}*/
+			
 		}, 1000);
 	});
 };
 
 Game.prototype.doMouseMove = function(event)
 {
-	if (draggable)
-	{
+	if (draggable){
 		mouseX = event.pageX - offset_x;
  		mouseY = event.pageY - offset_y;
  	}
- 	console.log("x:", mouseX, "y:", mouseY, "draggable:", draggable)
-}
+ 	//console.log("x:", mouseX, "y:", mouseY, "draggable:", draggable)
+};
 
 Game.prototype.doMouseDown = function(event)
 {
@@ -115,7 +126,6 @@ Game.prototype.doMouseDown = function(event)
 	canvas_x = event.pageX - offset_x;
 	canvas_y = event.pageY - offset_y;
 	draggable = true;
-	
 	if(this.menu.isButtonHit(canvas_x, canvas_y, this.gl)){
 		this.update();
 	}
@@ -123,9 +133,9 @@ Game.prototype.doMouseDown = function(event)
 
 Game.prototype.doMouseUp = function()
 {
-	console.log("mouseUp")
+	//console.log("mouseUp")
 	draggable = false;
-}
+};
 
 Game.prototype.update = function()
 {
@@ -147,7 +157,12 @@ Game.prototype.update = function()
 	}
 	
 	// TODO: *** TEMPORARY CODE TO TEST THE BOARD - WHEN EDITOR IS IMPLEMENTED THIS HAS TO BE CHANGED TO DRAW THAT INSTEAD OF THE BOARD ***
+	/*else if(this.menu.state === 'InEditor'){
+		alert("Go to editor: This is use temp code to this board");
+		this.editor.test();
+		//this.board.draw(this.gl);
+	}*/
 	else if(this.menu.state === 'InEditor'){
-		this.board.draw(this.gl);
+		//this.board.draw();
 	}
 };

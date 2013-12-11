@@ -16,8 +16,8 @@ IfyGL = function(params)
 	this.shaderpath = '';		// Url path
 	this.texturepath = '';		// Url path
 	this.canvas = 'ifygl';		// ID
-	this.width = 640;			// Resolution
-	this.height = 480;			// Resolution
+	this.width = 800;			// Standard Resolution
+	this.height = 600;			// Standard Resolution
 	this.debug = false;
 	
 	// Extract parameters if given
@@ -352,10 +352,12 @@ IfyGL.prototype.load_shader = function(name, type)
 	// TODO: Cache this.
 	
 	var xoffset = 0;
-	if (align === 'center')
+	if (align === 'center'){
 		xoffset = -data.width / 2;
-	else if (align === 'right')
+	}
+	else if (align === 'right'){
 		xoffset = -data.width;
+	}
 	
 	this.source = [0,0];
 	this.target = [x + xoffset, y];
