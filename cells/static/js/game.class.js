@@ -1,14 +1,10 @@
 Game = function()
 {
-	// Default parameters:
 	this.gl = new IfyGL({
 		canvas: 'game',
 		texturepath: 'static/img/',
 		shaderpath: 'static/shaders/',
-		width: 640,
-		height: 480
 	});
-	this.state = 'Start';
 	this.menu = null;
 	this.board = null;
 };
@@ -37,7 +33,7 @@ Game.prototype.init = function()
 	{
 		game.doMouseMove(event);
 	}, false);
-	
+
 	var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
@@ -50,7 +46,7 @@ Game.prototype.init = function()
 						 {filename: 'health_bar_green_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_red_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_red_end.png', fame_width: 16, frame_height: 16, origin: [0,0]}];
-					 
+
 	this.gl.load_sprites(sprite_loader, function(sprites)
 	{
 		var tile = sprites[0];
@@ -96,13 +92,12 @@ Game.prototype.init = function()
 
 Game.prototype.doMouseMove = function(event)
 {
-	if (draggable)
-	{
+	if (draggable){
 		mouseX = event.pageX - offset_x;
  		mouseY = event.pageY - offset_y;
  	}
- 	console.log("x:", mouseX, "y:", mouseY, "draggable:", draggable)
-}
+ 	//console.log("x:", mouseX, "y:", mouseY, "draggable:", draggable)
+};
 
 Game.prototype.doMouseDown = function(event)
 {
@@ -115,7 +110,7 @@ Game.prototype.doMouseDown = function(event)
 	canvas_x = event.pageX - offset_x;
 	canvas_y = event.pageY - offset_y;
 	draggable = true;
-	
+	console.log("width: " + this.gl.width + " height: " + this.gl.height);
 	if(this.menu.isButtonHit(canvas_x, canvas_y, this.gl)){
 		this.update();
 	}
@@ -123,9 +118,9 @@ Game.prototype.doMouseDown = function(event)
 
 Game.prototype.doMouseUp = function()
 {
-	console.log("mouseUp")
+	//console.log("mouseUp")
 	draggable = false;
-}
+};
 
 Game.prototype.update = function()
 {
