@@ -243,6 +243,11 @@ Cell.prototype.execute = function(board)
 				if(this.variables[i.variable] === this.get_value(i.end))
 				{
 					inext = 'divert';
+					var index = loops.indexOf(cache);
+					if (index !== -1)
+					{
+						loops.splice(index,1);
+					}
 				}
 				else
 				{
