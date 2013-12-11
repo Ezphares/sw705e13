@@ -11,7 +11,7 @@ The offset for the $y$-coordinate is easy, since this does not change with the s
 
 The offset for the x-coordinate is a little more difficult. The calculation is shown below:
 
-\begin{lstlisting}[language=JavaScript, caption=doMouseDown(event)]
+\begin{lstlisting}[language=JavaScript, caption=function: doMouseDown(event)]
 	B = document.body;
 	H = document.documentElement;
 	width = Math.max( B.scrollWidth, B.offsetWidth, H.clientWidth, H.scrollWidth, H.offsetWidth);
