@@ -163,6 +163,6 @@ Game.prototype.update = function()
 		//this.board.draw(this.gl);
 	}*/
 	else if(this.menu.state === 'InEditor'){
-		//this.board.draw();
+		//this.board.draw(this.gl);
 	}
 };
