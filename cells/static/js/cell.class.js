@@ -25,7 +25,7 @@ Cell = function(position, energy, sprite, program, playertype)
 	this.variables = {DIR1: 'R', DIR2: 'R', DIR3: 'R', ENT1: 'FRIEND', ENT2:'FRIEND', ENT3:'FRIEND', NUM1:'0', NUM2: '0', NUM3:'0'};
 };
 
-Cell.prototype.get_value(json)
+Cell.prototype.get_value = function(json)
 {
 	var source = json.source;
 	
