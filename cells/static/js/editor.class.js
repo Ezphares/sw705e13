@@ -135,7 +135,7 @@ Editor.load_sprites = function(gl, callback)
 	});
 }
 
-Editor.prototype.test = function()
+Editor.test = function()
 {
 	gl = new IfyGL({
 		canvas: 'game',

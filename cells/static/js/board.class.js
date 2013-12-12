@@ -88,7 +88,6 @@ Board.prototype.health_count = function(green_hp, red_hp)
 {
 	var count = 0; // How many times should I draw the health_bar sprite for green??
 	var max_draw = (800-16)/16; // Maximum number of times I can draw a health_bar sprite of 16 pixels on the canvas, boom.
-
 	
 	var temp = green_hp/(red_hp+green_hp); //Green's percentile cut of the HP combined
 	console.log(temp);
@@ -103,7 +102,6 @@ Board.prototype.health_count = function(green_hp, red_hp)
  */
 Board.prototype.update = function()
 {
-	console.log("board updated");
 	// TODO: Spawn food?
 	
 	for (this.index = 0; this.index < this.entities.length; this.index++){
@@ -156,4 +154,17 @@ Board.prototype.isDone = function()
 	}
 	
 	return (enemies == 0 || friends == 0);
+};
+
+Board.prototype.playerWins = function()
+{
+	var enemies = 0;
+	
+	for(var i = 0; i < this.entities.length; i++) {
+		if(this.entities[i].type == 'cell' && this.entities[i].playertype == 2) {
+			enemies++;
+		}
+	}
+	
+	return (enemies == 0); //Return true if no more enemies exist else return false
 }
