@@ -163,6 +163,7 @@ Cell.prototype.draw = function(board, gl)
  */
 Cell.prototype.execute = function(board)
 {
+	this.loops = [];
 	var imax = 50;
 	
 	// Ifetch loop
