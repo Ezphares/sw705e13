@@ -32,9 +32,9 @@ Editor = function(size, spr_tile, spr_select, spr_set)
 	};
 };
 
-Editor.prototype.new_program = function(size)
+Editor.prototype.new_program = function()
 {
-	this.program = new Program(size);
+	this.program = new Program(this.size);
 };
 
 Editor.prototype.draw = function(gl)
