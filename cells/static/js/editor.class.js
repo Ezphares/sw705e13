@@ -81,8 +81,9 @@ Editor.prototype.draw = function(gl)
 
 Editor.prototype.drop = function(point, instruction)
 {
-	console.log("yep");
-	this.program.set_instruction(point, instruction);
+	var tile = this.program.grid.get_tile_position(point);
+	this.program.set_instruction(tile, instruction);
+	this.click(point);
 };
 
 Editor.prototype.click = function(point)

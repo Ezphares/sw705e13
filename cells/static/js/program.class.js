@@ -34,9 +34,7 @@ Program.prototype.get_instruction = function(point)
 
 Program.prototype.set_instruction = function(point, instruction)
 {
-	console.log("set_instruction");
 	if (this.grid.is_inside(point))
-		console.log("inside if");
 		this.instructions[point[1]][point[0]] = instruction;
 };
 

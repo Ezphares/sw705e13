@@ -111,17 +111,16 @@ Game.prototype.doMouseDown = function(event)
 	canvas_x = event.pageX - offset_x;
 	canvas_y = event.pageY - offset_y;
 	this.menu.update(canvas_x, canvas_y, this.gl)
+
+	if (this.editor)
+		this.editor.click([canvas_x, canvas_y]);
 };
 
 Game.prototype.doMouseUp = function()
 {
 	//console.log("mouseUp")
 	if(drag_sprite != 'empty'){
-		console.log("hep");
-		var c = new Array();
-		c[0] = mouseX;
-		c[1] = mouseY;
-		//this.editor.drop([mouseX][mouseY], drag_sprite);
+		this.editor.drop([mouseX, mouseY], drag_sprite);
 	}
 	drag_sprite = 'empty';
 	canvas_x = -1;
@@ -172,11 +171,12 @@ Game.prototype.update = function()
 	if(this.state == 'InMenu'){
 		if(this.menu.state == 'InEditor'){
 			this.state = 'InEditor';
+			this.editor = new Editor(5);
+			this.drag = new Drag();
 		}
 	}
 	else if(this.state == 'InEditor'){
-		this.editor = new Editor(5);
-		this.drag = new Drag();
+
 		
 		if(this.menu.state == 'Start'){
 			this.state = 'InMenu';
