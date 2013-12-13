@@ -220,6 +220,8 @@ Menu.prototype.update = function(x, y, gl)
 	}
 	else if(x > 80 && x <= 80+(this.spr_new.frame_width) && y <= gl.height && y >= gl.height-(this.spr_new.frame_height))
 	{
-		this.state = 'Clean';
+		if(this.state == 'InEditor'){
+			this.state = 'Clean';
+		}
 	}
 };
