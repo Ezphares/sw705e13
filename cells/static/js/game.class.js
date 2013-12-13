@@ -55,7 +55,8 @@ Game.prototype.init = function()
 						 {filename: 'health_bar_green_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_red_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_red_end.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'start_button.png', frame_width: 32, frame_height: 32, origin: [0,0]}];
+						 {filename: 'start_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
+						 {filename: 'new_editor_button.png', frame_width: 64, frame_height: 32, origin: [0,0]}];
 
 	Editor.load_sprites(this.gl, function()
 	{
@@ -70,6 +71,7 @@ Game.prototype.init = function()
 			var start = sprites[12];
 			var activeb = sprites[4];
 			var inactiveb = sprites[5];
+			var newButton = sprites[13];
 
 			healthbar_green_start = sprites[8];
 			healthbar_green_mid   = sprites[9];
@@ -78,7 +80,7 @@ Game.prototype.init = function()
 			
 			Food.sprite = food;
 			
-			game.menu = new Menu(activeb, inactiveb, game.tile, back, home, start);
+			game.menu = new Menu(activeb, inactiveb, game.tile, back, home, start, newButton);
 
 			game.update();
 			
@@ -158,10 +160,14 @@ Game.prototype.draw = function()
 
 Game.prototype.update = function()
 {
-	if(this.state == 'InMenu'){
+	//console.log("State:" + this.menu.state);
+	if(this.state == 'InMenu' || this.menu.state == 'InEditor'){
 		if(this.menu.state == 'InEditor'){
 			this.state = 'InEditor';
-			this.editor = new Editor(5);
+			if(this.editor == null){
+				this.editor = new Editor(5);
+			}
+			
 			this.drag = new Drag();
 		}
 	}
@@ -201,6 +207,11 @@ Game.prototype.update = function()
 			this.board.add_entity(new Food(100, [13, 13]));
 			this.board.add_entity(new Food(100, [ 9, 18]));
 			this.board.add_entity(new Food(100, [18,  9]));
+		}
+		else if(this.menu.state == 'Clean'){
+			this.menu.state = 'InEditor';
+			this.editor = null;
+			this.editor = new Editor(5);
 		}
 	}
 	else if(this.state == 'InGame'){
