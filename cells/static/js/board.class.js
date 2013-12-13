@@ -17,9 +17,8 @@ Board = function(size, spr_tile)
 	this.index = 0; // For avoiding race conditions on entity removal
 };
 
-Board.prototype.init = function(food, cell1, cell2)
+Board.prototype.init = function(cell1, cell2)
 {
-	this.add_entity(food);
 	this.add_entity(cell1);
 	this.add_entity(cell2);
 };

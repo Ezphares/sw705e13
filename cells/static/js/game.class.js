@@ -116,8 +116,13 @@ Game.prototype.doMouseDown = function(event)
 Game.prototype.doMouseUp = function()
 {
 	//console.log("mouseUp")
+	if(this.editor != null){
+		this.editor.drop([mouseX, mouseY], drag_sprite);
+	}
+	drag_sprite = 'empty';
 	canvas_x = -1;
 	canvas_y = -1;
+
 };
 
 Game.prototype.display_info = function()
@@ -175,10 +180,35 @@ Game.prototype.update = function()
 		else if(this.menu.state == 'InGame'){
 			this.state = 'InGame';
 			this.board = new Board(10, this.tile);
-			f =  new Food(100, [2, 0]);
+			
 			cell1 = new Cell([0, 0], 175,  this.spr_c1, this.editor.program, 1);
-			cell2 = new Cell([16,16], 100, this.spr_c2, this.editor.program, 2);
-			this.board.init(f, cell1, cell2);
+			cell2 = new Cell([18,18], 100, this.spr_c2, this.editor.program, 2);
+			this.board.init(cell1, cell2);
+			
+			/* Friendly side food*/
+			this.board.add_entity(new Food(100, [2, 0]));
+			this.board.add_entity(new Food(100, [0, 2]));
+			this.board.add_entity(new Food(100, [2, 2]));
+			this.board.add_entity(new Food(100, [5, 0]));
+			this.board.add_entity(new Food(100, [0, 5]));
+			this.board.add_entity(new Food(100, [5, 5]));
+			this.board.add_entity(new Food(100, [9, 0]));
+			this.board.add_entity(new Food(100, [0, 9]));
+			
+			/* Center food placement */
+			this.board.add_entity(new Food(150, [8, 10]));
+			this.board.add_entity(new Food(200, [9,  9]));
+			this.board.add_entity(new Food(150, [10, 8]));
+			
+			/* Enemy side food */
+			this.board.add_entity(new Food(100, [16, 18]));
+			this.board.add_entity(new Food(100, [18, 16]));
+			this.board.add_entity(new Food(100, [16, 16]));
+			this.board.add_entity(new Food(100, [13, 18]));
+			this.board.add_entity(new Food(100, [18, 13]));
+			this.board.add_entity(new Food(100, [13, 13]));
+			this.board.add_entity(new Food(100, [ 9, 18]));
+			this.board.add_entity(new Food(100, [18,  9]));
 		}
 	}
 	else if(this.state == 'Done'){

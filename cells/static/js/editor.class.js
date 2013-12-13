@@ -79,6 +79,7 @@ Editor.prototype.draw = function(gl)
 
 Editor.prototype.drop = function(point, instruction)
 {
+	this.program.set_instruction(point, instruction);
 };
 
 Editor.prototype.click = function(point)
