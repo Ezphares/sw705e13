@@ -18,7 +18,8 @@ Game = function()
 
 var mouseX;
 var mouseY;
-var draggable = false;
+var offset_x;
+var offset_y;
 
 Game.prototype.init = function()
 {
@@ -92,10 +93,9 @@ Game.prototype.init = function()
 
 Game.prototype.doMouseMove = function(event)
 {
-	if (draggable){
-		mouseX = event.pageX - offset_x;
- 		mouseY = event.pageY - offset_y;
- 	}
+	mouseX = event.pageX - offset_x;
+ 	mouseY = event.pageY - offset_y;
+
  	//console.log("x:", mouseX, "y:", mouseY, "draggable:", draggable)
 };
 
@@ -118,9 +118,6 @@ Game.prototype.doMouseUp = function()
 	//console.log("mouseUp")
 	canvas_x = -1;
 	canvas_y = -1;
-	mouseX = -100;
-	mouseY = -100;
-	draggable = false;
 };
 
 Game.prototype.display_info = function()
