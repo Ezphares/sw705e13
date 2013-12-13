@@ -24,7 +24,7 @@ Cell = function(position, energy, sprite, program, playertype)
 	this.exhausted = true; // Prevent execution when entity is new
 	this.variables = {DIR1: 'R', DIR2: 'R', DIR3: 'R', ENT1: 'FRIEND', ENT2:'FRIEND', ENT3:'FRIEND', NUM1:'0', NUM2: '0', NUM3:'0'};
 	
-	this loops = [];
+	this.loops = [];
 };
 
 Cell.prototype.get_value = function(json)
