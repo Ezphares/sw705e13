@@ -6,12 +6,13 @@
  * @param {Sprite} spr_tile The sprite to use for empty tiles.
  * @see {Sprite}
  */
-Menu = function(active, inactive, tile, back, home, start)
+Menu = function(active, inactive, tile, back, home, start, newButton)
 {
 	this.spr_tile = tile;
 	this.spr_back = back;
 	this.spr_home = home;
 	this.spr_start = start;
+	this.spr_new = newButton;
 	this.spr_active_button = active;
 	this.spr_inactive_button = inactive;
 	this.state = 'Start';
@@ -36,6 +37,9 @@ Menu.prototype.draw = function(gl)
 	}
 	else if(this.state === 'InEditor'){
 		this.draw_editor(gl);
+	}
+	else if(this.state === 'InGame'){
+		this.draw_game(gl);
 	}
 };
 
@@ -110,8 +114,17 @@ Menu.prototype.draw_editor = function(gl)
 {
 	gl.draw_sprite(this.spr_back, 0, 0, gl.height-(this.spr_back.frame_height));
 	gl.draw_sprite(this.spr_home, 0, 40, gl.height-(this.spr_home.frame_height));
+	gl.draw_sprite(this.spr_new, 0, 80, gl.height-(this.spr_new.frame_height));
+	
 	gl.draw_sprite(this.spr_start, 0, gl.width-(this.spr_start.frame_width), gl.height-(this.spr_start.frame_height));
+	
+	gl.draw_text("Clear", 'black', 20, 0, 88, gl.height-(this.spr_new.frame_height)+3);
 	gl.draw_text("OK", 'black', 15, 0, gl.width-(this.spr_start.frame_width)+5, gl.height-(this.spr_start.frame_height)+7);
+};
+
+Menu.prototype.draw_game = function(gl)
+{
+	gl.draw_sprite(this.spr_back, 0, 0, gl.height-(this.spr_back.frame_height));
 };
 
 Menu.prototype.update = function(x, y, gl)
@@ -182,6 +195,10 @@ Menu.prototype.update = function(x, y, gl)
 			console.log("Back button hit");
 			this.state = 'Singleplayer';
 		}
+		else if(this.state === 'InGame')
+		{
+			this.state = 'InEditor';
+		}
 	}
 	else if(x > 40 && x <= 70 && y <= gl.height && y >= gl.height-(this.spr_home.frame_height))
 	{
@@ -196,5 +213,9 @@ Menu.prototype.update = function(x, y, gl)
 			console.log("OK button hit");
 			this.state = 'InGame';
 		}
+	}
+	else if(x > 80 && x <= 80+(this.spr_new.frame_width) && y <= gl.height && y >= gl.height-(this.spr_new.frame_height))
+	{
+		console.log("Pressed");
 	}
 };
