@@ -232,7 +232,6 @@ Game.prototype.update = function()
 		
 		this.menu.state = 'Start';
 		this.state = 'InMenu';
-		this.editor = null;
 		this.board = null;
 	}
 };
