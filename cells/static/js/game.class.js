@@ -115,13 +115,12 @@ Game.prototype.doMouseDown = function(event)
 
 Game.prototype.doMouseUp = function()
 {
-	//console.log("mouseUp")
 	if(drag_sprite != 'empty'){
 		console.log("hep");
 		var c = new Array();
 		c[0] = mouseX;
 		c[1] = mouseY;
-		//this.editor.drop([mouseX][mouseY], drag_sprite);
+		//this.editor.drop([mouseX, mouseY], drag_sprite);
 	}
 	drag_sprite = 'empty';
 	canvas_x = -1;
@@ -161,7 +160,7 @@ Game.prototype.draw = function()
 			this.tick_cnt = 0;
 		}
 	}
-	else if(this.state == 'InEditor'){
+	else if(this.editor != null && this.state == 'InEditor'){
 		this.editor.draw(this.gl);
 		this.drag.draw(this.gl);
 	}
