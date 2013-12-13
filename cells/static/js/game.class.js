@@ -148,17 +148,7 @@ Game.prototype.draw = function()
 		this.board.draw(this.gl);
 	}
 	else if(this.state == 'InGame'){
-		if(this.tick_cnt == 0){
-			this.tick_cnt++;
-			this.board.draw(this.gl);
-			this.board.update();
-		}
-		else if(this.tick_cnt < this.tick_rate){
-			this.tick_cnt++;
-		}
-		else if(this.tich_cnt == this.tich_rate){
-			this.tick_cnt = 0;
-		}
+		this.board.draw(this.gl);
 	}
 	else if(this.state == 'InEditor'){
 		this.editor.draw(this.gl);
@@ -176,8 +166,6 @@ Game.prototype.update = function()
 		}
 	}
 	else if(this.state == 'InEditor'){
-
-		
 		if(this.menu.state == 'Start'){
 			this.state = 'InMenu';
 		}
@@ -186,7 +174,7 @@ Game.prototype.update = function()
 			this.board = new Board(10, this.tile);
 			
 			cell1 = new Cell([0, 0], 175,  this.spr_c1, this.editor.program, 1);
-			cell2 = new Cell([18,18], 100, this.spr_c2, this.editor.program, 2);
+			cell2 = new Cell([18,18], 100, this.spr_c2, new Program(3), 2);
 			this.board.init(cell1, cell2);
 			
 			/* Friendly side food*/
@@ -213,6 +201,18 @@ Game.prototype.update = function()
 			this.board.add_entity(new Food(100, [13, 13]));
 			this.board.add_entity(new Food(100, [ 9, 18]));
 			this.board.add_entity(new Food(100, [18,  9]));
+		}
+	}
+	else if(this.state == 'InGame'){
+		if(this.tick_cnt == 0){
+			this.tick_cnt++;
+			this.board.update();
+		}
+		else if(this.tick_cnt < this.tick_rate){
+			this.tick_cnt++;
+		}
+		else if(this.tich_cnt == this.tich_rate){
+			this.tick_cnt = 0;
 		}
 	}
 	else if(this.state == 'Done'){
