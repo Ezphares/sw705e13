@@ -23,6 +23,8 @@ Cell = function(position, energy, sprite, program, playertype)
 	this.type = 'cell';
 	this.exhausted = true; // Prevent execution when entity is new
 	this.variables = {DIR1: 'R', DIR2: 'R', DIR3: 'R', ENT1: 'FRIEND', ENT2:'FRIEND', ENT3:'FRIEND', NUM1:'0', NUM2: '0', NUM3:'0'};
+	
+	this loops = [];
 };
 
 Cell.prototype.get_value = function(json)
@@ -162,7 +164,6 @@ Cell.prototype.draw = function(board, gl)
 Cell.prototype.execute = function(board)
 {
 	var imax = 50;
-	var loops = [];
 	
 	// Ifetch loop
 	while (imax > 0)
@@ -234,9 +235,9 @@ Cell.prototype.execute = function(board)
 		else if (i.type === 'loop')
 		{
 			var cache = JSON.stringify(this.ip);
-			if (loops.indexOf(cache) === -1)
+			if (this.loops.indexOf(cache) === -1)
 			{
-				loops.push(cache);
+				this.loops.push(cache);
 				this.variables[i.variable] = this.get_value(i.start);
 			}
 			else
@@ -244,10 +245,10 @@ Cell.prototype.execute = function(board)
 				if(this.variables[i.variable] === this.get_value(i.end))
 				{
 					inext = 'divert';
-					var index = loops.indexOf(cache);
+					var index = this.loops.indexOf(cache);
 					if (index !== -1)
 					{
-						loops.splice(index,1);
+						this.loops.splice(index,1);
 					}
 				}
 				else
