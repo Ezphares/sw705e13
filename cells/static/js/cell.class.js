@@ -168,6 +168,7 @@ Cell.prototype.execute = function(board)
 	while (imax > 0)
 	{
 		var i = this.program.get_instruction(this.ip);
+		
 		var inext = 'continue'; // Set to 'divert' in IF/FOR when branching
 		
 		if (i === null || i.type === 'empty') // This will only happen in an invalid program
@@ -281,9 +282,9 @@ Cell.prototype.execute = function(board)
 				this.variables[i.save_entity] = 'EMPTY';
 				this.variables[i.save_energy] = '0';
 				
-				for (var i = 0; i < board.entities.length; i++)
+				for (var j = 0; j < board.entities.length; j++)
 				{
-					var other = board.entities[i];
+					var other = board.entities[j];
 					
 					if (target[0] === other.position[0] && target[1] === other.position[1])
 					{

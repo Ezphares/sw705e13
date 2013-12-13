@@ -89,7 +89,6 @@ Board.prototype.health_count = function(green_hp, red_hp)
 	var max_draw = (800-16)/16; // Maximum number of times I can draw a health_bar sprite of 16 pixels on the canvas, boom.
 	
 	var temp = green_hp/(red_hp+green_hp); //Green's percentile cut of the HP combined
-	console.log(temp);
 	
 	count = Math.floor((max_draw * temp));
 	
