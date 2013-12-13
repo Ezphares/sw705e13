@@ -28,12 +28,18 @@ FormManager.prototype.new_form = function()
 /***********************
  * FORMPART PRIMITIVES *
  ***********************/
-FormManager.prototype.form_header = function(img, text)
+FormManager.prototype.form_header = function(json, img, text)
 {
 	var header = $('<table><tr></tr></table>');
+	var manager = this;
 	
 	$('<td><img /></td>').appendTo($('tr', header)).find('img').attr('src', img);
-	$('<td></td>').appendTo($('tr', header)).text(text);
+	$('<td width="100px"></td>').appendTo($('tr', header)).text(text);
+	$('<td><a href="#">X</a></td>').appendTo($('tr', header)).find('a').click(function(event)
+	{
+		json.type = 'empty';
+		manager.clear();
+	});
 	
 	return header;
 };
@@ -356,7 +362,7 @@ FormManager.prototype.form_nop = function(json)
 	this.new_form();
 	this.formpart_continue(json, false).appendTo($('#direction'));
 	
-	$('#instruction').append(this.form_header('static/img/editor_empty_large.png', 'No operation'));
+	$('#instruction').append(this.form_header(json, 'static/img/editor_empty_large.png', 'No operation'));
 };
 
 FormManager.prototype.form_move = function(json)
@@ -364,7 +370,7 @@ FormManager.prototype.form_move = function(json)
 	this.new_form();
 	this.formpart_continue(json, false).appendTo($('#direction'));
 	
-	$('#instruction').append(this.form_header('static/img/editor_move_large.png', 'Move action'));
+	$('#instruction').append(this.form_header(json, 'static/img/editor_move_large.png', 'Move action'));
 	$('#instruction').append(this.formpart_load_direction(json, 'target').trigger('update'));
 };
 
@@ -373,7 +379,7 @@ FormManager.prototype.form_split = function(json)
 	this.new_form();
 	this.formpart_continue(json, false).appendTo($('#direction'));
 	
-	$('#instruction').append(this.form_header('static/img/editor_split_large.png', 'Split action'));
+	$('#instruction').append(this.form_header(json, 'static/img/editor_split_large.png', 'Split action'));
 	$('#instruction').append(this.formpart_load_direction(json, 'target').trigger('update'));
 };
 
@@ -382,7 +388,7 @@ FormManager.prototype.form_look = function(json)
 	this.new_form();
 	this.formpart_continue(json, false).appendTo($('#direction'));
 	
-	$('#instruction').append(this.form_header('static/img/editor_look_large.png', 'Look'));
+	$('#instruction').append(this.form_header(json, 'static/img/editor_look_large.png', 'Look'));
 	$('#instruction').append(this.formpart_load_direction(json, 'target').trigger('update'));
 	
 	$('#instruction').append($('<div class="form-label">Save entity type spotted to:</div>'));
@@ -396,7 +402,7 @@ FormManager.prototype.form_if = function(json)
 	this.new_form();
 	this.formpart_continue(json, true).appendTo($('#direction'));
 	
-	$('#instruction').append(this.form_header('static/img/editor_if_large.png', 'If'));
+	$('#instruction').append(this.form_header(json, 'static/img/editor_if_large.png', 'If'));
 	
 	$('#instruction').append($('<div class="form-label">Choose comparison type:</div>'));
 	var $picker = this.formpart_dropdown([{key: 'Numbers', value: 'NUM'}, {key: 'Directions', value: 'DIR'}, {key: 'Entity Types', value: 'ENT'}]).val(json.expr_type).appendTo($('#instruction'));
@@ -499,7 +505,7 @@ FormManager.prototype.form_loop = function(json)
 	this.new_form();
 	this.formpart_continue(json, true).appendTo($('#direction'));
 	
-	$('#instruction').append(this.form_header('static/img/editor_for_large.png', 'Loop'));
+	$('#instruction').append(this.form_header(json, 'static/img/editor_for_large.png', 'Loop'));
 	
 	$('#instruction').append($('<div class="form-label">Choose loop type:</div>'));
 	var $picker = this.formpart_dropdown([{key: 'Numbers', value: 'NUM'}, {key: 'Directions', value: 'DIR'}, {key: 'Entity Types', value: 'ENT'}]).val(json.expr_type).appendTo($('#instruction'));
