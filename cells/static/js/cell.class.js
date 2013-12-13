@@ -173,7 +173,10 @@ Cell.prototype.execute = function(board)
 		var inext = 'continue'; // Set to 'divert' in IF/FOR when branching
 		
 		if (i === null || i.type === 'empty') // This will only happen in an invalid program
-			break;
+		{
+			this.ip = [0,0];
+			continue;
+		}
 		
 		if (i.type === 'if')
 		{
