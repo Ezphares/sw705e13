@@ -109,7 +109,6 @@ Game.prototype.doMouseDown = function(event)
 	
 	canvas_x = event.pageX - offset_x;
 	canvas_y = event.pageY - offset_y;
-	draggable = true;
 	this.menu.update(canvas_x, canvas_y, this.gl)
 };
 

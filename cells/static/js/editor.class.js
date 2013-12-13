@@ -75,6 +75,8 @@ Editor.prototype.draw = function(gl)
 		var draw_pos = this.program.grid.get_pixel_coordinate(this.select);
 		gl.draw_sprite(this.spr_select, 0, draw_pos[0], draw_pos[1]);
 	}
+
+	gl.draw_text("Drag constructs onto the board to create a program.", 'black', 20, 0, 45, 510);
 };
 
 Editor.prototype.drop = function(point, instruction)

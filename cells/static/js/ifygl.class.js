@@ -62,7 +62,7 @@ IfyGL.prototype.init = function()
 	
 	this.gl = element.getContext('experimental-webgl', { premultipliedAlpha: false });
 	if (this.gl === null)
-		throw 'Could not initialize WebGL. Does your browser support it?';
+		throw alert("Could not initialize WebGL. Does your browser support it?");
 		
 	// Create the shader program
 	this.create_program();
