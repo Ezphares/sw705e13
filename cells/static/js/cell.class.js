@@ -175,6 +175,7 @@ Cell.prototype.execute = function(board)
 		if (i === null || i.type === 'empty') // This will only happen in an invalid program
 		{
 			this.ip = [0,0];
+			imax--;
 			continue;
 		}
 		
