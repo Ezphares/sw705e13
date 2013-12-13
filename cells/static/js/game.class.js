@@ -8,6 +8,7 @@ Game = function()
 	this.menu = null;
 	this.board = null;
 	this.editor = null;
+	this.Drag = null;
 	this.state = "InMenu";
 	this.tile; //Tile sprite
 	this.spr_c1;
@@ -116,6 +117,10 @@ Game.prototype.doMouseDown = function(event)
 Game.prototype.doMouseUp = function()
 {
 	//console.log("mouseUp")
+	canvas_x = -1;
+	canvas_y = -1;
+	mouseX = -100;
+	mouseY = -100;
 	draggable = false;
 };
 
@@ -153,6 +158,7 @@ Game.prototype.draw = function()
 	}
 	else if(this.state == 'InEditor'){
 		this.editor.draw(this.gl);
+		this.drag.draw(this.gl);
 	}
 };
 
@@ -165,6 +171,7 @@ Game.prototype.update = function()
 	}
 	else if(this.state == 'InEditor'){
 		this.editor = new Editor(5);
+		this.drag = new Drag();
 		
 		if(this.menu.state == 'Start'){
 			this.state = 'InMenu';

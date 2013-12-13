@@ -1,45 +1,36 @@
-Drag = function(pos, sprite, edit, size, instruction) {
-	this.coordinate = pos; // Dobbelt array
-	this.sprite = sprite;
-	this.editor = edit;
-	this.size = size;
-	this.instruction = instruction;
+Drag = function()
+{
+	paddingX = 50;
+	paddingY = 50;
+	spacing = 70;
+	drag_sprite = null;
+};
+
+Drag.prototype.draw = function(gl)
+{
+	gl.draw_sprite(Editor.set['move'], 0, paddingX, paddingY);
+	gl.draw_sprite(Editor.set['split'], 0, paddingX = paddingX + spacing, paddingY);
+	gl.draw_sprite(Editor.set['look'], 0, paddingX = paddingX + spacing, paddingY);
+	gl.draw_sprite(Editor.set['var'], 0, paddingX = paddingX + spacing, paddingY);
+	gl.draw_sprite(Editor.set['if'], 0, paddingX = paddingX + spacing, paddingY);
+	gl.draw_sprite(Editor.set['loop'], 0, paddingX = paddingX + spacing, paddingY);
 	
-	this.tempx = pos;
-	this.tempy = pos;
-	this.amIMoving = false;
-	this.offsetx = 0;
-	this.offsety = 0;
-};
-
-Drag.prototype.draw(gl) {
-	gl.draw_sprite(this.sprite, 0, this.coordinate[x] - this.offsetx, this.coordinate[y] - this.offsety);
-};
-
-
-Drag.prototype.mousedown(coord) {
-	if (coord[0] >= this.coordinate[0] && coord[0] <= this.coordinate[0] + this.size[0] &&
-		coord[1] >= this.coordinate[1] && coord[1] <= this.coordinate[1] + this.size[1]) {
-			this.offsetx = coord[0] - this.coordinate[0];
-			this.offsety = coord[1] - this.coordinate[1];
-			
-			
-			Drag.prototype.move(coord);
-		}
-};
-
-Drag.prototype.move(coord) {
-	this.offsetx = coord[0] - this.coordinate[0];
-	this.offsety = coord[1] - this.coordinate[1];
-	
-	//Beregn x, y ud i forhold til offset
-	this.tempx = coord[0];
-	this.tempy = coord[1];
-};
-
-Drag.prototype.release(x, y) {
-	this.coordinate[0] = x;
-	this.coordinate[1] = y;
-	
-	this.editor.drop(coordinate, instruction);
+	if (canvas_x > 50 - 21 && canvas_x < 50 + 21 && canvas_y > paddingY - 22 && canvas_y < paddingY + 22) {
+		gl.draw_sprite(Editor.set['move'], 0, mouseX, mouseY);
+	}
+	else if (canvas_x > 120 - 21 && canvas_x < 120 + 21 && canvas_y > paddingY - 22 && canvas_y < paddingY + 22) {
+		gl.draw_sprite(Editor.set['split'], 0, mouseX, mouseY);
+	}
+	else if (canvas_x > 190 - 21 && canvas_x < 190 + 21 && canvas_y > paddingY - 22 && canvas_y < paddingY + 22) {
+		gl.draw_sprite(Editor.set['look'], 0, mouseX, mouseY);
+	}
+	else if (canvas_x > 260 - 21 && canvas_x < 260 + 21 && canvas_y > paddingY - 22 && canvas_y < paddingY + 22) {
+		gl.draw_sprite(Editor.set['var'], 0, mouseX, mouseY);
+	}
+	else if (canvas_x > 330 - 21 && canvas_x < 330 + 21 && canvas_y > paddingY - 22 && canvas_y < paddingY + 22) {
+		gl.draw_sprite(Editor.set['if'], 0, mouseX, mouseY);
+	}
+	else if (canvas_x > 400 - 21 && canvas_x < 400 + 21 && canvas_y > paddingY - 22 && canvas_y < paddingY + 22) {
+		gl.draw_sprite(Editor.set['loop'], 0, mouseX, mouseY);
+	}
 };
