@@ -1,7 +1,7 @@
 \section{Designing the Behavior of Cells}
 \label{sec:designingBehaviorCells}
 
-The behavior of each cell is defined by the player, since it is his/her job to program the behavior \todo{ref to designing of programming interface selection}.
+The behavior of each cell is defined by the player, since it is his/her job to program the behavior, see \autoref{sec:editor_design}.
 However, this section will focus on the standard actions that all cells can perform and how they work.
 We will also discuss other possible implementations of attributes for cells, that might include strength, speed, and vision.
 
@@ -26,7 +26,7 @@ These standard actions include:\newline
 \verb|Move(x:steps, y:direction)| is an action that moves the cell $x$ steps in $y$ direction.
 Steps can only be positive integers, and might be limited by an ability or the energy of the cells that performs the move action.
 Since the playing field consists of multiple hexagonal tiles, each cell can move in six directions.
-Direction is an enum type, that can have the values (TopRight, TopLeft, BottomRight, BottomLeft, Left or Right).\todo{check later}\newline
+Direction is an enum type, that can have the values (UpRight, UpLeft, DownRight, DownLeft, Left or Right).\todo{check later}\newline
 
 \verb|Look(x:lookingFor, y:direction, z:trigger)|\newline 
 

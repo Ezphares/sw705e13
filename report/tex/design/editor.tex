@@ -1,4 +1,5 @@
 \section{Editor Design}
+\label{sec:editor_design}
 Programming the cell is an essential part of the game. This is where the user will learn basic construct in the imperative paradigm by using them to program the initial cell and all future copies of that cell.
 
 The editor is used by the player to design their program, that will be run during the game. To keep the overall design experience consistent, the editor will be using the same hexagonal design as the playing field. The programming will be done visually, and the hexagonal design will give the user more options for organizing their program.\\
@@ -16,10 +17,10 @@ The programming grid makes use of a drag-and-drop interface, similar to that of 
 Each programming construct, e.g. if-statements and loops, can be dragged from the top of the screen onto the hexagonal grid.
 Initially this hexagonal grid only has a start point, and it is up to the player to create the program itself.
 The program will be running from the start point on the grid to a user defined end point.
-This end point is created by simply letting the program run outside the hexagonal grid.\todo{Design question: Maybe it is possible to implement a construct like if-statements that work like a terminate construct.}
+This end point is created by simply letting the program run outside the hexagonal grid.
 By doing this, the player is essentially creating a loop, that the program will be running in during its execution.
 
-\todo{Added from other section}It should be noted, that programming the cell should not be the cause of frustration due to the occurrence of peculiar programming-oriented errors, which the player will have to deal with.
+\todo{Please check: Added from other section}It should be noted, that programming the cell should not be the cause of frustration due to the occurrence of peculiar programming-oriented errors, which the player will have to deal with.
 For this reason, it is important that the interface provides the user with feedback, which gives a clear understanding of when the user has combined a string of legal or illegal programming constructs.
 This can be done by implementing a basic green is correct and red is wrong color schema, that allow the user to immediately identify good code and code that includes one or more errors.
 For this to work, the colors will have to be dynamic and evaluation of constructs in the program must be done on a regular basis to keep providing the player with feedback about whether the program is correct or wrong.
@@ -33,7 +34,8 @@ These are; numbers, entities, and directions.
 The idea is that by limiting variables to three categories with meaningful names, the player will hopefully be able to easily understand what happens without prior knowledge to types in programming.
 
 \subsubsection*{Details Panel}
-The fine tuning/details panel is activated, when the player clicks on a construct, that has been placed on the hexagonal grid.\todo{Design question: What happens if no construct is selected?}
+The fine tuning/details panel is activated, when the player clicks on a construct, that has been placed on the hexagonal grid.
+If it is deselected the fine tuning panel disappears until another construct is selected.
 The panel will show different information depending on what kind of construct the player has clicked on.
 For example, one of the options available for the if-statement includes a list of variables, that the if-statement can compare to generate a scenario where the variable can be in a true or false state, making the if work.
 A move construct, however, will only include the option to define in which direction the cell will move.
