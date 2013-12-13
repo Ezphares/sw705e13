@@ -20,6 +20,7 @@ var mouseX;
 var mouseY;
 var offset_x;
 var offset_y;
+var drag_sprite = 'empty';
 
 Game.prototype.init = function()
 {
@@ -115,8 +116,12 @@ Game.prototype.doMouseDown = function(event)
 Game.prototype.doMouseUp = function()
 {
 	//console.log("mouseUp")
-	if(this.editor != null){
-		this.editor.drop([mouseX, mouseY], drag_sprite);
+	if(drag_sprite != 'empty'){
+		console.log("hep");
+		var c = new Array();
+		c[0] = mouseX;
+		c[1] = mouseY;
+		//this.editor.drop([mouseX][mouseY], drag_sprite);
 	}
 	drag_sprite = 'empty';
 	canvas_x = -1;

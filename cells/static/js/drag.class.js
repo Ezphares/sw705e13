@@ -3,11 +3,12 @@ Drag = function()
 	paddingX = 50;
 	paddingY = 50;
 	spacing = 70;
-	drag_sprite = 'empty';
+	//drag_sprite = 'empty';
 };
 
 Drag.prototype.draw = function(gl)
 {
+	console.log(drag_sprite);
 	gl.draw_text("Move", 'black', 15, 0, 32, 10);
 	gl.draw_text("Split", 'black', 15, 0, 105, 10);
 	gl.draw_text("Look", 'black', 15, 0, 175, 10);
