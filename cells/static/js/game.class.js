@@ -160,7 +160,6 @@ Game.prototype.draw = function()
 
 Game.prototype.update = function()
 {
-	//console.log("State:" + this.menu.state);
 	if(this.state == 'InMenu' || this.menu.state == 'InEditor'){
 		if(this.menu.state == 'InEditor'){
 			this.state = 'InEditor';
@@ -209,9 +208,8 @@ Game.prototype.update = function()
 			this.board.add_entity(new Food(100, [18,  9]));
 		}
 		else if(this.menu.state == 'Clean'){
+			this.editor.new_program();
 			this.menu.state = 'InEditor';
-			this.editor = null;
-			this.editor = new Editor(5);
 		}
 	}
 	else if(this.state == 'InGame'){
