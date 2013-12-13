@@ -56,7 +56,9 @@ Game.prototype.init = function()
 						 {filename: 'health_bar_red_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_red_end.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'start_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
-						 {filename: 'new_editor_button.png', frame_width: 64, frame_height: 32, origin: [0,0]}];
+						 {filename: 'new_editor_button.png', frame_width: 64, frame_height: 32, origin: [0,0]},
+						 {filename: 'start_here.png', frame_width: 64, frame_height: 32, origin: [0,0]}
+						 ];
 
 	Editor.load_sprites(this.gl, function()
 	{
@@ -72,6 +74,7 @@ Game.prototype.init = function()
 			var activeb = sprites[4];
 			var inactiveb = sprites[5];
 			var newButton = sprites[13];
+			var start_here = sprites[14];
 
 			healthbar_green_start = sprites[8];
 			healthbar_green_mid   = sprites[9];
@@ -80,7 +83,7 @@ Game.prototype.init = function()
 			
 			Food.sprite = food;
 			
-			game.menu = new Menu(activeb, inactiveb, game.tile, back, home, start, newButton);
+			game.menu = new Menu(activeb, inactiveb, game.tile, back, home, start, newButton, start_here);
 
 			game.update();
 			

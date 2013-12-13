@@ -6,7 +6,7 @@
  * @param {Sprite} spr_tile The sprite to use for empty tiles.
  * @see {Sprite}
  */
-Menu = function(active, inactive, tile, back, home, start, newButton)
+Menu = function(active, inactive, tile, back, home, start, newButton, startHere)
 {
 	this.spr_tile = tile;
 	this.spr_back = back;
@@ -15,6 +15,7 @@ Menu = function(active, inactive, tile, back, home, start, newButton)
 	this.spr_new = newButton;
 	this.spr_active_button = active;
 	this.spr_inactive_button = inactive;
+	this.spr_startHere = startHere;
 	this.state = 'Start';
 };
 
@@ -115,10 +116,13 @@ Menu.prototype.draw_editor = function(gl)
 	gl.draw_sprite(this.spr_back, 0, 0, gl.height-(this.spr_back.frame_height));
 	gl.draw_sprite(this.spr_home, 0, 40, gl.height-(this.spr_home.frame_height));
 	gl.draw_sprite(this.spr_new, 0, 80, gl.height-(this.spr_new.frame_height));
+	gl.draw_sprite(this.spr_startHere, 0, 60, 100);
+	
 	
 	gl.draw_sprite(this.spr_start, 0, gl.width-(this.spr_start.frame_width), gl.height-(this.spr_start.frame_height));
 	
 	gl.draw_text("Clear", 'black', 20, 0, 88, gl.height-(this.spr_new.frame_height)+3);
+	gl.draw_text("Start", 'white', 15, 0, 70, 107);
 	gl.draw_text("OK", 'black', 15, 0, gl.width-(this.spr_start.frame_width)+5, gl.height-(this.spr_start.frame_height)+7);
 };
 
