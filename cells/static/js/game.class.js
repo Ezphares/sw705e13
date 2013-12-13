@@ -8,7 +8,6 @@ Game = function()
 	this.menu = null;
 	this.board = null;
 	this.editor = null;
-	this.Drag = null;
 	this.state = "InMenu";
 	this.tile; //Tile sprite
 	this.spr_c1;
