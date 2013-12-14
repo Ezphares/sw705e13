@@ -68,7 +68,7 @@ This will allow you to see what is in your near vicinity (1 tile). You can eithe
 
 \subsubsection{Loop}
 
-Loop allows you to iterate over three different types, namely; numbers, direction and entity types. If you chose to iterate over entity types the loop will begin by iterating over \textbf{friends}. When the loop is done with this - and there is a path back to the loop - it will begin iterating over \textbf{enemies}, and later \textbf{food}, \textbf{empty tiles} and \textbf{out of bounds} - this is assuming that there is a path leading back to the loop.
+Loop allows you to iterate over three different types, namely; numbers, direction and entity types. If you chose to iterate over entity types the loop will check if the variable is a \textbf{friends}, an \textbf{enemy}, some \textbf{food}, and \textbf{empty tiles} or \textbf{out of bounds}, i.e. off the board edge.
 
 
 If you chose to iterate over directions, it is possible for you to save a direction to a variable and use this later in combination with a 'look' construct, to determine what is on a given direction position. On its own it is not very useful! The final loop type is the numbers loop, which allows you to set up a bit of a counter, it will count an interval, and save this interval to a variable, allowing you to run a code segment a given number of times, before something new is done.
