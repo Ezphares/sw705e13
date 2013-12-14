@@ -47,13 +47,33 @@
 		{
 			display: none;
 		}
-	</head>
+
+		#survey
+		{
+			position: relative;
+			background-color: #333333;
+			color: #eeeeee;
+			width: 800px;
+			height: 50px;
+		}
+
+		a:link {color:#00aaff;}    /* unvisited link */
+		a:visited {color:#00aaff;} /* visited link */
+		a:hover {color:#00aaff;}   /* mouse over link */
+		a:active {color:#00aaff;}  /* selected link */
+		a {text-decoration: none;}
 		</style>
+	</head>
 	<body>
 		<div id="fps"></div>
 		<div id="wrapper" style="border-width: 1px; border-style: solid;">
 			<canvas id="game"></canvas>
 			<div id="form">
+			</div>
+			<div id="survey">
+				<p>When you are done playing, please answer 
+				<a href="https://docs.google.com/forms/d/1fse1P3t2556HDccMdk8ezECAlTqP29KMEmPgPi02C_k/viewform">this survey</a>
+				 it helps a lot, thank you.</p>
 			</div>
 		</div>
 		<canvas id="text-render"></canvas>
@@ -62,5 +82,7 @@
 		g = new Game();
 		g.init();
 		</script>
+
+
 	</body>
 </html>

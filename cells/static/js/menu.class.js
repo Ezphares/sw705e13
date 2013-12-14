@@ -172,7 +172,8 @@ Menu.prototype.update = function(x, y, gl)
 		else if(y >= gl.height/2+35-32 && y <= gl.height/2+35+32)
 		{
 			if(this.state == 'Start'){
-				alert("Go to manual");
+				//alert("Go to manual");
+				location.href='/static/pdf/cells-manual.pdf';
 			}
 			else if(this.state === 'Challenges'){
 				alert("Go to challenge 3");
