@@ -1,0 +1,48 @@
+\section{Test Results}
+\label{sec:testresults}
+
+Because we have chosen to split the evaluation of the system into two boxes, the results will also be presented in two section. The Unit Testing of the system began much earlier than the user evaluation, and the user evaluation will continue through Christmas and the next year until the project's exam. It is possible more system functions will be evaluated as well, but any potential findings and results of this nature, will be described during the examination.
+
+\subsection{Unit Tests}
+
+A framework called \textbf{QUnit} was used to set up the Unit Tests for the project.
+From \textbf{QUnit}'s own webpage:
+
+\begin{quotation}
+QUnit is a powerful, easy-to-use JavaScript unit testing framework. It's used by the jQuery, jQuery UI and jQuery Mobile projects and is capable of testing any generic JavaScript code, including itself!\cite{qunit}
+\end{quotation}
+
+\textbf{QUnit} was quite simple to set up, and with the accompanying CCS files the results were also presented clearly. We managed to Unit Test central functions in the code, with the \textbf{Board}, the \textbf{Cell} and the \textbf{Instructions} being fully covered.  However we did not Unit Test every class at the time of writing. It is possible further Unit Tests will be created afterward as we continue our user evaluation.
+
+
+We found that Unit Tests did not uncover new bugs, as our test cases all passed. We found however, that we have eased documentation for future work on this project, by concisely documenting what makes a given function pass or fail.
+
+
+\subsection{User Evaluation}
+
+The User Evaluation is still ongoing and as such only the preliminary results will be explained in the following. At the time of writing the game has been hosted for $48$ hours and three responses has been given, one via a Google Form, and two via dialogue on the forum the game was advertised.
+
+
+\subsubsection{Connectivity}
+
+We found that some testers had issues connecting to the server in specific browser set-up's. One tester documented issues when connecting to the application via the browser Chromium on a Linux Ubuntu set-up ($12.04$). The same user also documented issues connecting with Firefox on the same Operating System. It is difficult to pin-point where exactly the error occurs, for another user documented they were able to connect to the game via a later Chromium version, namely version $31.0$ built on a later Ubuntu system, namely $13.10$. However, it is reasonable to assume, that WebGL is too new a technology, to be applied to more dated computer set-ups. This also made us aware that the game does not work on mobile platforms, not because of WebGL - it IS possible to connect to the game using Chrome and initialize WebGL, however we cannot currently catch touch gestures, so the game is not playable if the user wants a program more advanced than a sequence of No-Operation's.
+
+\subsubsection{Game Flaws}
+
+One of the more interesting findings with the game, was that a user tried playing the game, and could not understand why they lost it instantly upon pressing OK. Being the developers behind the software, we know that the mistake they made, was to move off of the Hexagonal Grid likely with a move action as their first choice. This will result in a player losing instantly, and spreads awareness to an already known flaw about the game. The same user also documented it was not very clear to them, how the game was played - it is unclear however, whether the user read the manual or not, given it is not certain they filled out the survey. Another point the user documented was that they did not understand why they lost, when the health bar showed them they were at full health - or at least dominated the bar significantly. This suggests they thought they were playing the red cell, when in fact they control the green cell.
+
+\subsubsection{A language-less programming language}
+
+The game was accepted as an: 
+
+\begin{quotation}interesting approach to opening up computer science to the masses\end{quotation} by one of our testers.
+
+However the same user was not clear how the game was played, and simply saw positive potential in the way the language constructs were pre-defined, and could be employed by ways of drag-and-drop. 
+
+
+The user who filled out the questionnaire showed us that there is not much to gain from the game, if the player is already familiar with how programming works. The user in question chose an experience level of 7 on the scale, out of a possible 10, suggesting they had decent levels of experience - recall that 10 means the user is a professional. They did not feel they became a better programmer, but they did feel that the game was not trying too hard to teach, which is definitely positive, they also stated the game was fun to them.
+
+
+\subsubsection{Complex Constructs}
+
+A further problem with the code was that, although the testers stated the manual was good and useful to the game, it was not enough, to make the constructs seem simple. The same testers unfortunately also only played the game in the $0-15$ minute interval, suggesting they only briefly tried it. Regardless, it suggests there are problems with how intuitive the constructs are to the player, and this is an area which causes errors for the program going forward. In particular, the \textbf{loop} construct showed there was room for improvement.

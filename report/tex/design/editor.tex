@@ -6,7 +6,7 @@ The editor is used by the player to design their program, that will be run durin
 
 The editor consists of two main parts, the programming grid of hexagons on the left, and individual fine tuning of elements on the right, an illustration can be seen on \autoref{fig:editor}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \includegraphics[width=\textwidth]{img/editor.png}
 \caption{Preliminary design of the editor.}
 \label{fig:editor}
@@ -32,6 +32,7 @@ Since the editor is using a drag-and-drop interface, adding new functionality to
 Since the aim of the game is to teach programming without doing so explicitly, the variables can be define as three types/categories.
 These are; numbers, entities, and directions.
 The idea is that by limiting variables to three categories with meaningful names, the player will hopefully be able to easily understand what happens without prior knowledge to types in programming.
+At least, this is our assumption, and if we had the time to test this, it might be possible to determine if the user would reactive positive or negative to a larger number of categories/types.
 
 \subsubsection*{Details Panel}
 The fine tuning/details panel is activated, when the player clicks on a construct, that has been placed on the hexagonal grid.
@@ -42,7 +43,8 @@ A move construct, however, will only include the option to define in which direc
 The bottom part of the fine tuning panel is used by the player to choose, which tile on the hexagonal grid the program should be going to next.
 This can be used to structure the program or make it possible for the player to customize the grid to their liking.
 However, it also allows the user the freedom to create infinite loops.
-Since it is NP-hard to find infinite loops in a program, we leave it up to the user to find these loops. 
+Since it is NP-hard to find infinite loops in a program, we can not check the program for infinite loops for the user.
+Therefore, we leave it up to the user to find these loops. 
 
 \subsection{Design Decisions}
 Several design decisions have been made for the editor.
@@ -56,7 +58,7 @@ The hexagonal grid has some features, which made preferable to a standard square
 The hexagonal grid makes it possible for the player to have more options as to how the program is structured.
 It also makes it possible for the two branches of an if statement or a loop to be next to each other rather than on different sides of a square.\newline
 
-The details panel was more difficult to design, since the options available is different for every construct.
-When it was chosen, that the editor should utilize a visual programming interface with drag-and-drop, the player would need to be able to set some amount of variables for the program to be functional enough.
+The details panel was more difficult to design, since the options available are different for every construct.
+Since it was decided, that the editor should utilize a visual programming interface with drag-and-drop, the player would need to be able to set some amount of variables for the program to be functional enough, such as a condition in an if-statement.
 The details panel was chosen\todo{Maybe include: over what alternative}, because it removes the need to exit out of the details panel to be able to switch to the details of another construct on the grid, if the details were to pop up over the hexagonal grid.
 The details panel on the right side of the hexagonal grid effectively eliminates a number of steps, with the purpose to make the game quicker and less frustrating to use.
