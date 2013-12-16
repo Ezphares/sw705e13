@@ -15,8 +15,18 @@ QUnit is a powerful, easy-to-use JavaScript unit testing framework. It's used by
 \textbf{QUnit} was quite simple to set up, and with the accompanying CCS files the results were also presented clearly. We managed to Unit Test central functions in the code, with the \textbf{Board}, the \textbf{Cell} and the \textbf{Instructions} being fully covered.  However we did not Unit Test every class at the time of writing. It is possible further Unit Tests will be created afterward as we continue our user evaluation.
 
 
-We found that Unit Tests did not uncover new bugs, as our test cases all passed. We found however, that we have eased documentation for future work on this project with new.
+We found that Unit Tests did not uncover new bugs, as our test cases all passed. We found however, that we have eased documentation for future work on this project, by concisely documenting what makes a given function pass or fail.
 
 
 \subsection{User Evaluation}
 
+The User Evaluation is still ongoing and as such only the preliminary results will be explained in the following. At the time of writing the game has been hosted for $48$ hours and three responses has been given, one via a Google Form, and two via dialogue on the forum the game was advertised.
+
+
+\subsubsection{Connectivity}
+
+We found that some testers had issues connecting to the server in specific browser set-up's. One tester documented issues when connecting to the application via the browser Chromium on a Linux Ubuntu set-up ($12.04$). The same user also documented issues connecting with Firefox on the same Operating System. It is difficult to pin-point where exactly the error occurs, for another user documented they were able to connect to the game via a later Chromium version, namely version $31.0$ built on a later Ubuntu system, namely $13.10$. However, it is reasonable to assume, that WebGL is too new a technology, to be applied to more dated computer set-up's.
+
+\subsubsection{Game Flaws}
+
+One of the more interesting findings with the game, was that a user tried playing the game, and could not understand why they lost it instantly upon pressing OK. Being the developers behind the software, we know that the mistake he made, was to move off of the Hexagonal Grid likely with a move action. This will result in a player losing instantly, and spreads awareness to an already known flaw about the game. The same user also documented it was not very clear to them, how the game was played - it is unclear however, whether the user read the Manual or not, given it is not certain they filled out the Survey we require.
