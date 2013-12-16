@@ -38,15 +38,17 @@ In this case, when the \verb|mousedown| event is triggered, the function\\
 \verb|doMousedown(event)| is called. \verb|doMouseDown()| first calculates the (x,y) coordinate with offsets as described in the previous subsection, and then calls the function \verb|checkButton(x, y)|, which is responsible for setting the new state of the game after a button is pressed. The state of the game is saved in the variable \verb|state|, which is a \verb|String|. There are two checks; one for the $x$-coordinate and one for the $y$. These checks depend on the size of the canvas and buttons. Below is shown the checks condition for the $x$-coordinate:
 
 \begin{lstlisting}[language=JavaScript, caption=x condition check for menu buttons]
-if(x <= this.gl.width/2-35+128 && x >= this.gl.width/2-35-128){...}
+if(x <= this.gl.width/2-35+(this.spr_active_button.frame_width/2) && x >= this.gl.width/2-35-(this.spr_active_button.frame_width/2)){...}
 \end{lstlisting}
 
-\verb|this.gl.width| is the size of the canvas. To get the center, we divide by 2. Lastly we add and subtract $128px$, half the width of the button, and $35px$, which is a variable that makes the button not appear in the complete center. A similar operation is done to the $y$-coordinate:
+\verb|this.gl.width| is the size of the canvas. To get the center, we divide by 2. Lastly we add and subtract half the width of the button, and $35px$, which is a variable that makes the button not appear in the complete center. A similar operation is done to the $y$-coordinate:
 
 \begin{lstlisting}[language=JavaScript, caption=y condition check for menu buttons]
-if(y >= this.gl.height/2-105-32 && y <= this.gl.height/2-105+32){...}
+if(y >= this.gl.height/2-105-(this.spr_active_button.height/2) && y <= this.gl.height/2-105+(this.spr_active_button.frame_height/2)){...}
 \end{lstlisting}
 
-Here we focus on the height of the canvas and the height of the button. Since the height of the button is $64px$, we add and subtract $32$ respectively. In this case, we are looking at the $y$ condition for button $1$, since we also subtract $105px$. The center of button $1$ is place $105px$ from the center of the canvas, button $2$ is placed $35px$ from the center of the canvas, button $3$ is placed $70px$ below button $2$, and button $4$ is place $105px$ below the center.\\
+Here we focus on the height of the canvas and the height of the button. We add and subtract half the height of the button, which is $64px$ height. In this case, we are looking at the $y$ condition for button $1$, since we also subtract $105px$. The center of button $1$ is place $105px$ from the center of the canvas, button $2$ is placed $35px$ from the center of the canvas, button $3$ is placed $35px$ below the center, and button $4$ is place $105px$ below the center.\\
+
+We have tried to make the calculation dynamic by using a minimum of absolute values to define the placement of the buttons and using the width and height of the canvas and buttons. We might have been able to calculate the $y$-placement of the buttons based on the height of the canvas and the amount of button we want a screen to include, so all buttons are evenly spaced between each other as in the current version. It is often a limitation to the program, if too many absolute values are used, since if one thing is changed, it might result in many changes throughout the program. A more dynamic program would not have this problem, if for example the width or height of the buttons changed or the number of buttons on a screen exceeds four, which is the maximum amount of buttons in the current version.
 
 Just like the menu buttons, there also exist a back button and a home button, that work with similar boundary conditions, however we will not discuss this further. It should simply be noted, that the back button sets the state to the previous state and the home button sets the state as \verb|'Start'|, which is the home screen.
