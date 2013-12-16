@@ -16,7 +16,7 @@
 	});
 
 	test('health_count', function() {
-			equal(Board.prototype.health_count(100, 80), health_count_value, 'Health Count should be 21');
+			equal(Board.prototype.health_count(100, 80), health_count_value, 'Health Count should be 27');
 		});
 		
 	test('add_entity and remove_entity', function() {
