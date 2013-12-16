@@ -7,7 +7,7 @@
 	
 	module('Board', {
 		setup: function() {
-			health_count_value = 21;
+			health_count_value = 27;
 			board = new Board(10, 0);
 			food = new Food(100, [0, 0]);
 			friend = new Cell([0, 0], 175, 0, new Program(3), 1);
