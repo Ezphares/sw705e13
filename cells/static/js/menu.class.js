@@ -136,7 +136,7 @@ Menu.prototype.update = function(x, y, gl)
 	if(x <= gl.width/2+128 && x >= gl.width/2-128)
 	{
 		//First button is pressed
-		if(y >= gl.height/2-105-32 && y <= gl.height/2-105+32)
+		if(y >= gl.height/2-105-(this.spr_active_button.frame_height/2) && y <= gl.height/2-105+(this.spr_active_button.frame_height/2))
 		{
 			if(this.state == 'Start'){
 				this.state = 'Singleplayer';
@@ -153,7 +153,7 @@ Menu.prototype.update = function(x, y, gl)
 			}
 		}
 		//Second button is pressed
-		else if(y >= gl.height/2-35-32 && y <= gl.height/2-35+32)
+		else if(y >= gl.height/2-35-(this.spr_active_button.frame_height/2) && y <= gl.height/2-35+(this.spr_active_button.frame_height/2))
 		{
 			if(this.state == 'Start'){
 				alert("Multiplayer is not yet implemented");
@@ -169,7 +169,7 @@ Menu.prototype.update = function(x, y, gl)
 			}
 		}
 		//Third button is pressed
-		else if(y >= gl.height/2+35-32 && y <= gl.height/2+35+32)
+		else if(y >= gl.height/2+35-(this.spr_active_button.frame_height/2) && y <= gl.height/2+35+(this.spr_active_button.frame_height/2))
 		{
 			if(this.state == 'Start'){
 				//alert("Go to manual");
@@ -180,7 +180,7 @@ Menu.prototype.update = function(x, y, gl)
 			}
 		}
 		//Fourth button is pressed
-		else if(y >= gl.height/2+105-32 && y <= gl.height/2+105+32)
+		else if(y >= gl.height/2+105-(this.spr_active_button.frame_height/2) && y <= gl.height/2+105+(this.spr_active_button.frame_height/2))
 		{
 			if(this.state == 'Start'){
 				this.state = 'InEditor';
@@ -190,7 +190,7 @@ Menu.prototype.update = function(x, y, gl)
 			}
 		}
 	}
-	else if(x >= 0 && x <= 32 && y <= gl.height && y >= gl.height-(this.spr_back.frame_height))
+	else if(x >= 0 && x <= (this.spr_back.frame_width) && y <= gl.height && y >= gl.height-(this.spr_back.frame_height))
 	{
 		if(this.state == 'Singleplayer' || this.state == 'Multiplayer' || this.state == 'InEditor'){
 			console.log("Back button hit");
@@ -205,7 +205,7 @@ Menu.prototype.update = function(x, y, gl)
 			this.state = 'InEditor';
 		}
 	}
-	else if(x > 40 && x <= 70 && y <= gl.height && y >= gl.height-(this.spr_home.frame_height))
+	else if(x > 40 && x <= 40+(this.spr_home.frame_width) && y <= gl.height && y >= gl.height-(this.spr_home.frame_height))
 	{
 		if(this.state != 'Start' && this.state != 'InGame'){
 			console.log("Home button hit");
