@@ -62,8 +62,8 @@ Silverlight & Plugin & Plugin & Plugin & Plugin & None \\
 Unity & Plugin & Standalone only & Plugin & Standalone only & Standalone only \\
 \hline
 \end{tabular}
-\caption{Technology compatibility overview}
 \label{fig:technologies}
+\caption{Technology compatibility overview}
 \end{figure}
 
 All of these technologies are capable of very similar functionality and portability.
