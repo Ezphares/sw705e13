@@ -31,7 +31,7 @@ Cell.prototype.get_value = function(json)
 {
 	var source = json.source;
 	
-	if (source === 'undefined')
+	if (typeof source === 'undefined')
 	{
 		return json;
 	}
@@ -48,7 +48,7 @@ Cell.prototype.get_value = function(json)
 	{
 		if (json.value === 'DV_OWNHEALTH')
 		{
-			return String(this.energy);s
+			return String(this.energy);
 		}
 	}
 };
