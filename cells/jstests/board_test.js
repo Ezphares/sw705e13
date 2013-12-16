@@ -36,12 +36,5 @@
 		board.add_entity(friend);
 		
 		ok(board.isDone(), 'isDone: Succeeds when there is only one cell on the board');
-	});	
-	
-	test('get_friendly_cells', function() {
-		board.add_entity(friend);
-		console.log(board);
-		ok(board.get_friendly_cells() == 1, 'get_friendly_cells: Succeeds when there is exactly one friendly cell');
 	});
-	
 })();
