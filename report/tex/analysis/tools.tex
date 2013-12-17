@@ -4,22 +4,22 @@ When developing a browser-based game, several different technologies are availab
 Six of these are of some interest; HTML5, Flash, Java, Silverlight and Unity, since they provide easy development of internet graphics, games and animations.
 They are also some of the most well known web development technologies.
 The reason that these specific technologies are so widely used is, that each has had a large focus on applications embedded in browsers, either natively, as is the case of HTML5, or through plug-ins.
-The development tools for Flash are, however, not free, and as such not an option for this project.\cite{adobe13}
+The development tools for Flash are, however, not free, and as such are not an option for this project.\cite{adobe13}
 Besides, Flash has been discontinued from mobile platforms,\cite{adobe12} and would limit the availability of the game, which is an important consideration, see \autoref{sec:availability}.
 The rest of the tools will be introduced in this section, mostly focusing on the portability of each tool, as measuring differences in performance and prevalence of required plug-ins and the like is virtually impossible.
-Another focus, given the scope of the project, is that the game should exist solely as a web application, and not a standalone game, app or similar.
+Another focus, given the scope of the project, is that the game should exist solely as a web application, and not a standalone game or application.
 
 \subsection{HTML5, Canvas and WebGL}
 HTML5 is the latest standard for implementing web-pages, and the current recommendation from \ac{w3c}.\cite{html513}
 It includes several useful APIs for implementing multimedia, specifically the canvas element, which provides an area, where graphics can be drawn.
-HTML5 games will be written in \texttt{JavaScript}, which is interpreted by the browser, and as such is available on most computer systems.\todo{From Martin: I know that its very unlikely, but what happens when JavaScript is disabled?}\newline
+HTML5 games will be written in \texttt{JavaScript}, which is interpreted by the browser, and as such is available on most computer systems.\newline
 
-The canvas is an element in the html that allows us to draw or import pictures, also known as sprites.\todo{Jeppe: Is this a correct understanding of the canvas element? Otherwise is there a better description and can we reference forward to our implementation section?}
+The canvas is an element in the HTML that allows the user to draw or import pictures, also known as textures.
 The canvas can be further improved using the WebGL extension, which allows for hardware accelerated graphics in the canvas.\cite{khronos13}
 This will eliminate much of the low performance, that can arise from software accelerated graphics.
 Additionally, WebGL is implemented by default in all modern browsers, including some mobile browsers, so most users will be able to play the game without downloading any additional software.
 
-The main disadvantage of a HTML5-based solution is, that it is a relatively new technology, and for that reason problems could occur, where an optimal solution has yet to be found, which could increase development time.
+The main disadvantage of an HTML5-based solution is, that it is a relatively new technology, and for that reason problems could occur, where an optimal solution has yet to be found, which could increase development time.
 Various browsers support HTML5 differently.
 
 \subsection{Java}
@@ -29,19 +29,19 @@ The greatest advantages of using Java for applets is its large user base and lib
 
 The disadvantages of Java is, that it is an external browser extension, and it is not installed as a standard on most systems.
 This means that the user might have to install and keep the extension updated themselves to use the game. 
-This could also be an annoyance for institutions having to keep several computers up to date, especially since Java is updated quite frequently, often close to $10$ times each year.\cite{javahistory13}
-Additionally, to get it to work on Android systems, it needs to be in the app store, and for iOS systems, Java support is limited in general.
+This could also be an annoyance for institutions having to keep several computers up to date, especially since Java is updated quite frequently, often close to 10 times each year.\cite{javahistory13}
+Additionally, to get it to work on Android systems, it needs to be in the Google Play store, and for iOS systems, Java support is limited in general.
 
 \subsection{Silverlight}
 Silverlight is very similar to Java applets, but developed by Microsoft and typically programmed in either C\# or Visual Basic.\cite{silverlight13}
-Though Silverlight has historically had a focus on media streaming, today it is a multipurpose framework and most of the same advantages and disadvantages as Java had also apply to Silverlight.
+Though Silverlight has historically had a focus on media streaming, today it is a multipurpose framework and most of the same advantages and disadvantages as Java also apply to Silverlight.
 A choice between Silverlight and Java is therefore mostly based on personal preference on the side of the developers.
 
 \subsection{Unity}
 Unity is a game development framework, capable of publishing games to browsers.\cite{unity13} 
 While Unity is focused mainly on developing 3D games, there is support for any type of game.
 Using Unity would provide a useful framework for game development, but distribution could be problematic.
-While Unity games can be ported to virtually any OS, desktop or mobile, the browser plug-in is only available for Windows and MacOS.
+While Unity games can be ported to virtually any OS, desktop or mobile, the browser plug-in is only available for Windows and OS X.
 For the rest of the platforms, the game has to be released as a standalone application, which goes against the goal of creating an available web application.
 
 \subsection{Summary}
@@ -51,15 +51,15 @@ An overview of the compatibility of each technology described on various platfor
 \begin{figure}[ht]
 \begin{tabular}{|r|l|l|l|l|l|}
 \hline
- & Windows & Linux & MacOS & Android & iOS \\
+ & Windows & Linux & OS X & Android & iOS \\
 \hline
 HTML5 & Full & Full & Full & Partial & Partial \\
 \hline
-Java & Plugin & Plugin & Plugin & Standalone only & Limited \\
+Java & Plugin & Plugin & Plugin & Standalone & Limited \\
 \hline
 Silverlight & Plugin & Plugin & Plugin & Plugin & None \\
 \hline
-Unity & Plugin & Standalone only & Plugin & Standalone only & Standalone only \\
+Unity & Plugin & Standalone & Plugin & Standalone & Standalone\\
 \hline
 \end{tabular}
 \caption{Technology compatibility overview}
@@ -68,4 +68,4 @@ Unity & Plugin & Standalone only & Plugin & Standalone only & Standalone only \\
 
 All of these technologies are capable of very similar functionality and portability.
 This means, that the decision was mainly based on how easy it is to distribute, as well as personal preference of the developers.
-In the end, HTML5 and WebGL was the chosen platform.\todo{maybe quickly list of why it has chosen. Or just say that based on the sections above, we evaluate HTML5 and WebGL to be the best option.}
+In the end, HTML5 and WebGL chosen as platform.
