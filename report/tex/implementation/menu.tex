@@ -21,9 +21,17 @@ The offset for the x-coordinate is a little more difficult. The calculation is s
 	canvas_y = event.pageY - offset_y;
 \end{lstlisting}
  
-Line $3$ finds the max width of the window and stores it in \verb|width|. In line $4$ the offset is set to the width of the document subtracted by the width of the canvas (\verb|document.getElementById(this.gl.canvas).width|), which is retrieved dynamically, and since the canvas is centered, we divide by 2. We take the ceiling of the result to get a round number and \verb|canvas_x| is then set to the $x$-coordinate minus the offset in line $6$.
+Line $3$ finds the max width of the window and stores it in \verb|width|. In line $4$ the offset is set to the width of the document subtracted by the width of the canvas (\verb|document.getElementById(this.gl.canvas).width|). The width of the canvas is retrieved dynamically, and since the canvas is centered, we divide by 2. We take the ceiling of the result to get a round number and \verb|canvas_x| is then set to the $x$-coordinate minus the offset in line $6$.
 
 \subsection{Detecting Buttons}
+
+Before discussion the detection of buttons, it should be noted, that in the final version of our game, the menu no longer have hexagon shaped buttons. This was done, because we did not like the initial look of the buttons, and it made the buttons click detection more difficult than needed. It would be more difficult, because of the hexagon shape instead of the implemented rounded square button, shown in \autoref{fig:final_menu}.
+
+\begin{figure}[h]
+	\includegraphics[width=\textwidth]{img/final_menu.png}
+	\caption{Final design of the menu.}
+	\label{fig:final_menu}
+\end{figure}
 
 Button clicks are defined as mouse events. To detect mouse events, a listener must be added to an element, which in this case is the canvas element, as seen below.
 
