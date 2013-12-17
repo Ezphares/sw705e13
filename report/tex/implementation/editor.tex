@@ -12,9 +12,11 @@ The editor, which allows the users to program their cells, is implemented with t
 The editor constructs are draggable and will snap into tiles on the board once they are dropped there. Dragging a constructs creates a copy of the graphics to give the user a feeling of literally building a program. Once the user drops the construct on the board an HTML form will pop up, allowing the user to customize the construct. Below, in \autoref{fig:form_layout} is shown the form for the loop construct:
 
 \begin{figure}[ht]
-\includegraphics[scale=1]{img/editor_loop_form.png}
+\begin{center}
+\includegraphics[scale=0.5]{img/editor_loop_form.png}
 \caption{Form layout for the loop construct}
 \label{fig:form_layout}
+\end{center}
 \end{figure}
 
 When a tile is dragged the Drag class saves the type of instruction while the user is dragging it. Once it is dropped on the grid the Drag class sends the coordinates of the drop and the instruction type to the Editor class, which then adds it in the Program class. 
