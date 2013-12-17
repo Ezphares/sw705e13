@@ -2,7 +2,7 @@
 *.aux
 *.bbl
 *.blg
-master.synctex.gz
+*.synctex.gz
 master.pdf
 master.tcp
 master.tps
