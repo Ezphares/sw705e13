@@ -87,12 +87,12 @@ Game.prototype.init = function()
 
 			game.update();
 			
-			setInterval(function()
+			(function render()
 			{
 				game.update();
 				game.draw();
-				
-			}, 17);
+				requestAnimFrame(render);
+			})();
 		});
 	});
 };
