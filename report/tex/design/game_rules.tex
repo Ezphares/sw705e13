@@ -1,7 +1,7 @@
 \section{Game Rules}
 \label{sec:game_rules}
 
-This section describes the different concepts of the game, and how they interact, as well as the semantics of the various commands possible.
+This section describes the different concepts of the game, and how they interact, as well as the semantics of the various instructions possible.
 
 \subsection{Elements}
 
@@ -23,38 +23,38 @@ Out of bounds is the name for any positions outside the game board. Unlike \emph
 \subsubsection{Entity}
 An entity is an actor in the game world. An entity can be either a \emph{cell} or \emph{food}. No matter the type of entity, they have the following properties:
 \begin{itemize}
-\item A \emph{position}, which they either occupy, if it is a \emph{tile}, or cease to exist if it is \emph{OOB}
-\item An energy count. If this becomes zero, they cease to exist.
+\item A \emph{position}.
+\item An energy count. If this becomes zero, the entity ceases to exist.
 \end{itemize}
-Each entity get a \emph{turn} in order. The turns progress in order of oldest to youngest in the game world, and then resets to the oldest again. Each entity lose one energy at the end of its turn.
+Each entity gets a \emph{turn} in order. The turns progress in order of oldest to youngest in the game world, and then resets to the oldest again. Each entity loses one energy at the end of its turn.
 
 \subsubsection{Food}
-Food is the simplest \emph{entity}. It can take no action on its turn, and it always lose battles.
+Food is the simplest \emph{entity}. It can take no action on its turn, and it always loses battles.
 
 \subsubsection{Cell}
 Cells are advanced \emph{entities}. In addition to the properties common to all entities, they have several more:
 \begin{itemize}
-\item A \emph{program}, determining its action.
-\item A team, determining which other cells it considers allies, and which it considers entities.
+\item A \emph{program}, determining its actions.
+\item A team, determining which other cells it considers friend, and which it considers enemies.
 \item A set of \emph{variables}, three of each type.
-\item The instruction pointer - Information about which \emph{instruction} of of its program to start \emph{executing} from.
+\item The instruction pointer - Information about which \emph{instruction} of its program to start \emph{executing} from.
 \end{itemize}
-Apart from that a cell can take an action during its turn. It first \emph{executes} its program, then either does nothing, \emph{moves} or \emph{splits}.
+Apart from the above a cell can take an action during its turn. It first \emph{executes} its program, then either does nothing, \emph{moves} or \emph{splits}.
 
 \subsubsection{Program}
 Like a board, a program is a hexagonal grid. Instead of tiles, the program consist of \emph{instructions}. A program can be \emph{executed}, starting from a given instruction. A program is created by a player before the game starts.
 
 \subsubsection{Instruction}
-Several instructions make up a \emph{program}. Instructions each have an \emph{instruction type} as well as several parameters pertaining to that type. When an instruction is up for execution by a program, several things may happen, according to instruction type.
+One or more instructions make up a \emph{program}. Each instruction has an \emph{instruction type} as well as several parameters pertaining to that type. When an instruction is up for execution by a program, different things may happen, according to instruction type.
 \begin{itemize}
 \item Variable changes - an instruction may update the values of a variable.
-\item Instruction pointer update - the instruction will tell the cell which instruction to go for next.
+\item Instruction pointer update - the instruction will tell the cell which instruction to execute next. All instructions define a direction to \emph{continue}, while instructions representing control structures also define a direction to \emph{divert}. The chosen direction will describe to the program how to update the instruction pointer.
 \item Action Choice - If an instruction results in an action, the cell will take that action for the turn, and program execution will end until the next turn of that cell.
 \end{itemize}
-Additionally, instructions contain information about which instruction should be executed next. All instructions define a direction to \emph{continue}, while instructions representing control structures also define a direction to \emph{divert}. The chosen direction will describe to the program how to update the instruction pointer. Each instruction is described in \autoref{sub:instructions}.
+Each instruction is described in \autoref{sub:instructions}.
 
 \subsubsection{Variables}
-Each entity has 9 variables that can be changed and read by the program. These variables are split into 3 of each three types. Each type and its domain is as follows:
+Each entity has 9 variables that can be changed and read by the program. These variables are split into 3 types. Each type and its domain is as follows:
 \begin{itemize}
 \item \emph{direction} - domain: \{ 'left' , 'right', 'up-left', 'up-right', 'down-left', 'down-right' \}
 \item \emph{entitytype} - domain: \{ 'friend' , 'enemy', 'food', 'empty-tile', 'out-of-bounds' \}
@@ -63,7 +63,7 @@ Each entity has 9 variables that can be changed and read by the program. These v
 Whenever an instruction needs a value of either of these types, it is possible to have it set explicitly, have it use the value stored in one of the variables, or use a derived value of the given type.
 
 \subsubsection{Derived Values}
-Derived values are values that change depending on the game state. An example of a derived value of type \emph{number} would be the cells current energy, while an example of type \emph{direction} would be the last direction the cell moved.
+Derived values are values that change depending on the game state. An example of a derived value of type \emph{number} would be the cell's current energy, while an example of type \emph{direction} would be the last direction the cell moved.
 
 \subsection{Actions}
 
@@ -93,7 +93,7 @@ When a winner has been chosen, it receives all of the loser's energy, and the lo
 Each cell executes its program once per turn. When the program executes, it will look up an instruction depending on its current state, execute the instruction, and select the next instruction according to the \emph{divert} or \emph{continue} information of the executed instruction. This will continue until one of two things happen:
 \begin{itemize}
 \item It reaches an instruction resulting in an \emph{Action Choice}, in which case it tells the executing cell to perform that action.
-\item It has executed an amount of instructions this turn equal to the instruction limit of 50. In this case execution is suspended for a turn and the cell is told to do nothing. This is implemented so that infinite loops without actions do not make the game impossible to complete.
+\item It has executed an amount of instructions this turn equal to the instruction limit. In this case execution is suspended for a turn and the cell is told to do nothing. This is done so that infinite loops without actions do not make the game impossible to complete.
 \end{itemize}
 
 \subsection{Instructions}
@@ -109,7 +109,7 @@ The move instruction causes an action choice. The action will be \emph{move} in 
 The split instruction causes an action choice. The action will be \emph{split} in a \emph{direction value}. Split defines only a \emph{continue} direction.
 
 \subsubsection{Look}
-The look instruction causes variable changes. It will look at the position to a \emph{direction value} of the executing cell. It will store the entity type found in a chosen \emph{entitytype} variable, and the amount of energy found in a chosen \emph{number} variable. Look defines only a \emph{continue} direction.
+The look instruction causes variable changes. It will look at an adjacent position given by a \emph{direction value} relative to the executing cell. It will store the entity type found in a chosen \emph{entitytype} variable, and the amount of energy found in a chosen \emph{number} variable. Look defines only a \emph{continue} direction.
 
 \subsubsection{If}
 The if instruction causes no variable changes or action choices. It defines a type, either \emph{entitytype}, \emph{direction} or \emph{number} as well as a boolean expression for two \emph{values} of the chosen type. Apart from the values, the expression has an operator, which for \emph{entitytype} and \emph{direction} can be either \emph{equal} or \emph{not equal}. For  \emph{number}, additional operators are available: \emph{less than}, \emph{less than or equal}, \emph{greater than} and \emph{greater than or equal}.
@@ -126,6 +126,6 @@ The loop instruction causes variable changes. It defines a type, either \emph{en
 Loop defines both a \emph{continue} direction and a \emph{divert} direction, and acts as follows:
 \begin{itemize}
 \item If the loop is started, the value of the iterator is set to the start value, and the \emph{continue} direction is chosen.
-\item If the loop is continued, the value of the iterator is modified by the loop direction, and the \emph{continue} direction is chosen.
+\item If the loop is continued, the value of the iterator is modified according to the loop direction, and the \emph{continue} direction is chosen.
 \item If the loop is completed, no variable changes are made, and the \emph{divert} direction is chosen.
 \end{itemize}
