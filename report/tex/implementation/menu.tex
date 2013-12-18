@@ -5,18 +5,24 @@ The menu is essential for navigating to specific options in the game. This secti
 
 \subsection{Detecting Buttons}
 
-When the game detects a mouse click while the menu is active, it calls the function \textt{checkButton(x, y)}, where \textt{(x,y)} are the coordinates of the mouse within the canvas. This function changes the state of the menu. The state is saved in the variable \verb|state|, which is a \verb|String|. The state determines which buttons are drawn in the menu and the Game class may react to changes in this state. There are two checks; one for the \textt{x}-coordinate and one for the \textt{y}. These checks depend on the size of the canvas and buttons. In \autoref{lst:x_check} is shown the check condition for the \textt{x}-coordinate:
+When the game detects a mouse click while the menu is active, it calls the function \texttt{checkButton(x, y)}, where \texttt{(x,y)} are the coordinates of the mouse within the canvas. This function changes the state of the menu. The state is saved in the variable \verb|state|, which is a \verb|String|. The state determines which buttons are drawn in the menu and the Game class may react to changes in this state. There are two checks; one for the \texttt{x}-coordinate and one for the \texttt{y}. These checks depend on the size of the canvas and buttons. \autoref{lst:x_check} shows the check condition for the \texttt{x}-coordinate:
 
 \begin{lstlisting}[language=JavaScript, caption=x condition check for menu buttons, label=lst:x_check]
-if(x <= this.gl.width/2-35+(this.spr_active_button.frame_width/2) && x >= this.gl.width/2-35-(this.spr_active_button.frame_width/2)){...}
+var center_x = gl.width/2;
+var center_y = gl.height/2;
+
+var offset_x = (this.spr_active_button.frame_width/2);
+var offset_y = (this.spr_active_button.frame_height/2);
+
+if(x <= center_x+offset_x && x >= center_x-offset_x){...}
 \end{lstlisting}
 
-\verb|this.gl.width| is the size of the canvas. To get the center, we divide by 2. Lastly we respectively add and subtract half the width of the button. A similar operation is done to the \textt{y}-coordinate:
+\verb|gl.width| and \verb|gl.height| is the width and height of the canvas. To get the center, we divide by 2. Lastly we respectively add and subtract half the width of the button. A similar operation is done to the \texttt{y}-coordinate:
 
 \begin{lstlisting}[language=JavaScript, caption=y condition check for menu buttons]
-if(y >= this.gl.height/2-105-(this.spr_active_button.height/2) && y <= this.gl.height/2-105+(this.spr_active_button.frame_height/2)){...}
+if(y >= center_y-offset_y-105 && y <= center_y+offset_y-105){...}
 \end{lstlisting}
 
-Here we focus on the height of the canvas and the height of the button. We respectively add and subtract half the height of the button. In this case, we are looking at the \textt{y} condition for the top button. The center of the top button is place 105px from the center of the canvas, the second button is placed 35px from the center of the canvas, the third button is placed 35px below the center, and the 4th is placed 105px below the center.\\
+Here we focus on the height of the canvas and the height of the button. We respectively add and subtract half the height of the button. In this case, we are looking at the \texttt{y} condition for the top button. The center of the top button is place 105px from the center of the canvas, the second button is placed 35px from the center of the canvas, the third button is placed 35px below the center, and the 4th is placed 105px below the center.\\
 
 Just like the menu buttons, there also exist a back button and a home button, that work with similar boundary conditions, however we will not discuss this further. It should simply be noted, that the back button sets the state to the previous state and the home button sets the state as \verb|'Start'|, which is the home screen.
