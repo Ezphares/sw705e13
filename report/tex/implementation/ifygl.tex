@@ -5,15 +5,14 @@ The IfyGL class handles the main WebGL calls while providing functions for addin
 The class consists of a number of functions, some of which are only used internally, while a few can be used by other classes.\newline
 
 When the website is loaded, the IfyGL class calls the \texttt{init} function, which creates the canvas and initializes the WebGL, or alerts the user with an error message, if the browser does not support it.
-The \texttt{create\_program} function is called by the \texttt{init} function, and creates the vertex and fragment shaders required by WebGL.
+The \texttt{create\_program} function is called by the \texttt{init} function, and creates the vertex and fragment shaders required by WebGL by using the \texttt{load\_shader} function.
 The vertex shader draws the vertices of the objects on the screen, such that primitive shapes can be shown.
 The fragment shader then draws the appropriate colors.
-After this has occurred, the function \texttt{load\_shader} compiles and loads the shaders, that \texttt{create\_program} generated.\newline
 
 The \texttt{load\_sprites} function in \autoref{lst:loadsprites} loads the sprites for the game as a texture in WebGL.
-The first four lines handle the setup of the WebGL image and texture container, while the \texttt{img.onload} function creates an anonymous callback function, which uses WebGL on lines $10-15$ to process an image as a texture, which is added to an array on line $17$.
-The function is then called again on line $19$ for the next image in the input array.
-Once all images have been processed, line $22$ loads them.
+The first four lines handle the setup of the WebGL image and texture container, while \texttt{img.onload}, which is a built-in JavaScript event that is triggered when the given image has been fully downloaded from the web server, creates an anonymous callback function, which uses WebGL on lines 10-15 to process an image as a texture, which is added to an array on line 17.
+The function is then called again on line 19 for the next image in the input array.
+Line 22 starts loading the image.
 
 \begin{lstlisting}[language=JavaScript, caption=The function \texttt{load\_sprites}, label=lst:loadsprites]
 var texture = this.gl.createTexture();
@@ -44,8 +43,8 @@ The function \texttt{draw\_sprite} in \autoref{lst:drawsprite} draws a sprite to
 First the source and target position on the canvas are specified.
 Then the stretch is set to not stretch the sprite.
 This feature is used in the \texttt{draw\_sprite\_stretched} function, which is similar to \texttt{draw\_sprite}, but with the ability to stretch a sprite.
-Lines $6-10$ sets up the sprite for the vertex and texture position buffer.
-Line $12$ activates the texture and line $14$ draws the sprite to the canvas.
+Lines 6-10 sets up the sprite for the vertex and texture position buffer.
+Line 12 activates the texture and line 14 draws the sprite to the canvas.
 
 \begin{lstlisting}[language=JavaScript, caption=The function \texttt{draw\_sprite}, label=lst:drawsprite]
 this.source = sprite.get_frame(frame);
@@ -64,4 +63,4 @@ this.gl.bindTexture(this.gl.TEXTURE_2D, sprite.texture);
 this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
 \end{lstlisting}
 
-The function \texttt{draw\_text} does the same as \texttt{draw\_sprite} but for text.
+The function \texttt{draw\_text} does the same as \texttt{draw\_sprite} but for text. It utilizes an extra canvas to generate the text as a texture before applying to the original canvas.
