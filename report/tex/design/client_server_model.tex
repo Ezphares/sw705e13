@@ -45,7 +45,7 @@ One of these features is that because most of the peers in a Peer-to-peer system
 Another negative feature is that the prevention of cheating becomes more difficult, since it is possible to have player clients run each others programs, but modified clients can still take over the system and corrupt the results.\newline
 
 \subsubsection{Model-View-Controller}
-The Model-View-Controller design pattern separates the representation of information from a user's interaction with it.
+The Model-View-Controller (MVC) design pattern separates the representation of information from a user's interaction with it.
 MVC is often used in web applications and consists of three separate parts, model, view, and controller.
 Due to the separation of data and user input, it is possible to have multiple different views for the same data.
 An example could be that the boss of a company should be able to access a list of all employees with their salaries, where the secretary should only have access to the list of employees without salaries.
@@ -57,14 +57,14 @@ An overview of the MVC work flow can be seen on \autoref{fig:mvc}.\newline
 \label{fig:mvc}
 \end{figure}
 
-\textbf{Model:} contains the logic, which is usually designed in such a way, that it can be reused and shared with other applications.
-The model ignores how user requests are issued and how data is represented to the user.\newline
+\textbf{Model} contains the logic, which is usually designed in such a way, that it can be reused and shared with other applications.
+The model ignores how user requests are handled and how data is represented to the user.\newline
 
-\textbf{View:} handles the representation of data for the end users.
+\textbf{View} handles the representation of data for the end users.
 It is possible for an application to have multiple different views for use in various situations.
 The view ignores the form of user requests and the source of the data.\\
 
-\textbf{Controller:} manages user interactions and instantiates the model and view based on performed actions, user rights and the like.
+\textbf{Controller} manages user interactions and starts instances of the model and view based on performed actions, user rights, and the like.
 The controller ignores the logic of the model and the presentation of the view.\newline
 
 The Django framework used to display the webpage makes use of the MVC design pattern.
