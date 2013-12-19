@@ -43,47 +43,63 @@ Game.prototype.init = function()
 		game.doMouseMove(event);
 	}, false);
 
-	var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
-						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+	/*var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 						 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'active_button2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
-						 {filename: 'inactive_button2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
-						 {filename: 'back_arrow.png', frame_width: 32, frame_height: 32, origin: [0,0]},
-						 {filename: 'home_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
+						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_green_start.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_green_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_red_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'health_bar_red_end.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+						 {filename: 'back_arrow.png', frame_width: 32, frame_height: 32, origin: [0,0]},
+						 {filename: 'home_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
 						 {filename: 'start_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
 						 {filename: 'new_editor_button.png', frame_width: 64, frame_height: 32, origin: [0,0]},
-						 {filename: 'start_here.png', frame_width: 64, frame_height: 32, origin: [0,0]}
-						 ];
+						 {filename: 'active_button2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+						 {filename: 'inactive_button2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+						 {filename: 'start_here.png', frame_width: 64, frame_height: 32, origin: [0,0]}];*/
+	
+	var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
+						 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+						 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]}];
 
+	Menu2.load_sprites(this.gl, function()
+	{});
+	
+	Board2.load_sprites(this.gl, function(){});
+	
 	Editor.load_sprites(this.gl, function()
 	{
 		game.gl.load_sprites(sprite_loader, function(sprites)
 		{
 			game.tile = sprites[0];
-			game.spr_c1 = sprites[2];
-			game.spr_c2 = sprites[3];
-			var food = sprites[1];
-			var back = sprites[6];
-			var home = sprites[7];
-			var start = sprites[12];
-			var activeb = sprites[4];
-			var inactiveb = sprites[5];
-			var newButton = sprites[13];
-			var start_here = sprites[14];
-
-			healthbar_green_start = sprites[8];
-			healthbar_green_mid   = sprites[9];
-			healthbar_red_mid     = sprites[10];
-			healthbar_red_end     = sprites[11];
+			game.spr_c1 = sprites[1];
+			game.spr_c2 = sprites[2];
+			Food.sprite = sprites[3];
 			
-			Food.sprite = food;
+			// Board sprites
+			/*
+			healthbar_green_start = sprites[4];
+			healthbar_green_mid   = sprites[5];
+			healthbar_red_mid     = sprites[6];
+			healthbar_red_end     = sprites[7];
+			*/
 			
-			game.menu = new Menu(activeb, inactiveb, game.tile, back, home, start, newButton, start_here);
+			// Menu sprites
+			/*
+			var spr_back  = sprites[8];
+			var spr_home  = sprites[9];
+			var spr_start = sprites[10];
+			var spr_new   = sprites[11];
+			var spr_active_button   = sprites[12];
+			var spr_inactive_button = sprites[13];
+			var spr_startHere       = sprites[14];
+			
+			game.menu = new Menu(spr_active_button, spr_inactive_button, game.tile, spr_back, spr_home, spr_start, spr_new, spr_startHere);
+			*/
+			
+			game.menu = new Menu2(game.gl);
 
 			game.update();
 			
@@ -101,8 +117,6 @@ Game.prototype.doMouseMove = function(event)
 {
 	mouseX = event.pageX - offset_x;
  	mouseY = event.pageY - offset_y;
-
- 	//console.log("x:", mouseX, "y:", mouseY, "draggable:", draggable)
 };
 
 Game.prototype.doMouseDown = function(event)
@@ -115,7 +129,8 @@ Game.prototype.doMouseDown = function(event)
 	
 	canvas_x = event.pageX - offset_x;
 	canvas_y = event.pageY - offset_y;
-	this.menu.update(canvas_x, canvas_y, this.gl)
+	//this.menu.update(canvas_x, canvas_y, this.gl);
+	this.menu.update(canvas_x, canvas_y);
 
 	if (this.editor)
 		this.editor.click([canvas_x, canvas_y]);
@@ -123,26 +138,12 @@ Game.prototype.doMouseDown = function(event)
 
 Game.prototype.doMouseUp = function()
 {
-	//console.log("mouseUp")
 	if(drag_sprite != 'empty'){
 		this.editor.drop([mouseX, mouseY], drag_sprite);
 	}
 	drag_sprite = 'empty';
 	canvas_x = -1;
 	canvas_y = -1;
-
-};
-
-Game.prototype.display_info = function()
-{
-	console.clear();
-	console.log("Game state: " + this.state);
-	console.log("Board:");
-	console.log(this.board);
-	console.log("Editor:");
-	console.log(this.editor);
-	console.log("Menu:");
-	console.log(this.menu);
 };
 
 Game.prototype.draw = function()
@@ -179,7 +180,9 @@ Game.prototype.update = function()
 		}
 		else if(this.menu.state == 'InGame'){
 			this.state = 'InGame';
-			this.board = new Board(10, this.tile);
+			
+			//this.board = new Board(10, this.tile);
+			this.board = new Board2(10);
 			
 			cell1 = new Cell([0, 0], 175,  this.spr_c1, this.editor.program, 1);
 			cell2 = new Cell([18,18], 100, this.spr_c2, new Program(3), 2);
