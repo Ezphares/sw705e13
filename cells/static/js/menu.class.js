@@ -1,28 +1,29 @@
 /**
  * Constructor for Menu class
  */
-Menu = function(active, inactive, tile, back, home, start, newButton, startHere)
+Menu = function(gl)
 {
-	this.spr_tile = tile; // Tile sprite
-	this.spr_back = back; // Sprite for back button
-	this.spr_home = home; // Sprite for home button
-	this.spr_start = start; // Sprite for start/ok button
-	this.spr_new = newButton; // Sprite for clear button
-	this.spr_active_button = active; // Default sprite for menu button, if the button should be active
-	this.spr_inactive_button = inactive; // Same sprite, but grayed out because of inactive button
-	this.spr_startHere = startHere; // Sprite that symbolize where the program should start
+	this.gl = gl;
+	this.spr_tile = Menu.tile; // Tile sprite
+	this.spr_back = Menu.back; // Sprite for back button
+	this.spr_home = Menu.home; // Sprite for home button
+	this.spr_start = Menu.start; // Sprite for start/ok button
+	this.spr_clear = Menu.clear; // Sprite for clear button
+	this.spr_active_button = Menu.active; // Default sprite for menu button, if the button should be active
+	this.spr_inactive_button = Menu.inactive; // Same sprite, but grayed out because of inactive button
+	this.spr_start_pos = Menu.start_pos; // Sprite that symbolize where the program should start
 	this.state = 'Start'; // State of the menu. Used to navigate around different screens.
 };
 
 /**
  * Updates the state of the menu depending on button presses
  */
-Menu.prototype.update = function(x, y, gl)
+Menu.prototype.update = function(x, y)
 {
-	var center_x = gl.width/2;
-	var center_y = gl.height/2;
+	var center_x = this.gl.width/2;
+	var center_y = this.gl.height/2;
 	
-	var offset_x = ((this.spr_active_button.frame_width)/2);
+	var offset_x = (this.spr_active_button.frame_width/2);
 	var offset_y = (this.spr_active_button.frame_height/2);
 	
 	if(x <= center_x+offset_x && x >= center_x-offset_x)
@@ -81,7 +82,7 @@ Menu.prototype.update = function(x, y, gl)
 			}
 		}
 	}
-	else if(x >= 0 && x <= (this.spr_back.frame_width) && y <= gl.height && y >= gl.height-(this.spr_back.frame_height))
+	else if(x >= 0 && x <= (this.spr_back.frame_width) && y <= this.gl.height && y >= this.gl.height-(this.spr_back.frame_height))
 	{
 		if(this.state == 'Singleplayer' || this.state == 'Multiplayer' || this.state == 'InEditor'){
 			this.state = 'Start';
@@ -94,19 +95,19 @@ Menu.prototype.update = function(x, y, gl)
 			this.state = 'InEditor';
 		}
 	}
-	else if(x >= 40 && x <= 40+(this.spr_home.frame_width) && y <= gl.height && y >= gl.height-(this.spr_home.frame_height))
+	else if(x >= 40 && x <= 40+(this.spr_home.frame_width) && y <= this.gl.height && y >= this.gl.height-(this.spr_home.frame_height))
 	{
 		if(this.state != 'Start' && this.state != 'InGame'){
 			this.state = 'Start';
 		}
 	}
-	else if(x >= gl.width-(this.spr_start.frame_width) && x <= gl.width && y <= gl.height && y >= gl.height-(this.spr_start.frame_height))
+	else if(x >= this.gl.width-(this.spr_start.frame_width) && x <= this.gl.width && y <= this.gl.height && y >= this.gl.height-(this.spr_start.frame_height))
 	{
 		if(this.state == 'InEditor'){
 			this.state = 'InGame';
 		}
 	}
-	else if(x >= 80 && x <= 80+(this.spr_new.frame_width) && y <= gl.height && y >= gl.height-(this.spr_new.frame_height))
+	else if(x >= 80 && x <= 80+(this.spr_clear.frame_width) && y <= this.gl.height && y >= this.gl.height-(this.spr_clear.frame_height))
 	{
 		if(this.state == 'InEditor'){
 			this.state = 'Clean';
@@ -245,11 +246,11 @@ Menu.prototype.draw_editor = function(gl)
 {
 	gl.draw_sprite(this.spr_back, 0, 0, gl.height-(this.spr_back.frame_height));
 	gl.draw_sprite(this.spr_home, 0, 40, gl.height-(this.spr_home.frame_height));
-	gl.draw_sprite(this.spr_new, 0, 80, gl.height-(this.spr_new.frame_height));
-	gl.draw_sprite(this.spr_startHere, 0, 60, 100);
+	gl.draw_sprite(this.spr_clear, 0, 80, gl.height-(this.spr_clear.frame_height));
+	gl.draw_sprite(this.spr_start_pos, 0, 60, 100);
 	gl.draw_sprite(this.spr_start, 0, gl.width-(this.spr_start.frame_width), gl.height-(this.spr_start.frame_height));
 	
-	gl.draw_text("Clear", 'black', 20, 0, 88, gl.height-(this.spr_new.frame_height)+3);
+	gl.draw_text("Clear", 'black', 20, 0, 88, gl.height-(this.spr_clear.frame_height)+3);
 	gl.draw_text("Start", 'white', 15, 0, 70, 107);
 	gl.draw_text("OK", 'black', 15, 0, gl.width-(this.spr_start.frame_width)+5, gl.height-(this.spr_start.frame_height)+7);
 };
@@ -261,3 +262,30 @@ Menu.prototype.draw_game = function(gl)
 {
 	gl.draw_sprite(this.spr_back, 0, 0, gl.height-(this.spr_back.frame_height));
 };
+
+Menu.load_sprites = function(gl, callback)
+{
+	var loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
+				{filename: 'active_button2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+				{filename: 'inactive_button2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
+				{filename: 'back_arrow.png', frame_width: 32, frame_height: 32, origin: [0,0]},
+				{filename: 'home_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
+				{filename: 'start_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
+				{filename: 'new_editor_button.png', frame_width: 64, frame_height: 32, origin: [0,0]},
+				{filename: 'start_here.png', frame_width: 64, frame_height: 32, origin: [0,0]}];
+	
+	gl.load_sprites(loader, function(sprites)
+	{
+		Menu.tile = sprites[0];
+		Menu.active = sprites[1];
+		Menu.inactive = sprites[2];
+		Menu.back = sprites[3];
+		Menu.home = sprites[4];
+		Menu.start = sprites[5];
+		Menu.clear = sprites[6];
+		Menu.start_pos = sprites[7];
+		
+		if (callback)
+			callback();
+	});
+}

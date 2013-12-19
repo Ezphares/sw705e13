@@ -6,10 +6,10 @@
  * @param {Sprite} spr_tile The sprite to use for empty tiles.
  * @see {Sprite}
  */
-Board = function(size, spr_tile)
+Board = function(size)
 {
 	this.size = size;
-	this.spr_tile = spr_tile;
+	this.spr_tile = Board.tile;
 	this.entities = [];
 	
 	this.grid = new HexGrid([16, 16], 8, size, [0, 120], 'horizontal')
@@ -70,16 +70,16 @@ Board.prototype.draw = function(gl)
 	if(cell_red_hp != 0 || cell_green_hp != 0){
 		count = this.health_count(cell_green_hp, cell_red_hp) * 16; // Multiplied with the pixel offset of 16 for the healthbar (tells me how many times to draw a .png
 	
-		gl.draw_sprite(healthbar_green_start, 0, 0, 0);
+		gl.draw_sprite(Board.health_green_start, 0, 0, 0);
 		for(var i = 16; i < count; i+=16) {
-			gl.draw_sprite(healthbar_green_mid, 0, i, 0);
+			gl.draw_sprite(Board.health_green_mid, 0, i, 0);
 		}
 	
 		for(var i = count; i < gl.width; i+=16) {
-			gl.draw_sprite(healthbar_red_mid, 0, i, 0);
+			gl.draw_sprite(Board.health_red_mid, 0, i, 0);
 		}
 	
-		gl.draw_sprite(healthbar_red_end, 0, gl.width-16, 0);
+		gl.draw_sprite(Board.health_red_end, 0, gl.width-16, 0);
 	}
 };
 
@@ -165,4 +165,25 @@ Board.prototype.playerWins = function()
 	}
 	
 	return (enemies == 0); //Return true if no more enemies exist else return false
+}
+
+Board.load_sprites = function(gl, callback)
+{
+	var loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
+				  {filename: 'health_bar_green_start.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+				  {filename: 'health_bar_green_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+				  {filename: 'health_bar_red_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
+				  {filename: 'health_bar_red_end.png', frame_width: 16, frame_height: 16, origin: [0,0]}];
+	
+	gl.load_sprites(loader, function(sprites)
+	{
+		Board.tile = sprites[0];
+		Board.health_green_start = sprites[1];
+		Board.health_green_mid   = sprites[2];
+		Board.health_red_mid   = sprites[3];
+		Board.health_red_end     = sprites[4];
+		
+		if (callback)
+			callback();
+	});
 }

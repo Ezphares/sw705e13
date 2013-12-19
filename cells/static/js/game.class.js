@@ -42,32 +42,16 @@ Game.prototype.init = function()
 	{
 		game.doMouseMove(event);
 	}, false);
-
-	/*var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
-						 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'health_bar_green_start.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'health_bar_green_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'health_bar_red_mid.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'health_bar_red_end.png', frame_width: 16, frame_height: 16, origin: [0,0]},
-						 {filename: 'back_arrow.png', frame_width: 32, frame_height: 32, origin: [0,0]},
-						 {filename: 'home_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
-						 {filename: 'start_button.png', frame_width: 32, frame_height: 32, origin: [0,0]},
-						 {filename: 'new_editor_button.png', frame_width: 64, frame_height: 32, origin: [0,0]},
-						 {filename: 'active_button2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
-						 {filename: 'inactive_button2.png', frame_width: 256, frame_height: 64, origin: [128,32]},
-						 {filename: 'start_here.png', frame_width: 64, frame_height: 32, origin: [0,0]}];*/
 	
 	var sprite_loader = [{filename: 'tile.png', frame_width: 32, frame_height: 32, origin: [8,8]},
 						 {filename: 'cell_green.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'cell_red.png', frame_width: 16, frame_height: 16, origin: [0,0]},
 						 {filename: 'food.png', frame_width: 16, frame_height: 16, origin: [0,0]}];
 
-	Menu2.load_sprites(this.gl, function()
+	Menu.load_sprites(this.gl, function()
 	{});
 	
-	Board2.load_sprites(this.gl, function(){});
+	Board.load_sprites(this.gl, function(){});
 	
 	Editor.load_sprites(this.gl, function()
 	{
@@ -78,29 +62,7 @@ Game.prototype.init = function()
 			game.spr_c2 = sprites[2];
 			Food.sprite = sprites[3];
 			
-			// Board sprites
-			/*
-			healthbar_green_start = sprites[4];
-			healthbar_green_mid   = sprites[5];
-			healthbar_red_mid     = sprites[6];
-			healthbar_red_end     = sprites[7];
-			*/
-			
-			// Menu sprites
-			/*
-			var spr_back  = sprites[8];
-			var spr_home  = sprites[9];
-			var spr_start = sprites[10];
-			var spr_new   = sprites[11];
-			var spr_active_button   = sprites[12];
-			var spr_inactive_button = sprites[13];
-			var spr_startHere       = sprites[14];
-			
-			game.menu = new Menu(spr_active_button, spr_inactive_button, game.tile, spr_back, spr_home, spr_start, spr_new, spr_startHere);
-			*/
-			
-			game.menu = new Menu2(game.gl);
-
+			game.menu = new Menu(game.gl);
 			game.update();
 			
 			(function render()
@@ -182,7 +144,7 @@ Game.prototype.update = function()
 			this.state = 'InGame';
 			
 			//this.board = new Board(10, this.tile);
-			this.board = new Board2(10);
+			this.board = new Board(10);
 			
 			cell1 = new Cell([0, 0], 175,  this.spr_c1, this.editor.program, 1);
 			cell2 = new Cell([18,18], 100, this.spr_c2, new Program(3), 2);
