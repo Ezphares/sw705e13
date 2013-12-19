@@ -12,9 +12,11 @@ Because of this, a functionality is needed to check whether a position, given in
 The \texttt{is\_inside} function of the HexGrid prototype does just that.
 
 \begin{figure}[ht]
+\begin{center}
 	\includegraphics[scale=1]{img/hexgrid_array.png}
 	\caption{Array representation of a hexagonal grid (edge size 3)}
 	\label{fig:hexgrid_array}
+\end{center}
 \end{figure}
 
 The function starts by filtering out things, that are out of array bounds, both negative and too large coordinate numbers simply result in the function returning \verb|false|.

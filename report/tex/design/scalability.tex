@@ -3,6 +3,9 @@ When scaling up a system for many users, it is often difficult to know exactly h
 In our case, scaling the system up should be reasonably efficient as a user only connects to the server when the page is loaded.
 After that, all computation is done on the client machine and will therefore not stress the server more than once per user session.\newline
 
+At the time of writing the game server is not yet implemented and how easy it is to scale will change once the game server is added to the current architecture.\newline
+
+
 There are, however, still some things, that can be done to lower the server load further.
 One such thing is to minify the JavaScript code, and move it to a single file instead of a file for each class.
 Doing this will minimize the amount of data, that the server will need to send every time a user connects.
