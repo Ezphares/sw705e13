@@ -4,7 +4,7 @@
 This section will describe two different architecture models that can be used to serve content to users over the Internet. The two architectures that will be described are the Client-server model and the Peer-to-Peer model.
 
 \subsection{Client-Server Model}
-The Client-Server model is the model most often used to serve web pages and generally access the Internet. The model consists of two parts, a client and a server.
+The client-server model is the model most often used to serve web pages and generally access the Internet. The model consists of two parts, a client and a server.
 The basic structure of the client-server model can be seen in \autoref{fig:client-server}.
 
 \begin{figure}[ht]
@@ -14,16 +14,16 @@ The basic structure of the client-server model can be seen in \autoref{fig:clien
   \label{fig:client-server}
 \end{figure}
 
-The client runs on a users computer, and is responsible for downloading information and if needed rendering it as web pages, graphics etc. For web pages, this rendering is usually done in a browser, but the model does not change with different types of data.
+The client runs on a users computer, and is responsible for downloading information and, if needed, rendering it as web pages, graphics etc. For web pages, this rendering is usually done in a browser, but the model does not change with different types of data.
 The server is a computer which is connectible through either a local network or the Internet. When a client computer connects to a server, the server will serve the content that has been requested by the client. For web pages this is usually some form of HTML files and scripts, but a server can also just serve a single file for download.
 
-The Client-Server model is used in almost all programs. Applications often use the Client-Server model to stay updated, and video games often use the model to connect multiple clients to each other such that they can play with or against each other in a multiplayer environment.
+The client-server model is used in almost all systems. Applications often use the client-server model to stay updated, and video games often use the model to connect multiple clients to each other such that they can play with or against each other in a multiplayer environment.
 
-The Client-Server model requires more bandwidth and more servers as more users is accessing them. This is because the owners of the servers must be able to serve their content to every user trying to access it. Otherwise a user will experience a degraded quality of service or may not be able to access the content at all.
+The client-server model requires more bandwidth and more servers as more users are accessing them. This is because the owners of the servers must be able to serve their content to every user trying to access it. Otherwise a user will experience a degraded quality of service or may not be able to access the content at all.
 
 \subsection{Peer-to-Peer}
-An alternative to the Client-Server model is the Peer-to-Peer model.
-The Peer-to-Peer model is like the Client-Server model without the server.
+An alternative to the client-server model is the peer-to-peer model.
+The peer-to-peer model is like the client-server model without the server.
 Instead all the clients connect to each other in a decentralized system, as seen in \autoref{fig:p2p}.
 
 \begin{figure}[ht]
@@ -33,9 +33,13 @@ Instead all the clients connect to each other in a decentralized system, as seen
   \label{fig:p2p}
 \end{figure}
 
-One of the positive aspects of this model is, that it drastically reduces the cost that a Client-Server based system has to keep servers running by avoiding the server completely.
-However, the Peer-to-Peer model also has some negative aspects.
-One of the negative aspects is that most of the peers in a Peer-to-Peer network consist of home PC's on home network connections. This means that they may not always be available, and thus if no or few people are have the content available it becomes difficult to access at all.
+One of the positive aspects of this model is, that it drastically reduces the cost that a client-server based system has to keep servers running by avoiding the server completely.
+However, the peer-to-peer model also has some negative aspects.
+One of the negative aspects is that most of the peers in a peer-to-peer network consist of home PC's on home network connections. This means that they may not always be available, and thus if no or few people have the content available it becomes difficult to access at all.
 
 This model is often only used for specialized tasks, such as file sharing between users or downloading large amounts of data that a company does not want to pay to host.
-The Peer-to-Peer model will in most cases require specialized software to be used.
+The peer-to-peer model will in most cases require specialized software to be used.
+
+\subsection{Choice of architecture}
+
+As the application developed in this project should have a high degree of availability choosing a strictly peer-to-peer architecture would not be wise, seeing as this could cause the game to become inaccessible if only one user tries to access it at some point. For the multiplayer a peer-to-peer network could work but seeing as all games have to be validated to prevent cheating we chose to work with a client-server architecture.
