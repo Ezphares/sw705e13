@@ -1,0 +1,8 @@
+Edutainment er et udtryk brugt til at definere foreningen af uddannelse og underholdning.
+De mest almindelige spil i denne bestemt genre er typisk begrænset til yngre elever med håb om at undervise i grundlæggende
+matematik og grammatik.
+Dette motiverede gruppen til at skabe et edutainment spil, hvor målgruppen er både ældre, og det materiale, der
+undervises i også er mere avanceret. Spillet er blevet testet på to fronter, ved hjælp af unit test, og gør spillet
+til rådighed for hele Internettet giver deltagerne mulighed for at dele deres uraffinerede mening om
+spillet ved at svare på en undersøgelse og kommenterer på fora hvor spillet blev annonceret.
+Spillet er tilgængeligt via en moderne browser og var programmeret i JavaScript.
